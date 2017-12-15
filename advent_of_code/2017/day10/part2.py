@@ -1,14 +1,4 @@
-from .shared import tie_knots
-from functools import reduce
-from typing import List
-
-
-def sparse_to_dense(numbers: List[int]) -> List[int]:
-    def reduce_block(block: List[int]) -> int:
-        return reduce(lambda a, b: a ^ b, block)
-
-    blocks = map(reduce_block, (numbers[x*16:(x+1)*16] for x in range(16)))
-    return list(blocks)
+from .shared import tie_knots, sparse_to_dense
 
 
 def calculate(text: str) -> str:
