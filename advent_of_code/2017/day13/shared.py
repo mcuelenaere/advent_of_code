@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional, Iterable
 
 
 class Firewall(object):
@@ -6,26 +6,31 @@ class Firewall(object):
         self.max_depths = depths
         self.timestamp = 0
 
-    @property
-    def scanner_positions(self):
-        def current_position_for_depth(max_depth):
-            pos = self.timestamp % (max_depth * 2 - 2)
-            if pos >= max_depth:
-                return max_depth - (pos - max_depth) - 2
-            else:
-                return pos
-        return {k: current_position_for_depth(max_depth) for k, max_depth in self.max_depths.items()}
+    def get_scanner_position_at(self, x: int) -> Optional[int]:
+        if x not in self.max_depths:
+            return None
+
+        max_depth = self.max_depths[x]
+        pos = self.timestamp % (max_depth * 2 - 2)
+        if pos >= max_depth:
+            return max_depth - (pos - max_depth) - 2
+        else:
+            return pos
 
     @property
-    def width(self):
+    def scanner_positions(self) -> Iterable[int]:
+        return self.max_depths.keys()
+
+    @property
+    def width(self) -> int:
         return max(k for k in self.max_depths.keys())
 
     @property
-    def depth(self):
+    def depth(self) -> int:
         return max(v for v in self.max_depths.values())
 
-    def is_caught(self, player_position):
-        return self.scanner_positions.get(player_position, -1) == 0
+    def is_caught(self, player_position: int) -> bool:
+        return self.get_scanner_position_at(player_position) == 0
 
     def execute_step(self):
         self.timestamp += 1
