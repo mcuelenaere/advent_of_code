@@ -6,20 +6,9 @@ RE_EXCHANGE = re.compile(r'^x(\d+)/(\d+)$')
 RE_PARTNER = re.compile(r'^p([a-z])/([a-z])$')
 
 
-class Spin(NamedTuple):
-    amount: int
-
-
-class Exchange(NamedTuple):
-    left_position: int
-    right_position: int
-
-
-class Partner(NamedTuple):
-    left_name: str
-    right_name: str
-
-
+Spin = NamedTuple('Spin', amount=int)
+Exchange = NamedTuple('Exchange', left_position=int, right_position=int)
+Partner = NamedTuple('Partner', left_name=str, right_name=str)
 Operation = Union[Spin, Exchange, Partner]
 
 
@@ -47,22 +36,19 @@ class Program(object):
     def __init__(self, programs: Iterable[str]):
         self.programs = list(programs)
 
+    def _swap(self, x, y):
+        self.programs[x], self.programs[y] = self.programs[y], self.programs[x]
+
     def execute_operation(self, operation: Operation):
         if isinstance(operation, Spin):
             self.programs = self.programs[-operation.amount:] + self.programs[:-operation.amount]
         elif isinstance(operation, Exchange):
-            self.programs[operation.left_position], self.programs[operation.right_position] = self.programs[operation.right_position], self.programs[operation.left_position]
+            self._swap(operation.left_position, operation.right_position)
         elif isinstance(operation, Partner):
-            left_pos, right_pos = None, None
-            for i, p in enumerate(self.programs):
-                if p == operation.left_name:
-                    left_pos = i
-                elif p == operation.right_name:
-                    right_pos = i
-                if left_pos is not None and right_pos is not None:
-                    break
-
-            self.programs[left_pos], self.programs[right_pos] = self.programs[right_pos], self.programs[left_pos]
+            self._swap(
+                self.programs.index(operation.left_name),
+                self.programs.index(operation.right_name)
+            )
         else:
             raise ValueError(f'Invalid operation {operation}')
 
