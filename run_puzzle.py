@@ -14,7 +14,7 @@ def read_file(filename: str) -> str:
 def run_puzzle(year: int, day: int, part: int):
     # load puzzle
     puzzle_txt_filename = os.path.join(os.path.dirname(__name__), 'advent_of_code', str(year), f'day{day:02d}', "puzzle.txt")
-    puzzle = read_file(puzzle_txt_filename).strip()
+    puzzle = read_file(puzzle_txt_filename).strip("\n")
 
     module = import_module(f'advent_of_code.{year}.day{day:02d}.part{part}')
     result = module.calculate(puzzle)
