@@ -1,4 +1,4 @@
-from .shared import parse_text, manhattan_distance
+from .shared import parse_text
 from collections import Counter
 
 
