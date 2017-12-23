@@ -5,8 +5,7 @@ ISet = NamedTuple('ISet', dst_register=str, src=Union[int, str])
 ISub = NamedTuple('ISub', dst_register=str, src=Union[int, str])
 IMul = NamedTuple('IMul', dst_register=str, src=Union[int, str])
 IJnz = NamedTuple('IJnz', cnd=Union[int, str], jump_offset=int)
-INop = NamedTuple('INop')
-Instruction = Union[ISet, ISub, IMul, IJnz, INop]
+Instruction = Union[ISet, ISub, IMul, IJnz]
 
 
 REGEXES = (
@@ -14,7 +13,6 @@ REGEXES = (
     (re.compile(r'^sub (?P<dst_register>[a-h]) (?P<src>(?:-?\d+|[a-h]))$'), ISub),
     (re.compile(r'^mul (?P<dst_register>[a-h]) (?P<src>(?:-?\d+|[a-h]))$'), IMul),
     (re.compile(r'^jnz (?P<cnd>(?:-?\d+|[a-h])) (?P<jump_offset>-?\d+)$'), IJnz),
-    (re.compile(r'^nop$'), INop),
 )
 
 
@@ -63,8 +61,6 @@ class Coprocessor(object):
         elif isinstance(instruction, IJnz):
             cnd_value = instruction.cnd if isinstance(instruction.cnd, int) else self.registers[instruction.cnd]
             self.instruction_offset += instruction.jump_offset if cnd_value != 0 else 1
-        elif isinstance(instruction, INop):
-            self.instruction_offset += 1
         else:
             raise ValueError(f'Unknown instruction {instruction}')
 
@@ -115,8 +111,6 @@ def aot_instructions(registers: Dict[str, int], instructions: Tuple[Instruction,
             b.emit_load_const(0)
             b.emit_compare_ne()
             b.emit_pop_jump_if_true(f'i_{instruction_number + instruction.jump_offset}')
-        elif isinstance(instruction, INop):
-            pass
         else:
             raise ValueError(f'Unknown instruction {instruction}')
         b.inc_line_number()
