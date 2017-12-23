@@ -53,11 +53,11 @@ def parse_instructions(text: str) -> Iterator[Instruction]:
         if instruction:
             yield instruction
         else:
-            raise ValueError(f'Could not parse line "{line}')
+            raise ValueError(f'Could not parse line "{line}"')
 
 
 class ProcessingMixin(object):
-    __slots__ = ('registers', 'instructions', 'instruction_offset', 'playing_frequency', 'recovered_frequency')
+    __slots__ = ('registers', 'instructions', 'instruction_offset')
 
     def __init__(self, instructions: Tuple[Instruction, ...]):
         self.registers = defaultdict(int)
