@@ -4,6 +4,7 @@ import click
 import os
 
 from importlib import import_module
+from typing import Optional
 
 
 def read_file(filename: str) -> str:
@@ -25,16 +26,22 @@ def run_puzzle(year: int, day: int, part: int):
 @click.command()
 @click.option('--year', type=int, default=2017)
 @click.option('--day', type=int, default=None)
-def main(year: int, day: int):
+@click.option('--part', type=int, default=None)
+def main(year: int, day: Optional[int], part: Optional[int]):
+    def run_parts(year: int, day: int):
+        if part is None:
+            run_puzzle(year, day, part=1)
+            run_puzzle(year, day, part=2)
+        else:
+            run_puzzle(year, day, part=part)
+
     if day is None:
         # run all the puzzles
         for day in range(1, 25):
-            run_puzzle(year, day, part=1)
-            run_puzzle(year, day, part=2)
+            run_parts(year, day)
     else:
         # run the requested puzzle
-        run_puzzle(year, day, part=1)
-        run_puzzle(year, day, part=2)
+        run_parts(year, day)
 
 
 if __name__ == "__main__":
