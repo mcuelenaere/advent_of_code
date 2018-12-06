@@ -51,6 +51,9 @@ SHOP = Shop(
 
 
 def parse_character(text: str) -> Character:
+    hit_points = 0
+    armor = 0
+    damage = 0
     for line in text.splitlines():
         label, value = line.split(":", 2)
         if label == 'Hit Points':
