@@ -23,7 +23,7 @@ class Marble(object):
     def __repr__(self):
         prev_val = self.prev.val if self.prev else None
         next_val = self.next.val if self.next else None
-        return f'Node(prev={prev_val}, next={next_val}, val={self.val})'
+        return f'Marble(prev={prev_val}, next={next_val}, val={self.val})'
 
 
 def list_marbles(first: Marble):
