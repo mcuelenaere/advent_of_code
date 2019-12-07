@@ -1,6 +1,5 @@
-
-from math import floor, inf
-from typing import List
+from math import floor
+from typing import List, Generator
 
 Instructions = List[int]
 
@@ -16,9 +15,8 @@ OPCODE_EQUALS = 8
 OPCODE_EXIT = 99
 
 
-def evaluate(instructions: Instructions, input: int) -> int:
+def streaming_evaluate(instructions: Instructions) -> Generator[int, int, None]:
     index = 0
-    output = -inf  # default the output to an invalid value
     while True:
         # fetch current opcode
         instruction = instructions[index]
@@ -52,13 +50,13 @@ def evaluate(instructions: Instructions, input: int) -> int:
             index += 4
         elif opcode == OPCODE_READ_INPUT:
             addr = instructions[index + 1]
-            instructions[addr] = input
+            instructions[addr] = yield
             index += 2
         elif opcode == OPCODE_WRITE_OUTPUT:
             val_a = instructions[index + 1]
             if not param1_is_immediate:
                 val_a = instructions[val_a]
-            output = val_a
+            yield val_a
             index += 2
         elif opcode == OPCODE_JUMP_IF_TRUE:
             val_a = instructions[index + 1]
@@ -108,9 +106,32 @@ def evaluate(instructions: Instructions, input: int) -> int:
             index += 4
         elif opcode == OPCODE_EXIT:
             # evaluation ended
-            return output
+            return
         else:
             raise RuntimeError(f"Invalid opcode {opcode} at index {index}")
+
+
+def evaluate(instructions: Instructions, input: int) -> int:
+    last_output = -1  # default the output to an invalid value
+
+    # initialize generator
+    gen = streaming_evaluate(instructions)
+    try:
+        next(gen)
+    except StopIteration:
+        return last_output
+
+    while True:
+        try:
+            # keep sending the same input over and over
+            ret = gen.send(input)
+            if isinstance(ret, int):
+                # output instruction
+                last_output = ret
+        except StopIteration:
+            break
+
+    return last_output
 
 
 def _test_eval_simple(text: str) -> str:
