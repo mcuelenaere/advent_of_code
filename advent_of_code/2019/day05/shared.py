@@ -21,6 +21,10 @@ MODE_IMMEDIATE = 1
 MODE_RELATIVE = 2
 
 
+def parse_instructions(text: str) -> Instructions:
+    return list(map(int, text.strip().split(',')))
+
+
 def streaming_evaluate(instructions: Instructions) -> Generator[int, int, None]:
     memory = defaultdict(int)
     memory.update(dict(enumerate(instructions)))
@@ -140,18 +144,18 @@ def evaluate(instructions: Instructions, input: int) -> int:
 
 
 def _test_eval_simple(text: str) -> str:
-    instructions = list(map(int, text.strip().split(',')))
+    instructions = parse_instructions(text)
     evaluate(instructions, 0)
     return ",".join(map(str, instructions))
 
 
 def _test_eval_with_io(text: str, input: int) -> int:
-    instructions = list(map(int, text.strip().split(',')))
+    instructions = parse_instructions(text)
     return evaluate(instructions, input)
 
 
 def _test_eval_with_multi_out(text: str) -> Tuple[int]:
-    instructions = list(map(int, text.strip().split(',')))
+    instructions = parse_instructions(text)
     outputs = tuple(streaming_evaluate(instructions))
     return outputs
 

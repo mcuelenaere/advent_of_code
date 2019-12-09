@@ -1,7 +1,7 @@
-from .shared import evaluate
+from .shared import evaluate, parse_instructions
 
 
 def calculate(text: str) -> int:
-    instructions = list(map(int, text.strip().split(',')))
+    instructions = parse_instructions(text)
     output = evaluate(instructions, 5)
     return output

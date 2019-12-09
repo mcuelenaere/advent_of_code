@@ -1,11 +1,11 @@
-from ..day05.shared import streaming_evaluate
+from ..day05.shared import parse_instructions, streaming_evaluate
 from typing import Iterable
 
 
 def run_amplifier(text: str, phase_settings: Iterable[int]) -> int:
     last_output_signal = 0
     for phase_setting in phase_settings:
-        instructions = list(map(int, text.strip().split(',')))
+        instructions = parse_instructions(text)
         gen = streaming_evaluate(instructions)
         next(gen)
         gen.send(phase_setting)
@@ -18,7 +18,7 @@ assert run_amplifier("3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0", (4, 3, 2,
 
 def run_amplifier_feedback_loop(text: str, phase_settings: Iterable[int]) -> int:
     def construct_amplifier(phase_setting: int):
-        instructions = list(map(int, text.strip().split(',')))
+        instructions = parse_instructions(text)
         gen = streaming_evaluate(instructions)
         next(gen)
         gen.send(phase_setting)
