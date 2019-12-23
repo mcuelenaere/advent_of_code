@@ -45,6 +45,7 @@ def streaming_evaluate(instructions: Instructions) -> Generator[int, int, None]:
         def parse_param(number: int) -> int:
             assert 0 < number < 4
             mode = param_modes[number - 1]
+            assert 0 <= mode <= 2
             val = memory[index + number]
             if mode == MODE_POSITION:
                 val = memory[val]
@@ -55,6 +56,7 @@ def streaming_evaluate(instructions: Instructions) -> Generator[int, int, None]:
         def parse_addr(number: int) -> int:
             assert 0 < number < 4
             mode = param_modes[number - 1]
+            assert 0 <= mode <= 2
             val = memory[index + number]
             if mode == MODE_RELATIVE:
                 val += relative_base
@@ -75,6 +77,7 @@ def streaming_evaluate(instructions: Instructions) -> Generator[int, int, None]:
         elif opcode == OPCODE_READ_INPUT:
             addr = parse_addr(1)
             memory[addr] = yield
+            assert isinstance(memory[addr], int), f"Expected int, got {memory[addr]}"
             index += 2
         elif opcode == OPCODE_WRITE_OUTPUT:
             val_a = parse_param(1)
