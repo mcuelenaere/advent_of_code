@@ -15,9 +15,21 @@ def read_file(filename: str) -> str:
 def run_puzzle(year: int, day: int, part: int):
     # load puzzle
     puzzle_txt_filename = os.path.join(os.path.dirname(__name__), 'advent_of_code', str(year), f'day{day:02d}', "puzzle.txt")
-    puzzle = read_file(puzzle_txt_filename).strip("\n")
+    try:
+        puzzle = read_file(puzzle_txt_filename).strip("\n")
+    except FileNotFoundError:
+        print(f'Could not find puzzle for {year}-day{day}')
+        return
 
-    module = import_module(f'advent_of_code.{year}.day{day:02d}.part{part}')
+    try:
+        module = import_module(f'advent_of_code.{year}.day{day:02d}.part{part}')
+    except ImportError:
+        print(f'Could not find puzzle solution for {year}-day{day}-part{part}')
+        return
+
+    if not hasattr(module, 'calculate'):
+        print(f'Puzzle solution for {year}-day{day}-part{part} has no calculate() method')
+        return
     result = module.calculate(puzzle)
 
     print(f'Result for puzzle {year}-day{day}-part{part} is: {result}')
