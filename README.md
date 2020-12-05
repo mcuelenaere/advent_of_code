@@ -6,14 +6,14 @@ This is my implementation of the puzzles found at [adventofcode.com](https://adv
 
 ### Prerequisites
 
-You'll need Python 3 (`virtualenv` is recommended).
+You'll need Python 3 and [poetry](https://python-poetry.org/).
 
 ### Installing
 
-The Python dependencies are specified in `requirements.txt`, install them like this:
+The Python dependencies are specified in `pyproject.toml`, install them like this:
 
 ```
-pip install -r requirements.txt
+poetry install
 ```
 
 ### Running the puzzles
@@ -21,11 +21,11 @@ pip install -r requirements.txt
 There is a CLI runner, which allows you to invoke the code to run a certain puzzle:
 
 ```
-./run_puzzle.py --year 2017 --day 1
+poetry run run_puzzle --year 2017 --day 1
 ```
 
 Or just run them all like this:
 
 ```
-./run_puzzle.py --year 2017
+poetry run run_puzzle --year 2017
 ```
