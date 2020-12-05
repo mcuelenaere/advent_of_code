@@ -4,6 +4,7 @@ import click
 import os
 
 from importlib import import_module
+from time import perf_counter
 from typing import Optional
 
 
@@ -12,15 +13,42 @@ def read_file(filename: str) -> str:
         return f.read()
 
 
+def format_duration(secs: float) -> str:
+    if secs > 60:
+        mins, secs = divmod(secs, 60)
+        return f"{mins}m {secs:.2f}s"
+    elif secs < 1:
+        return f"{secs * 1e3:.2f}ms"
+    else:
+        return f"{secs:.2f}s"
+
+
 def run_puzzle(year: int, day: int, part: int):
     # load puzzle
     puzzle_txt_filename = os.path.join(os.path.dirname(__name__), 'advent_of_code', str(year), f'day{day:02d}', "puzzle.txt")
-    puzzle = read_file(puzzle_txt_filename).strip("\n")
+    try:
+        puzzle = read_file(puzzle_txt_filename).strip("\n")
+    except FileNotFoundError:
+        print(f'Could not find puzzle for {year}-day{day}')
+        return
 
-    module = import_module(f'advent_of_code.{year}.day{day:02d}.part{part}')
+    try:
+        module = import_module(f'advent_of_code.{year}.day{day:02d}.part{part}')
+    except ImportError:
+        print(f'Could not find puzzle solution for {year}-day{day}-part{part}')
+        return
+
+    if not hasattr(module, 'calculate'):
+        print(f'Puzzle solution for {year}-day{day}-part{part} has no calculate() method')
+        return
+
+    t0 = perf_counter()
     result = module.calculate(puzzle)
+    t1 = perf_counter()
 
     print(f'Result for puzzle {year}-day{day}-part{part} is: {result}')
+    print(f"\tsolving this took {format_duration(t1 - t0)}")
+    print("")
 
 
 @click.command()
