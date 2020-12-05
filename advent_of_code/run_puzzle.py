@@ -4,12 +4,23 @@ import click
 import os
 
 from importlib import import_module
+from time import perf_counter
 from typing import Optional
 
 
 def read_file(filename: str) -> str:
     with open(filename, mode='r') as f:
         return f.read()
+
+
+def format_duration(secs: float) -> str:
+    if secs > 60:
+        mins, secs = divmod(secs, 60)
+        return f"{mins}m {secs:.2f}s"
+    elif secs < 1:
+        return f"{secs * 1e3:.2f}ms"
+    else:
+        return f"{secs:.2f}s"
 
 
 def run_puzzle(year: int, day: int, part: int):
@@ -30,9 +41,14 @@ def run_puzzle(year: int, day: int, part: int):
     if not hasattr(module, 'calculate'):
         print(f'Puzzle solution for {year}-day{day}-part{part} has no calculate() method')
         return
+
+    t0 = perf_counter()
     result = module.calculate(puzzle)
+    t1 = perf_counter()
 
     print(f'Result for puzzle {year}-day{day}-part{part} is: {result}')
+    print(f"\tsolving this took {format_duration(t1 - t0)}")
+    print("")
 
 
 @click.command()
