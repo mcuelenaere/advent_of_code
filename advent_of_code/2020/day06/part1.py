@@ -1,27 +1,13 @@
-from typing import List, Set
-
-
-def parse_answers_groups(text: str) -> List[Set[str]]:
-    groups = []
-    current_group = set()
-    for line in text.splitlines():
-        if line == "":
-            groups.append(current_group)
-            current_group = set()
-            continue
-
-        answers = set(line)
-        current_group.update(answers)
-
-    if len(current_group) > 0:
-        groups.append(current_group)
-
-    return groups
+from .shared import parse_answer_groups
+from itertools import chain
 
 
 def calculate(text: str) -> int:
-    groups = parse_answers_groups(text)
-    return sum(len(group) for group in groups)
+    total_answers = 0
+    for group in parse_answer_groups(text):
+        unique_answers = set(chain.from_iterable(group))
+        total_answers += len(unique_answers)
+    return total_answers
 
 
 puzzle = """abc

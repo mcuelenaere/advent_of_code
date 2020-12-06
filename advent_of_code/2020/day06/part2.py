@@ -1,31 +1,16 @@
 from collections import defaultdict
-from typing import List, Set
-
-
-def parse_answers_groups(text: str) -> List[Set[str]]:
-    groups = []
-    current_group = defaultdict(int)
-    current_group_length = 0
-    for line in text.splitlines():
-        if line == "":
-            groups.append(set(answer for answer, count in current_group.items() if count == current_group_length))
-            current_group = defaultdict(int)
-            current_group_length = 0
-            continue
-
-        for answer in set(line):
-            current_group[answer] += 1
-        current_group_length += 1
-
-    if len(current_group) > 0:
-        groups.append(set(answer for answer, count in current_group.items() if count == current_group_length))
-
-    return groups
+from .shared import parse_answer_groups
 
 
 def calculate(text: str) -> int:
-    groups = parse_answers_groups(text)
-    return sum(len(group) for group in groups)
+    total_answers = 0
+    for group in parse_answer_groups(text):
+        answer_count = defaultdict(int)
+        for person_answers in group:
+            for answer in person_answers:
+                answer_count[answer] += 1
+        total_answers += sum(1 for count in answer_count.values() if count == len(group))
+    return total_answers
 
 
 puzzle = """abc
