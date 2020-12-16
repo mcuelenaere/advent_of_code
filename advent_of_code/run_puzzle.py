@@ -25,28 +25,28 @@ def format_duration(secs: float) -> str:
 
 def run_puzzle(year: int, day: int, part: int):
     # load puzzle
-    puzzle_txt_filename = os.path.join(os.path.dirname(__name__), 'advent_of_code', str(year), f'day{day:02d}', "puzzle.txt")
+    puzzle_txt_filename = os.path.join(os.path.dirname(__name__), 'advent_of_code', f'year{year}', f'day{day:02d}', "puzzle.txt")
     try:
         puzzle = read_file(puzzle_txt_filename).strip("\n")
     except FileNotFoundError:
-        print(f'Could not find puzzle for {year}-day{day}')
+        print(f'Could not find puzzle for year{year}-day{day}')
         return
 
     try:
-        module = import_module(f'advent_of_code.{year}.day{day:02d}.part{part}')
+        module = import_module(f'advent_of_code.year{year}.day{day:02d}.part{part}')
     except ImportError:
-        print(f'Could not find puzzle solution for {year}-day{day}-part{part}')
+        print(f'Could not find puzzle solution for year{year}-day{day}-part{part}')
         return
 
     if not hasattr(module, 'calculate'):
-        print(f'Puzzle solution for {year}-day{day}-part{part} has no calculate() method')
+        print(f'Puzzle solution for year{year}-day{day}-part{part} has no calculate() method')
         return
 
     t0 = perf_counter()
     result = module.calculate(puzzle)
     t1 = perf_counter()
 
-    print(f'Result for puzzle {year}-day{day}-part{part} is: {result}')
+    print(f'Result for puzzle year{year}-day{day}-part{part} is: {result}')
     print(f"\tsolving this took {format_duration(t1 - t0)}")
     print("")
 
