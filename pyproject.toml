@@ -12,9 +12,35 @@ python = "^3.7"
 
 [tool.poetry.dev-dependencies]
 Cython = "^0.29.21"
+pre-commit = "^2.9.3"
 
 [tool.poetry.scripts]
 run_puzzle = "advent_of_code.run_puzzle:main"
+
+[tool.isort]
+profile = "black"
+atomic = true
+include_trailing_comma = true
+lines_after_imports = 2
+lines_between_types = 1
+use_parentheses = true
+src_paths = ["advent_of_code"]
+filter_files = true
+known_first_party = "advent_of_code"
+
+[tool.black]
+line-length = 120
+include = '\.pyx?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.github
+  | \.mypy_cache
+  | build
+  | puzzle\.txt$
+)/
+'''
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
