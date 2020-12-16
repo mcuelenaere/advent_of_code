@@ -1,3 +1,4 @@
 .idea/
+advent_of_code/**/*.so
+build/
 __pycache__/
-venv/
