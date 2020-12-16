@@ -7,7 +7,7 @@ def calculate(text: str) -> str:
         for recipe in recipes:
             scoreboard.append(int(recipe))
         elf_indexes = tuple((i + 1 + scoreboard[i]) % len(scoreboard) for i in elf_indexes)
-    return "".join(map(str, scoreboard[required_recipe_count:required_recipe_count+10]))
+    return "".join(map(str, scoreboard[required_recipe_count : required_recipe_count + 10]))
 
 
 assert calculate("9") == "5158916779"

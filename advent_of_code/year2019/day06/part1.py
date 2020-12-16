@@ -1,4 +1,4 @@
-from .shared import parse_graph, construct_path_to_origin
+from .shared import construct_path_to_origin, parse_graph
 
 
 def calculate(text: str) -> int:

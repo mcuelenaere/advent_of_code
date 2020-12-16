@@ -1,6 +1,7 @@
 import re
+
 from collections import defaultdict
-from typing import Iterable, NamedTuple, Tuple, Dict, Set
+from typing import Dict, Iterable, NamedTuple, Set, Tuple
 
 
 class Claim(NamedTuple):
@@ -17,7 +18,7 @@ class Claim(NamedTuple):
                 yield (x, y)
 
 
-RE_CLAIM = re.compile(r'#(\d+) @ (\d+),(\d+): (\d+)x(\d+)')
+RE_CLAIM = re.compile(r"#(\d+) @ (\d+),(\d+): (\d+)x(\d+)")
 
 
 def parse_claims(lines: str) -> Iterable[Claim]:

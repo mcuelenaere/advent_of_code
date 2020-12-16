@@ -1,4 +1,4 @@
-from .shared import parse_input, find_fewest_steps
+from .shared import find_fewest_steps, parse_input
 
 
 def calculate(text: str) -> int:

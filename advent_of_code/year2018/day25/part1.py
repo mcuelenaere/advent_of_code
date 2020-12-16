@@ -1,12 +1,13 @@
 from itertools import permutations
 from typing import Iterable, Tuple
 
+
 Point = Tuple[int, int, int, int]
 
 
 def parse(text: str) -> Iterable[Point]:
     for line in text.splitlines():
-        points = tuple(map(int, line.split(',')))
+        points = tuple(map(int, line.split(",")))
         yield points
 
 

@@ -1,5 +1,6 @@
 from .shared import parse_text
 
+
 MFCSAM_OUTPUT = """
 children: 3
 cats: 7
@@ -12,7 +13,7 @@ trees: 3
 cars: 2
 perfumes: 1
 """.strip()
-MFCSAM_OUTPUT = {line.split(': ')[0]: int(line.split(': ')[1]) for line in MFCSAM_OUTPUT.splitlines()}
+MFCSAM_OUTPUT = {line.split(": ")[0]: int(line.split(": ")[1]) for line in MFCSAM_OUTPUT.splitlines()}
 
 
 def calculate(text: str) -> int:

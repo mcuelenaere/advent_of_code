@@ -1,4 +1,4 @@
-from .shared import parse_points, find_point_of_convergence
+from .shared import find_point_of_convergence, parse_points
 
 
 def calculate(text: str) -> int:

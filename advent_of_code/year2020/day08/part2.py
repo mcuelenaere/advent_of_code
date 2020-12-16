@@ -1,5 +1,6 @@
-from .shared import parse_instructions, Cpu, Instructions, Instruction, InstructionType
 from typing import Optional
+
+from .shared import Cpu, Instruction, Instructions, InstructionType, parse_instructions
 
 
 def test_program(instructions: Instructions) -> Optional[int]:
@@ -27,11 +28,11 @@ def calculate(text: str) -> int:
         else:
             continue
 
-        result = test_program(instructions[:idx] + (new_instruction, ) + instructions[idx+1:])
+        result = test_program(instructions[:idx] + (new_instruction,) + instructions[idx + 1 :])
         if result is not None:
             return result
 
-    raise RuntimeError('did not find patch')
+    raise RuntimeError("did not find patch")
 
 
 puzzle = """nop +0

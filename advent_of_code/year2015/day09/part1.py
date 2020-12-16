@@ -1,4 +1,4 @@
-from .shared import parse_lines, find_possible_routes
+from .shared import find_possible_routes, parse_lines
 
 
 def calculate(text: str) -> int:

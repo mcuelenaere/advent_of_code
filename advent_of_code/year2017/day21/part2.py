@@ -1,4 +1,4 @@
-from .shared import parse_pattern_book, parse_pattern, process_pattern, count_enabled
+from .shared import count_enabled, parse_pattern, parse_pattern_book, process_pattern
 
 
 def calculate(text: str) -> int:

@@ -1,7 +1,9 @@
 import re
-from typing import Iterable, Dict, Set
 
-RE_PIPE_CONFIGURATION = re.compile(r'^(\d+) <-> ([\d,\s]+)$')
+from typing import Dict, Iterable, Set
+
+
+RE_PIPE_CONFIGURATION = re.compile(r"^(\d+) <-> ([\d,\s]+)$")
 
 Configuration = Dict[int, Set[int]]
 
@@ -13,13 +15,14 @@ def parse_text(text: str) -> Configuration:
         if m is None:
             raise ValueError(f'Could not parse line "{line}"')
         left = int(m.group(1))
-        right = set(map(int, m.group(2).split(', ')))
+        right = set(map(int, m.group(2).split(", ")))
         configuration[left] = right
     return configuration
 
 
 def find_connected_programs(config: Configuration, program: int) -> Iterable[int]:
     already_visited = set()
+
     def dfs(cur: int):
         if cur in already_visited:
             return

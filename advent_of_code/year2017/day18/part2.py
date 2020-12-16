@@ -1,17 +1,24 @@
-from .shared import parse_instructions, CommunicatingProcessingUnit, QueueManager, ISndR, ISndV
-from time import sleep
 from threading import Thread
+from time import sleep
+
+from .shared import (
+    CommunicatingProcessingUnit,
+    ISndR,
+    ISndV,
+    QueueManager,
+    parse_instructions,
+)
 
 
 class WorkerState(object):
-    __slots__ = ('running', 'sent_instructions')
+    __slots__ = ("running", "sent_instructions")
 
     def __init__(self):
         self.running = True
         self.sent_instructions = 0
 
     def __repr__(self):
-        return f'WorkerState(running={self.running}, sent_instructions={self.sent_instructions})'
+        return f"WorkerState(running={self.running}, sent_instructions={self.sent_instructions})"
 
 
 def worker(cpu: CommunicatingProcessingUnit, state: WorkerState):
@@ -35,8 +42,8 @@ def calculate(text: str) -> int:
     state1 = WorkerState()
 
     # create threads
-    thread1 = Thread(target=worker, args=[cpu0, state0], name='cpu0')
-    thread2 = Thread(target=worker, args=[cpu1, state1], name='cpu1')
+    thread1 = Thread(target=worker, args=[cpu0, state0], name="cpu0")
+    thread2 = Thread(target=worker, args=[cpu1, state1], name="cpu1")
 
     # start executing!
     thread1.start()

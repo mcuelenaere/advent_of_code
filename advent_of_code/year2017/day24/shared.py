@@ -1,5 +1,6 @@
 from collections import defaultdict
-from typing import Set, Tuple, Dict, List, Iterator
+from typing import Dict, Iterator, List, Set, Tuple
+
 
 Component = Tuple[int, int]
 Bridge = List[Component]
@@ -9,7 +10,7 @@ ComponentsByPort = Dict[int, Set[Tuple[int, Component]]]
 def parse_text(text: str) -> ComponentsByPort:
     components = defaultdict(set)
     for line in text.splitlines():
-        left, right = tuple(map(int, line.split('/', 2)))
+        left, right = tuple(map(int, line.split("/", 2)))
         components[left].add((right, (left, right)))
         components[right].add((left, (left, right)))
     return components

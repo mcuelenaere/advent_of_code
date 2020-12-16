@@ -1,6 +1,8 @@
 import math
-from typing import NamedTuple, List, Type, Optional
-from ..day21.shared import Character, CharacterType, parse_character
+
+from typing import List, NamedTuple, Optional, Type
+
+from ..day21.shared import Character, CharacterType
 
 
 class BattleState(NamedTuple):
@@ -8,7 +10,7 @@ class BattleState(NamedTuple):
     enemy: Character
     active_character: CharacterType
     player_mana: int
-    active_effects: List['Effect']
+    active_effects: List["_Effect"]
 
     def winning_party(self) -> Optional[CharacterType]:
         if self.player.hit_points <= 0:
@@ -18,7 +20,7 @@ class BattleState(NamedTuple):
         else:
             return None
 
-    def next_state(self, spell: Optional['_Spell'] = None) -> Optional['BattleState']:
+    def next_state(self, spell: Optional["_Spell"] = None) -> Optional["BattleState"]:
         state = self
 
         assert state.winning_party() is None
@@ -81,13 +83,13 @@ class _Effect(object):
 
     @property
     def name(self):
-        return self.__class__.__name__.replace('Effect', '')
+        return self.__class__.__name__.replace("Effect", "")
 
-    def decremented_with(self, decrement: int) -> '_Effect':
+    def decremented_with(self, decrement: int) -> "_Effect":
         return type(self)(self.timer - decrement)
 
     def __repr__(self):
-        return f'{self.name}(timer={self.timer})'
+        return f"{self.name}(timer={self.timer})"
 
 
 class ShieldEffect(_Effect):
@@ -136,10 +138,10 @@ class _Spell(object):
 
     @property
     def name(self):
-        return self.__class__.__name__.replace('Spell', '')
+        return self.__class__.__name__.replace("Spell", "")
 
     def __repr__(self):
-        return f'<{self.name}>'
+        return f"<{self.name}>"
 
 
 class MagicMissileSpell(_Spell):
@@ -210,7 +212,7 @@ _state = BattleState(
     enemy=Character(hit_points=13, damage_score=8, armor_score=0),
     active_character=CharacterType.PLAYER,
     player_mana=250,
-    active_effects=[]
+    active_effects=[],
 )
 _state = _state.next_state(spell=PoisonSpell())
 _state = _state.next_state()
@@ -224,7 +226,7 @@ _state = BattleState(
     enemy=Character(hit_points=14, damage_score=8, armor_score=0),
     active_character=CharacterType.PLAYER,
     player_mana=250,
-    active_effects=[]
+    active_effects=[],
 )
 _state = _state.next_state(spell=RechargeSpell())
 _state = _state.next_state()
@@ -239,7 +241,7 @@ _state = _state.next_state()
 assert _state.winning_party() == CharacterType.PLAYER
 
 
-SearchState = NamedTuple('SearchState', battle_state=BattleState, spent_mana=int)
+SearchState = NamedTuple("SearchState", battle_state=BattleState, spent_mana=int)
 
 
 def find_win_for_lowest_spent_mana(initial_state: BattleState):
@@ -262,10 +264,17 @@ def find_win_for_lowest_spent_mana(initial_state: BattleState):
                         # spell can't be cast or it results in player death, skip it
                         continue
 
-                    queue.append(SearchState(battle_state=new_state, spent_mana=current_spent_mana + spell.cost))
+                    queue.append(
+                        SearchState(
+                            battle_state=new_state,
+                            spent_mana=current_spent_mana + spell.cost,
+                        )
+                    )
                 break
 
-        if current_state.winning_party() == CharacterType.PLAYER and (lowest_mana_spent is None or current_spent_mana < lowest_mana_spent):
+        if current_state.winning_party() == CharacterType.PLAYER and (
+            lowest_mana_spent is None or current_spent_mana < lowest_mana_spent
+        ):
             lowest_mana_spent = current_spent_mana
 
     return lowest_mana_spent

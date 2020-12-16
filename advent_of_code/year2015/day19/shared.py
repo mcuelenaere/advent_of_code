@@ -1,4 +1,5 @@
-from typing import Tuple, Dict, Iterable, List
+from typing import Dict, Iterable, List, Tuple
+
 
 Replacements = Dict[str, List[str]]
 
@@ -15,7 +16,7 @@ def parse_input(text: str) -> Tuple[Replacements, str]:
     # parse replacements
     replacements = {}
     for line in lines:
-        key, val = line.split(' => ')
+        key, val = line.split(" => ")
         if key not in replacements:
             replacements[key] = []
         replacements[key].append(val)
@@ -31,7 +32,7 @@ def generate_possibilities(formula: str, replacements: Replacements) -> Iterable
             if i == -1:
                 break
             for x in values:
-                yield formula[:i] + x + formula[i + len(search):]
+                yield formula[:i] + x + formula[i + len(search) :]
 
 
 def create_inverse_map(replacements: Replacements) -> Dict[str, str]:
@@ -48,19 +49,19 @@ def find_fewest_steps(formula: str, replacements: Replacements) -> int:
     longest_key = max(len(x) for x in inverse_map.keys())
 
     steps = 0
-    while formula != 'e':
+    while formula != "e":
         found = False
         index = len(formula)
         while index > 0:
             # find longest matching suffix
             for i in range(longest_key, 0, -1):
-                replacement = inverse_map.get(formula[index-i:index], None)
-                if replacement == 'e' and index != i:
+                replacement = inverse_map.get(formula[index - i : index], None)
+                if replacement == "e" and index != i:
                     # we cannot replace with the goal yet if this isn't the last replacement
                     continue
 
                 if replacement:
-                    formula = formula[:index-i] + replacement + formula[index:]
+                    formula = formula[: index - i] + replacement + formula[index:]
                     found = True
                     break
 
@@ -71,6 +72,6 @@ def find_fewest_steps(formula: str, replacements: Replacements) -> int:
                 index -= 1
 
         if not found:
-            raise RuntimeError('Suffix not found!')
+            raise RuntimeError("Suffix not found!")
         steps += 1
     return steps

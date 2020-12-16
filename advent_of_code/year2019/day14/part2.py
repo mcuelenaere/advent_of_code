@@ -1,4 +1,5 @@
-from .shared import minimum_ore, parse_reactions, Quantity
+from .shared import Quantity, minimum_ore, parse_reactions
+
 
 CARGO_HOLD = 1000000000000
 
@@ -9,7 +10,7 @@ def calculate(text: str) -> int:
     # find upper & lower bound
     fuel = 1
     while True:
-        amount = minimum_ore(reactions, Quantity('FUEL', fuel))
+        amount = minimum_ore(reactions, Quantity("FUEL", fuel))
         if amount > CARGO_HOLD:
             # bounds have been established
             lower = fuel / 2
@@ -20,7 +21,7 @@ def calculate(text: str) -> int:
     # do binary search to find correct value
     mid = int((lower + upper) / 2)
     while lower < mid < upper:
-        amount = minimum_ore(reactions, Quantity('FUEL', mid))
+        amount = minimum_ore(reactions, Quantity("FUEL", mid))
         if amount > CARGO_HOLD:
             upper = mid
         else:

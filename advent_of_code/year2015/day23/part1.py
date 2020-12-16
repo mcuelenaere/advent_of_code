@@ -1,4 +1,4 @@
-from .shared import parse_instructions, Processor
+from .shared import Processor, parse_instructions
 
 
 def calculate(text: str) -> int:
@@ -6,4 +6,4 @@ def calculate(text: str) -> int:
     cpu = Processor(instructions)
     while cpu.instruction_offset < len(cpu.instructions):
         cpu.execute_step()
-    return cpu.registers['b']
+    return cpu.registers["b"]

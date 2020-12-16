@@ -9,28 +9,28 @@ def calculate(lines: str) -> int:
         cur_y = 0
         steps = 0
         path_steps = {}
-        for objective in wire.split(','):
+        for objective in wire.split(","):
             direction = objective[0]
             distance = int(objective[1:])
-            if direction == 'R':
+            if direction == "R":
                 for x in range(cur_x, cur_x + distance):
                     path[(x, cur_y)].add(id)
                     path_steps[(x, cur_y)] = steps
                     steps += 1
                 cur_x += distance
-            elif direction == 'L':
+            elif direction == "L":
                 for x in range(cur_x, cur_x - distance, -1):
                     path[(x, cur_y)].add(id)
                     path_steps[(x, cur_y)] = steps
                     steps += 1
                 cur_x -= distance
-            elif direction == 'U':
+            elif direction == "U":
                 for y in range(cur_y, cur_y - distance, -1):
                     path[(cur_x, y)].add(id)
                     path_steps[(cur_x, y)] = steps
                     steps += 1
                 cur_y -= distance
-            elif direction == 'D':
+            elif direction == "D":
                 for y in range(cur_y, cur_y + distance):
                     path[(cur_x, y)].add(id)
                     path_steps[(cur_x, y)] = steps
@@ -39,8 +39,8 @@ def calculate(lines: str) -> int:
         return path_steps
 
     first_wire, second_wire = lines.split()
-    first_wire_steps = parse_wire(first_wire, id='A')
-    second_wire_steps = parse_wire(second_wire, id='B')
+    first_wire_steps = parse_wire(first_wire, id="A")
+    second_wire_steps = parse_wire(second_wire, id="B")
 
     return min(first_wire_steps[k] + second_wire_steps[k] for k, v in path.items() if len(v) > 1 and k != (0, 0))
 

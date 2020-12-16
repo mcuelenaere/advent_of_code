@@ -1,5 +1,6 @@
 from itertools import chain
-from .shared import parse_ips, find_abas
+
+from .shared import find_abas, parse_ips
 
 
 def calculate(text: str) -> int:

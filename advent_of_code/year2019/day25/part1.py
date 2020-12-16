@@ -1,6 +1,8 @@
-from ..day05.shared import parse_instructions, streaming_evaluate
-from itertools import combinations
 import re
+
+from itertools import combinations
+
+from ..day05.shared import parse_instructions, streaming_evaluate
 
 
 def parse_text(text: str):
@@ -17,7 +19,7 @@ def parse_text(text: str):
         index = None
     if index is not None:
         end_index = lines.index("", index)
-        doors = tuple(line[2:] for line in lines[index+1:end_index])
+        doors = tuple(line[2:] for line in lines[index + 1 : end_index])
     else:
         doors = tuple()
 
@@ -27,7 +29,7 @@ def parse_text(text: str):
         index = None
     if index is not None:
         end_index = lines.index("", index)
-        items = tuple(line[2:] for line in lines[index+1:end_index])
+        items = tuple(line[2:] for line in lines[index + 1 : end_index])
     else:
         items = tuple()
 
@@ -36,12 +38,18 @@ def parse_text(text: str):
 
 def calculate(text: str) -> str:
     inverse_direction = {
-        'north': 'south',
-        'south': 'north',
-        'east': 'west',
-        'west': 'east',
+        "north": "south",
+        "south": "north",
+        "east": "west",
+        "west": "east",
     }
-    blacklisted_items = {'infinite loop', 'molten lava', 'giant electromagnet', 'escape pod', 'photons'}
+    blacklisted_items = {
+        "infinite loop",
+        "molten lava",
+        "giant electromagnet",
+        "escape pod",
+        "photons",
+    }
 
     instructions = parse_instructions(text)
     gen = streaming_evaluate(instructions)
@@ -52,7 +60,7 @@ def calculate(text: str) -> str:
         gen.send(ord("\n"))
 
     def read():
-        buf = ''
+        buf = ""
         c = next(gen)
         buf += chr(c)
         while c is not None:
@@ -72,7 +80,7 @@ def calculate(text: str) -> str:
         buf = read()
         name, doors, items = parse_text(buf)
 
-        if name == 'Security Checkpoint':
+        if name == "Security Checkpoint":
             # we're at the final room, move to the next phase
             break
 
@@ -142,7 +150,7 @@ def calculate(text: str) -> str:
                 pass
             else:
                 # success! Extract number from string
-                return re.search(r'by typing (\d+) on the keypad', buf).group(1)
+                return re.search(r"by typing (\d+) on the keypad", buf).group(1)
 
             # drop items again
             for item in c:

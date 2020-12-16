@@ -1,4 +1,4 @@
-from .shared import redistribute, parse
+from .shared import parse, redistribute
 
 
 def calculate(text: str) -> int:

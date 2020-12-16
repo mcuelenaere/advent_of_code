@@ -1,4 +1,4 @@
-from .shared import parse_text, find_connected_programs
+from .shared import find_connected_programs, parse_text
 
 
 def calculate(text: str) -> int:

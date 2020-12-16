@@ -1,6 +1,7 @@
-from .shared import parse_grid, Grid, Position
 from itertools import product
 from typing import Tuple
+
+from .shared import Grid, Position, parse_grid
 
 
 def adjacent_positions(position: Position) -> Tuple[Position, ...]:

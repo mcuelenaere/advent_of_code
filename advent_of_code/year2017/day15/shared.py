@@ -1,14 +1,16 @@
 import re
-from typing import Tuple, Iterator
 
-RE_GENERATOR_LINE = re.compile(r'^Generator (\w+) starts with (\d+)$')
+from typing import Iterator, Tuple
+
+
+RE_GENERATOR_LINE = re.compile(r"^Generator (\w+) starts with (\d+)$")
 GENERATOR_MULTIPLIERS = {
-    'A': 16807,
-    'B': 48271,
+    "A": 16807,
+    "B": 48271,
 }
 GENERATOR_MULTIPLES = {
-    'A': 4,
-    'B': 8,
+    "A": 4,
+    "B": 8,
 }
 
 
@@ -20,7 +22,10 @@ def parse_text(text: str, check_multiples: bool = False) -> Tuple[Iterator[int],
             raise ValueError()
         start_values[m.group(1)] = int(m.group(2))
 
-    assert set(start_values.keys()) == {'A', 'B'}, "Text did not contain both generators A and B"
+    assert set(start_values.keys()) == {
+        "A",
+        "B",
+    }, "Text did not contain both generators A and B"
 
     def create_generator(type: str) -> Iterator[int]:
         value = start_values[type]
@@ -39,6 +44,6 @@ def parse_text(text: str, check_multiples: bool = False) -> Tuple[Iterator[int],
                 yield value
 
     return (
-        create_generator('A'),
-        create_generator('B'),
+        create_generator("A"),
+        create_generator("B"),
     )

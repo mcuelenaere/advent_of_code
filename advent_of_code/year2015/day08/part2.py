@@ -1,8 +1,12 @@
 def escape(line: str) -> str:
-    line = line.translate(line.maketrans({
-        '"': r'\"',
-        '\\': '\\\\',
-    }))
+    line = line.translate(
+        line.maketrans(
+            {
+                '"': r"\"",
+                "\\": "\\\\",
+            }
+        )
+    )
     return f'"{line}"'
 
 

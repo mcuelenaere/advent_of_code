@@ -1,5 +1,6 @@
 import math
 import re
+
 from collections import defaultdict
 from typing import Iterable, Tuple
 
@@ -49,17 +50,17 @@ class Position(list):
 
 
 class Point(object):
-    __slots__ = ['position', 'velocity']
+    __slots__ = ["position", "velocity"]
 
     def __init__(self, position: Position, velocity: Position):
         self.position = position
         self.velocity = velocity
 
     def __repr__(self):
-        return f'Point(position={self.position}, velocity={self.velocity})'
+        return f"Point(position={self.position}, velocity={self.velocity})"
 
 
-RE_POINT = re.compile(r'^position=<\s*(-?\d+),\s*(-?\d+)> velocity=<\s*(-?\d+),\s*(-?\d+)>$')
+RE_POINT = re.compile(r"^position=<\s*(-?\d+),\s*(-?\d+)> velocity=<\s*(-?\d+),\s*(-?\d+)>$")
 
 
 def parse_points(text: str) -> Iterable[Point]:
@@ -68,7 +69,7 @@ def parse_points(text: str) -> Iterable[Point]:
         if m:
             yield Point(
                 position=Position(int(m.group(1)), int(m.group(2))),
-                velocity=Position(int(m.group(3)), int(m.group(4)))
+                velocity=Position(int(m.group(3)), int(m.group(4))),
             )
 
 
@@ -87,11 +88,16 @@ def visualize_points(points: Iterable[Point], width: int, height: int) -> str:
 
     sky = defaultdict(lambda: False)
     for point in points:
-        sky[(point.position.x - min_x + mid_point[0], point.position.y - min_y + mid_point[1])] = True
+        sky[
+            (
+                point.position.x - min_x + mid_point[0],
+                point.position.y - min_y + mid_point[1],
+            )
+        ] = True
 
-    s = ''
+    s = ""
     for y in range(height):
-        s += ''.join('#' if sky[(x, y)] else '.' for x in range(width)) + '\n'
+        s += "".join("#" if sky[(x, y)] else "." for x in range(width)) + "\n"
     return s
 
 
@@ -135,4 +141,4 @@ def find_point_of_convergence(points: Iterable[Point]) -> Tuple[int, Iterable[Po
                 point.position -= point.velocity
             return iteration, points
 
-    raise RuntimeError('could not solve the ')
+    raise RuntimeError("could not solve the ")

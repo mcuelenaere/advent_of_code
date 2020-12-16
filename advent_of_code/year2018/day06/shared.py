@@ -1,12 +1,12 @@
-from typing import NamedTuple, Iterable, Callable
+from typing import Callable, Iterable, NamedTuple
 
 
-Coordinate = NamedTuple('Coordinate', x=int, y=int)
+Coordinate = NamedTuple("Coordinate", x=int, y=int)
 
 
 def parse_coordinates(text: str) -> Iterable[Coordinate]:
     for line in text.splitlines():
-        x, y = line.split(', ', 2)
+        x, y = line.split(", ", 2)
         yield Coordinate(x=int(x), y=int(y))
 
 
@@ -14,7 +14,9 @@ def manhattan_distance(p1: Coordinate, p2: Coordinate) -> int:
     return abs(p2.x - p1.x) + abs(p2.y - p1.y)
 
 
-def find_surrounded_coordinates(coordinates: Iterable[Coordinate]) -> Iterable[Coordinate]:
+def find_surrounded_coordinates(
+    coordinates: Iterable[Coordinate],
+) -> Iterable[Coordinate]:
     surrounded_points = set()
 
     for c1 in coordinates:

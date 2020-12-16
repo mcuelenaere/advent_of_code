@@ -1,5 +1,6 @@
 from typing import List
 
+
 Opcodes = List[int]
 
 
@@ -28,7 +29,7 @@ def evaluate(opcodes: Opcodes):
 
 
 def _test_eval(text: str) -> str:
-    opcodes = list(map(int, text.strip().split(',')))
+    opcodes = list(map(int, text.strip().split(",")))
     evaluate(opcodes)
     return ",".join(map(str, opcodes))
 

@@ -1,4 +1,4 @@
-from .shared import parse_track, advance_carts, find_crashes
+from .shared import advance_carts, find_crashes, parse_track
 
 
 def calculate(text: str) -> str:
@@ -8,15 +8,15 @@ def calculate(text: str) -> str:
         prev_track = track
         track = advance_carts(track)
         crashes = find_crashes(track, prev_track)
-    return ','.join(map(str, crashes[0]))
+    return ",".join(map(str, crashes[0]))
 
 
 puzzle = r"""
-/->-\        
+/->-\
 |   |  /----\
 | /-+--+-\  |
 | | |  | v  |
 \-+-/  \-+--/
-  \------/   
+  \------/
 """.strip()
 assert calculate(puzzle) == "7,3"

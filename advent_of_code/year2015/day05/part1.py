@@ -1,9 +1,10 @@
 import re
 
+
 RE_NICE = (
-    re.compile(r'^(.*[aeiou].*){3,}$'),
-    re.compile(r'^.*([a-z])\1.*$'),
-    re.compile(r'^((?!ab|cd|pq|xy).)*$'),
+    re.compile(r"^(.*[aeiou].*){3,}$"),
+    re.compile(r"^.*([a-z])\1.*$"),
+    re.compile(r"^((?!ab|cd|pq|xy).)*$"),
 )
 
 

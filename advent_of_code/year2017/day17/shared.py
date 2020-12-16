@@ -1,10 +1,10 @@
-from typing import List, Optional, Iterable
+from typing import Iterable, List, Optional
 
 
 class Node(object):
-    __slots__ = ('next', 'value')
+    __slots__ = ("next", "value")
 
-    def __init__(self, value: int, next: Optional['Node'] = None):
+    def __init__(self, value: int, next: Optional["Node"] = None):
         self.next = next
         self.value = value
 
@@ -46,7 +46,7 @@ class LinkedList(object):
             node = node.next
 
     def __repr__(self):
-        return f'LinkedList(head={self.head}, tail={self.tail})'
+        return f"LinkedList(head={self.head}, tail={self.tail})"
 
 
 def spinlock(step_size: int, times: int) -> List[int]:

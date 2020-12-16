@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Tuple, Iterable, Set
+from typing import Iterable, Set, Tuple
 
 
 class Coordinate(tuple):
@@ -23,10 +23,10 @@ Directions = Tuple[Direction, ...]
 
 def parse_directions(text: str) -> Iterable[Directions]:
     mapping = {
-        'D': Direction.Down,
-        'U': Direction.Up,
-        'L': Direction.Left,
-        'R': Direction.Right,
+        "D": Direction.Down,
+        "U": Direction.Up,
+        "L": Direction.Left,
+        "R": Direction.Right,
     }
     for line in text.splitlines():
         yield tuple(mapping[d] for d in line)

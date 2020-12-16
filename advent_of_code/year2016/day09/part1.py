@@ -1,23 +1,24 @@
 import re
 
-RE_MARKER = re.compile('\((\d+)x(\d+)\)')
+
+RE_MARKER = re.compile(r"\((\d+)x(\d+)\)")
 
 
 def calculate(text: str) -> int:
-    decompressed = ''
+    decompressed = ""
     idx = 0
     while idx < len(text):
         m = RE_MARKER.search(text[idx:])
         if m:
             if m.start() > 0:
-                decompressed += text[idx:idx+m.start()]
+                decompressed += text[idx : idx + m.start()]
                 idx += m.start()
 
             input_len = int(m.group(1))
             repeat_count = int(m.group(2))
             idx += m.end() - m.start()
 
-            decompressed += text[idx:idx + input_len] * repeat_count
+            decompressed += text[idx : idx + input_len] * repeat_count
             idx += input_len
         else:
             decompressed += text[idx:]

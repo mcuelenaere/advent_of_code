@@ -1,9 +1,11 @@
 import re
-from datetime import datetime, timedelta
-from typing import NamedTuple, List, Iterable
 
-RE_LOG_RECORD = re.compile(r'^\[(\d+)-(\d+)-(\d+) (\d+):(\d+)\] (.+)$')
-RE_BEGINS_SHIFT = re.compile(r'^Guard #(\d+) begins shift$')
+from datetime import datetime, timedelta
+from typing import Iterable, List, NamedTuple
+
+
+RE_LOG_RECORD = re.compile(r"^\[(\d+)-(\d+)-(\d+) (\d+):(\d+)\] (.+)$")
+RE_BEGINS_SHIFT = re.compile(r"^Guard #(\d+) begins shift$")
 
 
 class TimeRange(NamedTuple):
@@ -49,26 +51,17 @@ def parse_logs(text: str) -> Iterable[GuardShift]:
     last_timestamp = None
     current_guard = None
     for current_timestamp, msg in ordered_logs:
-        if msg == 'falls asleep':
+        if msg == "falls asleep":
             assert current_guard is not None
-        elif msg == 'wakes up':
+        elif msg == "wakes up":
             assert current_guard is not None
-            current_guard.naps.append(
-                TimeRange(
-                    start=last_timestamp,
-                    end=current_timestamp
-                )
-            )
+            current_guard.naps.append(TimeRange(start=last_timestamp, end=current_timestamp))
         elif RE_BEGINS_SHIFT.match(msg):
             m = RE_BEGINS_SHIFT.match(msg)
             assert m is not None
             if current_guard is not None:
                 yield current_guard
-            current_guard = GuardShift(
-                guard_id=int(m.group(1)),
-                start=current_timestamp,
-                naps=list()
-            )
+            current_guard = GuardShift(guard_id=int(m.group(1)), start=current_timestamp, naps=list())
 
         last_timestamp = current_timestamp
 

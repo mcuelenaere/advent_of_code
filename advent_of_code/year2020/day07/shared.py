@@ -1,5 +1,7 @@
 import re
+
 from typing import Dict, List, Tuple
+
 
 RE_BAG_LINE = re.compile(r"^([\w\s]+) bags contain (.+)\.$")
 RE_BAG_PART = re.compile(r"(\d+) ([\w\s]+) bags?(?:, )?")

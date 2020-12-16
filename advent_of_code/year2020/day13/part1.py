@@ -3,7 +3,10 @@ from .shared import parse_schedule
 
 def calculate(text: str) -> int:
     estimate, bus_lines = parse_schedule(text)
-    line, wait_time = min(((line, line - (estimate % line)) for line in bus_lines if line is not None), key=lambda x: x[1])
+    line, wait_time = min(
+        ((line, line - (estimate % line)) for line in bus_lines if line is not None),
+        key=lambda x: x[1],
+    )
     return line * wait_time
 
 

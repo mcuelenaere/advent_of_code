@@ -1,5 +1,6 @@
-from ..day05.shared import parse_instructions, streaming_evaluate
 from collections import deque
+
+from ..day05.shared import parse_instructions, streaming_evaluate
 
 
 class Computer(object):

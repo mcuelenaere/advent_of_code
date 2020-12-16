@@ -1,19 +1,21 @@
-from ..day05.shared import streaming_evaluate, parse_instructions
-from typing import Set, Tuple, Iterable
+from typing import Iterable, Set, Tuple
+
+from ..day05.shared import parse_instructions, streaming_evaluate
+
 
 Position = Tuple[int, int]
 
 ROBOT_DIRECTIONS_MAP = {
-    '^': (0, -1),
-    'v': (0, 1),
-    '<': (-1, 0),
-    '>': (1, 0),
+    "^": (0, -1),
+    "v": (0, 1),
+    "<": (-1, 0),
+    ">": (1, 0),
 }
 
 SORTED_DIRECTIONS = (
     (0, -1),  # up
-    (1, 0),   # right
-    (0, 1),   # down
+    (1, 0),  # right
+    (0, 1),  # down
     (-1, 0),  # left
 )
 
@@ -25,17 +27,17 @@ def parse_text(text: Iterable[str]) -> Tuple[Set[Position], Position, Position]:
     x = 0
     y = 0
     for char in text:
-        if char == '\n':
+        if char == "\n":
             x = 0
             y += 1
-        elif char == '#':
+        elif char == "#":
             scaffolds.add((x, y))
             x += 1
-        elif char in ('^', 'v', '<', '>'):
+        elif char in ("^", "v", "<", ">"):
             robot_position = (x, y)
             robot_direction = ROBOT_DIRECTIONS_MAP[char]
             x += 1
-        elif char == '.':
+        elif char == ".":
             x += 1
         else:
             raise RuntimeError(f'unknown char "{char}')
@@ -48,15 +50,25 @@ def parse_map(text: str) -> Tuple[Set[Position], Position, Position]:
     return parse_text(chr(char) for char in streaming_evaluate(instructions))
 
 
-def walk_path(scaffolds: Set[Position], robot_position: Position, robot_direction: Position) -> Iterable[Tuple[Position, Position]]:
+def walk_path(
+    scaffolds: Set[Position], robot_position: Position, robot_direction: Position
+) -> Iterable[Tuple[Position, Position]]:
     # move robot onto first scaffold
-    robot_position = (robot_position[0] + robot_direction[0], robot_position[1] + robot_direction[1])
+    robot_position = (
+        robot_position[0] + robot_direction[0],
+        robot_position[1] + robot_direction[1],
+    )
     yield robot_direction, robot_position
 
-    seen_scaffolds = {robot_position, }
+    seen_scaffolds = {
+        robot_position,
+    }
     while True:
         # go same direction, if possible
-        new_pos = (robot_position[0] + robot_direction[0], robot_position[1] + robot_direction[1])
+        new_pos = (
+            robot_position[0] + robot_direction[0],
+            robot_position[1] + robot_direction[1],
+        )
         if new_pos in scaffolds:
             # all okay, move on
             seen_scaffolds.add(new_pos)
@@ -66,7 +78,10 @@ def walk_path(scaffolds: Set[Position], robot_position: Position, robot_directio
 
         # no more scaffolds available, have to find a new direction
         for new_direction in ROBOT_DIRECTIONS_MAP.values():
-            new_pos = (robot_position[0] + new_direction[0], robot_position[1] + new_direction[1])
+            new_pos = (
+                robot_position[0] + new_direction[0],
+                robot_position[1] + new_direction[1],
+            )
             if new_pos in seen_scaffolds or new_pos not in scaffolds:
                 continue
 
@@ -78,24 +93,33 @@ def walk_path(scaffolds: Set[Position], robot_position: Position, robot_directio
             break
 
 
-def calculate_alignment_parameters(scaffolds: Set[Position], initial_robot_position: Position, initial_robot_direction: Position) -> int:
+def calculate_alignment_parameters(
+    scaffolds: Set[Position],
+    initial_robot_position: Position,
+    initial_robot_direction: Position,
+) -> int:
     intersections = set()
     for _, position in walk_path(scaffolds, initial_robot_position, initial_robot_direction):
         # check if we are at an intersection
-        surrounded_by_scaffolds = all((position[0] + direction[0], position[1] + direction[1]) in scaffolds for direction in ROBOT_DIRECTIONS_MAP.values())
+        surrounded_by_scaffolds = all(
+            (position[0] + direction[0], position[1] + direction[1]) in scaffolds
+            for direction in ROBOT_DIRECTIONS_MAP.values()
+        )
         if surrounded_by_scaffolds:
             intersections.add(position)
 
     return sum(x * y for x, y in intersections)
 
 
-_ = parse_text("""..#..........
+_ = parse_text(
+    """..#..........
 ..#..........
 #######...###
 #.#...#...#.#
 #############
 ..#...#...#..
-..#####...^..""")
+..#####...^.."""
+)
 assert calculate_alignment_parameters(*_) == 76
 
 
@@ -114,14 +138,14 @@ def compress_path(directions: Iterable[Position]) -> Iterable[str]:
             # calculate rotation
             diff = SORTED_DIRECTIONS.index(direction) - SORTED_DIRECTIONS.index(last)
             if abs(diff) == 3:
-                yield 'R' if diff == -3 else 'L'
+                yield "R" if diff == -3 else "L"
             elif abs(diff) == 2:
                 # always try turning to the right; picking the same direction
                 # potentially allows for better compressability
-                yield 'R'
-                yield 'R'
+                yield "R"
+                yield "R"
             elif abs(diff) == 1:
-                yield 'L' if diff == -1 else 'R'
+                yield "L" if diff == -1 else "R"
 
             # reset internal state
             last = direction
@@ -131,7 +155,8 @@ def compress_path(directions: Iterable[Position]) -> Iterable[str]:
         yield str(counter + 1)
 
 
-_ = parse_text("""#######...#####
+_ = parse_text(
+    """#######...#####
 #.....#...#...#
 #.....#...#...#
 ......#...#...#
@@ -145,8 +170,38 @@ _ = parse_text("""#######...#####
 ....#...#......
 ....#...#......
 ....#...#......
-....#####......""")
-assert tuple(compress_path(dir for dir, pos in walk_path(*_))) == ('R', '8', 'R', '8', 'R', '4', 'R', '4', 'R', '8', 'L', '6', 'L', '2', 'R', '4', 'R', '4', 'R', '8', 'R', '8', 'R', '8', 'L', '6', 'L', '2')
+....#####......"""
+)
+assert tuple(compress_path(dir for dir, pos in walk_path(*_))) == (
+    "R",
+    "8",
+    "R",
+    "8",
+    "R",
+    "4",
+    "R",
+    "4",
+    "R",
+    "8",
+    "L",
+    "6",
+    "L",
+    "2",
+    "R",
+    "4",
+    "R",
+    "4",
+    "R",
+    "8",
+    "R",
+    "8",
+    "R",
+    "8",
+    "L",
+    "6",
+    "L",
+    "2",
+)
 
 
 class ConfigurableVacuumRobot(object):
@@ -157,8 +212,8 @@ class ConfigurableVacuumRobot(object):
         self._cpu = streaming_evaluate(self._instructions)
 
     def parse_map(self):
-        buf = ''
-        while len(buf) < 2 or buf[-2:] != '\n\n':
+        buf = ""
+        while len(buf) < 2 or buf[-2:] != "\n\n":
             buf += chr(next(self._cpu))
         return parse_text(buf)
 

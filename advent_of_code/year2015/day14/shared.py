@@ -1,9 +1,11 @@
 import re
+
 from collections import Counter
 from typing import Dict, NamedTuple
 
-RE_LINE = re.compile(r'^(\w+) can fly (\d+) km/s for (\d+) seconds, but then must rest for (\d+) seconds.$')
-ReindeerProperties = NamedTuple('ReindeerProperties', fly_speed=int, fly_time=int, rest_time=int)
+
+RE_LINE = re.compile(r"^(\w+) can fly (\d+) km/s for (\d+) seconds, but then must rest for (\d+) seconds.$")
+ReindeerProperties = NamedTuple("ReindeerProperties", fly_speed=int, fly_time=int, rest_time=int)
 
 
 def parse_text(text: str) -> Dict[str, ReindeerProperties]:
@@ -22,7 +24,10 @@ def calculate_distance_for(props: ReindeerProperties, timestamp: int) -> int:
     iteration_distance = props.fly_speed * props.fly_time
     iteration_length = props.fly_time + props.rest_time
     number_of_full_iterations, incomplete_iteration_duration = divmod(timestamp, iteration_length)
-    return number_of_full_iterations * iteration_distance + min(incomplete_iteration_duration, props.fly_time) * props.fly_speed
+    return (
+        number_of_full_iterations * iteration_distance
+        + min(incomplete_iteration_duration, props.fly_time) * props.fly_speed
+    )
 
 
 def calculate_score(reindeers: Dict[str, ReindeerProperties], duration: int) -> int:

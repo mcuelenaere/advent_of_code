@@ -1,6 +1,7 @@
 import re
 
-RE_MARKER = re.compile('\((\d+)x(\d+)\)')
+
+RE_MARKER = re.compile(r"\((\d+)x(\d+)\)")
 
 
 def decompressed_size(text: str) -> int:
@@ -17,7 +18,7 @@ def decompressed_size(text: str) -> int:
             repeat_count = int(m.group(2))
             idx += m.end() - m.start()
 
-            length += decompressed_size(text[idx:idx+input_len]) * repeat_count
+            length += decompressed_size(text[idx : idx + input_len]) * repeat_count
             idx += input_len
         else:
             length += len(text) - idx

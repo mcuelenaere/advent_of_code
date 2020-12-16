@@ -1,5 +1,6 @@
+from typing import Optional, Sequence
+
 from .shared import find_first_non_sum
-from typing import Sequence, Optional
 
 
 def find_contiguous_sum(numbers: Sequence[int], search_value: int) -> Optional[Sequence[int]]:
@@ -10,10 +11,10 @@ def find_contiguous_sum(numbers: Sequence[int], search_value: int) -> Optional[S
 
         for i in range(len(numbers) - contiguous_length):
             if search_value == rolling_sum:
-                return numbers[i: i + contiguous_length]
+                return numbers[i : i + contiguous_length]
 
             rolling_sum -= numbers[i]
-            rolling_sum += numbers[i+contiguous_length]
+            rolling_sum += numbers[i + contiguous_length]
 
     return None
 

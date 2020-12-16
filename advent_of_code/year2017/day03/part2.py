@@ -79,6 +79,6 @@ def calculate(text: str) -> int:
 
         # set the value in the matrix to the adjacent sum
         val = matrix[x][y] = get_adjacent_sum(matrix, x, y)
-        #print_matrix(matrix)
+        # print_matrix(matrix)
         if val > number:
             return val

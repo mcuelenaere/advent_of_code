@@ -1,5 +1,6 @@
-from .shared import parse_passports
 import re
+
+from .shared import parse_passports
 
 
 def calculate(text: str) -> int:

@@ -1,9 +1,11 @@
 import re
-from typing import NamedTuple, Iterable, Tuple
 
-IP = NamedTuple('IP', supernet_sequences=Tuple[str, ...], hypernet_sequences=Tuple[str, ...])
-RE_HYPERNET = re.compile(r'\[[a-z]+\]')
-RE_ABBA = re.compile(r'([a-z])([a-z])\2\1')
+from typing import Iterable, NamedTuple, Tuple
+
+
+IP = NamedTuple("IP", supernet_sequences=Tuple[str, ...], hypernet_sequences=Tuple[str, ...])
+RE_HYPERNET = re.compile(r"\[[a-z]+\]")
+RE_ABBA = re.compile(r"([a-z])([a-z])\2\1")
 
 
 def parse_ips(text: str) -> Iterable[IP]:

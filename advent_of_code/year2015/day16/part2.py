@@ -1,5 +1,7 @@
+from operator import eq, gt, lt
+
 from .shared import parse_text
-from operator import gt, eq, lt
+
 
 MFCSAM_OUTPUT = """
 children: 3
@@ -13,19 +15,19 @@ trees: 3
 cars: 2
 perfumes: 1
 """.strip()
-MFCSAM_OUTPUT = {line.split(': ')[0]: int(line.split(': ')[1]) for line in MFCSAM_OUTPUT.splitlines()}
+MFCSAM_OUTPUT = {line.split(": ")[0]: int(line.split(": ")[1]) for line in MFCSAM_OUTPUT.splitlines()}
 
 COMPARISON_OPS = {
-    'children': eq,
-    'cats': gt,
-    'samoyeds': eq,
-    'pomeranians': lt,
-    'akitas': eq,
-    'vizslas': eq,
-    'goldfish': lt,
-    'trees': gt,
-    'cars': eq,
-    'perfumes': eq,
+    "children": eq,
+    "cats": gt,
+    "samoyeds": eq,
+    "pomeranians": lt,
+    "akitas": eq,
+    "vizslas": eq,
+    "goldfish": lt,
+    "trees": gt,
+    "cars": eq,
+    "perfumes": eq,
 }
 
 

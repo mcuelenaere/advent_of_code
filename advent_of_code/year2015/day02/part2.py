@@ -4,7 +4,7 @@ def calculate(text: str) -> int:
         side1, side2 = tuple(sorted([l, w, h]))[:2]
         return side1 * 2 + side2 * 2 + l * w * h
 
-    dimensions = (map(int, x.split('x')) for x in text.splitlines())
+    dimensions = (map(int, x.split("x")) for x in text.splitlines())
     return sum(solve(l, w, h) for l, w, h in dimensions)
 
 

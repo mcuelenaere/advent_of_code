@@ -1,12 +1,13 @@
 from itertools import product
 from typing import List
 
+
 LightConfiguration = List[List[bool]]
 
 
 def parse_puzzle(text: str) -> LightConfiguration:
     lines = text.splitlines()
-    return list(list(c == '#' for c in line) for line in lines)
+    return list(list(c == "#" for c in line) for line in lines)
 
 
 def simulate_step(lights: LightConfiguration) -> LightConfiguration:
@@ -20,16 +21,18 @@ def simulate_step(lights: LightConfiguration) -> LightConfiguration:
             return lights[y][x]
 
     def get_neighbours_count(x, y):
-        return sum((
-            is_light_on(x-1, y-1),
-            is_light_on(x, y-1),
-            is_light_on(x+1, y-1),
-            is_light_on(x+1, y),
-            is_light_on(x+1, y+1),
-            is_light_on(x, y+1),
-            is_light_on(x-1, y+1),
-            is_light_on(x-1, y),
-        ))
+        return sum(
+            (
+                is_light_on(x - 1, y - 1),
+                is_light_on(x, y - 1),
+                is_light_on(x + 1, y - 1),
+                is_light_on(x + 1, y),
+                is_light_on(x + 1, y + 1),
+                is_light_on(x, y + 1),
+                is_light_on(x - 1, y + 1),
+                is_light_on(x - 1, y),
+            )
+        )
 
     new_config = [[False] * len(lights) for _ in range(len(lights))]
     for (x, y) in product(range(len(lights)), repeat=2):

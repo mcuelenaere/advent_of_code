@@ -1,4 +1,5 @@
 from collections import defaultdict
+
 from .shared import parse_answer_groups
 
 

@@ -1,4 +1,4 @@
-from .shared import parse_asteroid_locations, find_best_monitoring_station
+from .shared import find_best_monitoring_station, parse_asteroid_locations
 
 
 def calculate(text: str) -> int:

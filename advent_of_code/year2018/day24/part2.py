@@ -1,4 +1,4 @@
-from .shared import parse_battle_state, attack
+from .shared import attack, parse_battle_state
 
 
 def calculate(text: str) -> int:

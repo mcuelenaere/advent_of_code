@@ -1,4 +1,4 @@
-from .shared import parse_text, manhattan_distance
+from .shared import manhattan_distance, parse_text
 
 
 def calculate(text: str) -> int:

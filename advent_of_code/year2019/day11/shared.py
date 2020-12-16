@@ -1,6 +1,8 @@
-from ..day05.shared import parse_instructions, streaming_evaluate
 from collections import defaultdict
 from typing import Tuple
+
+from ..day05.shared import parse_instructions, streaming_evaluate
+
 
 DIRECTION_UP = 0
 DIRECTION_RIGHT = 1

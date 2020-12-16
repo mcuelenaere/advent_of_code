@@ -35,10 +35,10 @@ def calculate(text: str) -> int:
 
 
 testcases = (
-    ('1', 0),
-    ('12', 3),
-    ('23', 2),
-    ('1024', 31),
+    ("1", 0),
+    ("12", 3),
+    ("23", 2),
+    ("1024", 31),
 )
 for puzzle, expected_answer in testcases:
     assert calculate(puzzle) == expected_answer

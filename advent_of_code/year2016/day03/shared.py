@@ -1,9 +1,10 @@
 import re
+
 from typing import Iterable, Tuple
 
 
 def parse_specifications(text: str) -> Iterable[Tuple[int, int, int]]:
-    re_whitespace = re.compile('\s+')
+    re_whitespace = re.compile(r"\s+")
     for line in text.splitlines():
         line = line.strip()
         yield tuple(int(dim) for dim in re_whitespace.split(line))

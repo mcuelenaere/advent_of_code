@@ -1,4 +1,5 @@
 from itertools import combinations
+
 from .shared import parse_packages, quantum_entanglement
 
 

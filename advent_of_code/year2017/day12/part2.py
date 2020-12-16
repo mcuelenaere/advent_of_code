@@ -1,4 +1,4 @@
-from .shared import parse_text, find_groups
+from .shared import find_groups, parse_text
 
 
 def calculate(text: str) -> int:

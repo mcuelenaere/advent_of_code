@@ -1,5 +1,6 @@
 import re
 
+
 POLYMER_BASE_UNITS = tuple("abcdefghijklmnopqrstuvwxyz")
 
 # construct regex matching units of opposite polymers
@@ -11,7 +12,7 @@ def react_polymer(text: str) -> str:
     did_react = True
     while did_react:
         old_len = len(text)
-        text = RE_POLYMER_OPPOSITE_UNITS.sub('', text)
+        text = RE_POLYMER_OPPOSITE_UNITS.sub("", text)
         new_len = len(text)
         did_react = new_len != old_len
 

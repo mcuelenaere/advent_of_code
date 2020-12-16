@@ -1,14 +1,15 @@
 import re
+
 from enum import Enum
-from typing import NamedTuple, Tuple, Set, Iterable, List, Optional
+from typing import Iterable, List, NamedTuple, Optional, Set, Tuple
 
 
 class Power(Enum):
-    Bludgeoning = 'bludgeoning'
-    Fire = 'fire'
-    Cold = 'cold'
-    Slashing = 'slashing'
-    Radiation = 'radiation'
+    Bludgeoning = "bludgeoning"
+    Fire = "fire"
+    Cold = "cold"
+    Slashing = "slashing"
+    Radiation = "radiation"
 
 
 class BattleGroup(object):
@@ -28,7 +29,7 @@ class BattleGroup(object):
     def effective_power(self) -> int:
         return self.unit_count * self.attack_points
 
-    def calculate_damage_for(self, other: 'BattleGroup') -> int:
+    def calculate_damage_for(self, other: "BattleGroup") -> int:
         multiplier = 1
         if self.attack in other.immunities:
             multiplier = 0
@@ -37,7 +38,7 @@ class BattleGroup(object):
         return self.effective_power * multiplier
 
     def __repr__(self):
-        return f'BattleGroup(unit_hit_points={self.unit_hit_points}, unit_count={self.unit_count})'
+        return f"BattleGroup(unit_hit_points={self.unit_hit_points}, unit_count={self.unit_count})"
 
 
 BattleGroups = Tuple[BattleGroup, ...]
@@ -52,7 +53,9 @@ class BattleState(NamedTuple):
         return sum(g.unit_count for g in self.infection) + sum(g.unit_count for g in self.immune_system)
 
 
-RE_BATTLE_GROUP = re.compile(r'(?P<units>\d+) units each with (?P<hit_points>\d+) hit points (\((?P<flags>[^)]+)\) )?with an attack that does (?P<attack_points>\d+) (?P<attack>\S+) damage at initiative (?P<initiative>\d+)')
+RE_BATTLE_GROUP = re.compile(
+    r"(?P<units>\d+) units each with (?P<hit_points>\d+) hit points (\((?P<flags>[^)]+)\) )?with an attack that does (?P<attack_points>\d+) (?P<attack>\S+) damage at initiative (?P<initiative>\d+)"
+)
 
 
 def parse_groups(text: str) -> Iterable[BattleGroup]:
@@ -63,22 +66,22 @@ def parse_groups(text: str) -> Iterable[BattleGroup]:
 
         immunities = set()
         weaknesses = set()
-        if m.group('flags'):
-            for flag in m.group('flags').split('; '):
-                powers = set(map(Power, flag.split(' to ')[1].split(', ')))
-                if flag.startswith('immune to'):
+        if m.group("flags"):
+            for flag in m.group("flags").split("; "):
+                powers = set(map(Power, flag.split(" to ")[1].split(", ")))
+                if flag.startswith("immune to"):
                     immunities.update(powers)
-                elif flag.startswith('weak to'):
+                elif flag.startswith("weak to"):
                     weaknesses.update(powers)
 
         yield BattleGroup(
-            unit_count=int(m.group('units')),
-            unit_hit_points=int(m.group('hit_points')),
+            unit_count=int(m.group("units")),
+            unit_hit_points=int(m.group("hit_points")),
             immunities=immunities,
             weaknesses=weaknesses,
-            attack=Power(m.group('attack')),
-            attack_points=int(m.group('attack_points')),
-            initiative_points=int(m.group('initiative'))
+            attack=Power(m.group("attack")),
+            attack_points=int(m.group("attack_points")),
+            initiative_points=int(m.group("initiative")),
         )
 
 
@@ -86,7 +89,7 @@ def parse_battle_state(text: str) -> BattleState:
     immune_system, infection = text.split("\n\n")
     return BattleState(
         immune_system=tuple(parse_groups(immune_system)),
-        infection=tuple(parse_groups(infection))
+        infection=tuple(parse_groups(infection)),
     )
 
 
@@ -101,10 +104,14 @@ def find_best_target(attacker: BattleGroup, defenders: BattleGroups) -> Optional
         elif damage == most_damage and defender.effective_power > best_target.effective_power:
             best_target = defender
             most_damage = damage
-        elif damage == most_damage and defender.effective_power == best_target.effective_power and defender.initiative_points > best_target.initiative_points:
+        elif (
+            damage == most_damage
+            and defender.effective_power == best_target.effective_power
+            and defender.initiative_points > best_target.initiative_points
+        ):
             best_target = defender
             most_damage = damage
-    #print(attacker, 'would deal', best_target, 'damage', most_damage)
+    # print(attacker, 'would deal', best_target, 'damage', most_damage)
     return best_target if best_target is not None and most_damage > 0 else None
 
 
@@ -132,8 +139,11 @@ def attack(state: BattleState) -> BattleState:
         if attacker.unit_count <= 0:
             continue
 
-        killed_units = min(attacker.calculate_damage_for(defender) // defender.unit_hit_points, defender.unit_count)
-        #print(attacker, 'attacks', defender, 'killing', killed_units)
+        killed_units = min(
+            attacker.calculate_damage_for(defender) // defender.unit_hit_points,
+            defender.unit_count,
+        )
+        # print(attacker, 'attacks', defender, 'killing', killed_units)
         defender.unit_count -= killed_units
 
     return BattleState(

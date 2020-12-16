@@ -1,5 +1,7 @@
-from ..day05.shared import parse_instructions, streaming_evaluate
 from typing import Callable
+
+from ..day05.shared import parse_instructions, streaming_evaluate
+
 
 DroneQuerier = Callable[[int, int], int]
 

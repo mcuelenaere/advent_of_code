@@ -7,13 +7,13 @@ def walk(item) -> int:
     elif isinstance(item, list):
         return sum(walk(x) for x in item)
     elif isinstance(item, dict):
-        if 'red' in item.values():
+        if "red" in item.values():
             return 0
         return sum(walk(x) for x in item.values())
     elif isinstance(item, str):
         return 0
     else:
-        raise ValueError(f'Unknown type {type(item)}: {item}')
+        raise ValueError(f"Unknown type {type(item)}: {item}")
 
 
 def calculate(text: str) -> int:

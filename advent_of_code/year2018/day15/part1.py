@@ -1,4 +1,4 @@
-from .shared import parse_state, advance_state
+from .shared import advance_state, parse_state
 
 
 def calculate(text: str) -> int:
@@ -82,4 +82,3 @@ puzzle = """
 #########
 """.strip()
 assert calculate(puzzle) == 18740
-

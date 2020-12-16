@@ -1,4 +1,4 @@
-from ..day05.shared import streaming_evaluate, parse_instructions
+from ..day05.shared import parse_instructions, streaming_evaluate
 
 
 def run_springdroid(intcode_instructions: str, springscript_instructions: str) -> int:
@@ -35,6 +35,6 @@ def run_springdroid(intcode_instructions: str, springscript_instructions: str) -
                 buf.append(next(gen))
             except StopIteration:
                 break
-        raise RuntimeError(''.join(chr(c) for c in buf))
+        raise RuntimeError("".join(chr(c) for c in buf))
 
     return res

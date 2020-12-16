@@ -1,4 +1,4 @@
-from .shared import parse_input, generate_possibilities
+from .shared import generate_possibilities, parse_input
 
 
 def calculate(text: str) -> int:

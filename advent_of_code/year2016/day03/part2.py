@@ -1,4 +1,4 @@
-from .shared import parse_specifications, is_valid_triangle
+from .shared import is_valid_triangle, parse_specifications
 
 
 def calculate(text: str) -> int:

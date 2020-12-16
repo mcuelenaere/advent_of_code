@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Iterable, Tuple, List
+from typing import Iterable, List, Tuple
 
 
 def sorted_freq_count(letters: Iterable[str]) -> Tuple[str, ...]:

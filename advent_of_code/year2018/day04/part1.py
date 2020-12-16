@@ -1,4 +1,5 @@
 from collections import defaultdict
+
 from .shared import parse_logs
 
 
@@ -22,7 +23,9 @@ def calculate(text: str) -> int:
             for time in nap:
                 asleep_minutes[time.minute] += 1
 
-    most_sleepy_minute = next(minute for minute, count in asleep_minutes.items() if count == max(asleep_minutes.values()))
+    most_sleepy_minute = next(
+        minute for minute, count in asleep_minutes.items() if count == max(asleep_minutes.values())
+    )
 
     return most_sleepy_guard * most_sleepy_minute
 

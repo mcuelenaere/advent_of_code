@@ -1,6 +1,7 @@
-from .shared import parse_text, Program, Operation
 from functools import wraps
-from typing import Iterable, Callable
+from typing import Callable, Iterable
+
+from .shared import Operation, Program, parse_text
 
 
 def memoize(fn: Callable[..., str]) -> Callable[..., str]:
@@ -35,7 +36,7 @@ def do_cycles(programs: str, dance: Iterable[Operation], amount: int) -> str:
 
 
 def calculate(text: str) -> str:
-    programs = ''.join(chr(x) for x in range(ord('a'), ord('p') + 1))
+    programs = "".join(chr(x) for x in range(ord("a"), ord("p") + 1))
     dance = tuple(parse_text(text))
     for _ in range(1_000):
         programs = do_cycles(programs, dance, 1_000_000)

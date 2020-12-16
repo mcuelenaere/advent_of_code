@@ -1,4 +1,10 @@
-from .shared import parse_character, Character, CharacterType, BattleState, find_win_for_lowest_spent_mana
+from .shared import (
+    BattleState,
+    Character,
+    CharacterType,
+    find_win_for_lowest_spent_mana,
+    parse_character,
+)
 
 
 def calculate(text: str) -> int:

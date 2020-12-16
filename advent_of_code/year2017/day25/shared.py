@@ -1,11 +1,12 @@
 import re
+
 from enum import Enum
 from typing import Dict, NamedTuple, Tuple
 
 
 class MoveDirection(Enum):
-    LEFT = 'left'
-    RIGHT = 'right'
+    LEFT = "left"
+    RIGHT = "right"
 
 
 class Step(NamedTuple):
@@ -16,16 +17,16 @@ class Step(NamedTuple):
 
 State = Tuple[Step, Step]
 
-RE_INITIAL_STATE = re.compile(r'^Begin in state ([A-Z]).$')
-RE_DIAGNOSTIC_CHECKSUM = re.compile(r'^Perform a diagnostic checksum after (\d+) steps.$')
-RE_IN_STATE = re.compile(r'^In state ([A-Z]):$')
-RE_IF_CURRENT_VALUE = re.compile(r'^\s*If the current value is ([01]):$')
-RE_WRITE_VALUE = re.compile(r'^\s*- Write the value ([01]).$')
-RE_MOVE_SLOT = re.compile(r'^\s*- Move one slot to the (left|right).$')
-RE_CONTINUE_STATE = re.compile(r'^\s*- Continue with state ([A-Z]).$')
+RE_INITIAL_STATE = re.compile(r"^Begin in state ([A-Z]).$")
+RE_DIAGNOSTIC_CHECKSUM = re.compile(r"^Perform a diagnostic checksum after (\d+) steps.$")
+RE_IN_STATE = re.compile(r"^In state ([A-Z]):$")
+RE_IF_CURRENT_VALUE = re.compile(r"^\s*If the current value is ([01]):$")
+RE_WRITE_VALUE = re.compile(r"^\s*- Write the value ([01]).$")
+RE_MOVE_SLOT = re.compile(r"^\s*- Move one slot to the (left|right).$")
+RE_CONTINUE_STATE = re.compile(r"^\s*- Continue with state ([A-Z]).$")
 
 
-def parse_text(text: str) -> Tuple[int, 'TuringMachine']:
+def parse_text(text: str) -> Tuple[int, "TuringMachine"]:
     lines = text.splitlines()
 
     def match(regex):
@@ -48,11 +49,13 @@ def parse_text(text: str) -> Tuple[int, 'TuringMachine']:
             write_value = int(match(RE_WRITE_VALUE))
             slot_direction = MoveDirection(match(RE_MOVE_SLOT))
             next_state = match(RE_CONTINUE_STATE)
-            steps.append(Step(
-                write_value=write_value,
-                move_direction=slot_direction,
-                next_state=next_state
-            ))
+            steps.append(
+                Step(
+                    write_value=write_value,
+                    move_direction=slot_direction,
+                    next_state=next_state,
+                )
+            )
 
         states[state_name] = tuple(steps)
 
@@ -77,4 +80,4 @@ class TuringMachine(object):
         self.current_state = step.next_state
 
     def __repr__(self):
-        return f'TuringMachine(tape={self.tape}, cursor={self.cursor}, current_state={self.current_state})'
+        return f"TuringMachine(tape={self.tape}, cursor={self.cursor}, current_state={self.current_state})"

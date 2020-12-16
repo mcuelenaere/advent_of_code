@@ -30,5 +30,5 @@ assert validate_password("111122")
 
 
 def calculate(text: str) -> int:
-    start, stop = map(int, text.split('-'))
+    start, stop = map(int, text.split("-"))
     return sum(1 for password in range(start, stop) if validate_password(str(password)))

@@ -1,18 +1,20 @@
 import re
-from typing import Tuple, NamedTuple, Union, Iterator, Dict
 
-ISet = NamedTuple('ISet', dst_register=str, src=Union[int, str])
-ISub = NamedTuple('ISub', dst_register=str, src=Union[int, str])
-IMul = NamedTuple('IMul', dst_register=str, src=Union[int, str])
-IJnz = NamedTuple('IJnz', cnd=Union[int, str], jump_offset=int)
+from typing import Dict, Iterator, NamedTuple, Tuple, Union
+
+
+ISet = NamedTuple("ISet", dst_register=str, src=Union[int, str])
+ISub = NamedTuple("ISub", dst_register=str, src=Union[int, str])
+IMul = NamedTuple("IMul", dst_register=str, src=Union[int, str])
+IJnz = NamedTuple("IJnz", cnd=Union[int, str], jump_offset=int)
 Instruction = Union[ISet, ISub, IMul, IJnz]
 
 
 REGEXES = (
-    (re.compile(r'^set (?P<dst_register>[a-h]) (?P<src>(?:-?\d+|[a-h]))$'), ISet),
-    (re.compile(r'^sub (?P<dst_register>[a-h]) (?P<src>(?:-?\d+|[a-h]))$'), ISub),
-    (re.compile(r'^mul (?P<dst_register>[a-h]) (?P<src>(?:-?\d+|[a-h]))$'), IMul),
-    (re.compile(r'^jnz (?P<cnd>(?:-?\d+|[a-h])) (?P<jump_offset>-?\d+)$'), IJnz),
+    (re.compile(r"^set (?P<dst_register>[a-h]) (?P<src>(?:-?\d+|[a-h]))$"), ISet),
+    (re.compile(r"^sub (?P<dst_register>[a-h]) (?P<src>(?:-?\d+|[a-h]))$"), ISub),
+    (re.compile(r"^mul (?P<dst_register>[a-h]) (?P<src>(?:-?\d+|[a-h]))$"), IMul),
+    (re.compile(r"^jnz (?P<cnd>(?:-?\d+|[a-h])) (?P<jump_offset>-?\d+)$"), IJnz),
 )
 
 
@@ -43,7 +45,7 @@ class Coprocessor(object):
     def __init__(self, instructions: Tuple[Instruction, ...]):
         self.instructions = instructions
         self.instruction_offset = 0
-        self.registers = {chr(c): 0 for c in range(ord('a'), ord('h') + 1)}
+        self.registers = {chr(c): 0 for c in range(ord("a"), ord("h") + 1)}
 
     def _execute_instruction(self, instruction: Instruction):
         if isinstance(instruction, ISet):
@@ -62,7 +64,7 @@ class Coprocessor(object):
             cnd_value = instruction.cnd if isinstance(instruction.cnd, int) else self.registers[instruction.cnd]
             self.instruction_offset += instruction.jump_offset if cnd_value != 0 else 1
         else:
-            raise ValueError(f'Unknown instruction {instruction}')
+            raise ValueError(f"Unknown instruction {instruction}")
 
     def execute_step(self):
         self._execute_instruction(self.instructions[self.instruction_offset])
@@ -80,7 +82,7 @@ def aot_instructions(registers: Dict[str, int], instructions: Tuple[Instruction,
         b.inc_line_number()
 
     for instruction_number, instruction in enumerate(instructions):
-        b.emit_label(f'i_{instruction_number}')
+        b.emit_label(f"i_{instruction_number}")
         if isinstance(instruction, ISet):
             if isinstance(instruction.src, int):
                 b.emit_load_const(instruction.src)
@@ -110,15 +112,15 @@ def aot_instructions(registers: Dict[str, int], instructions: Tuple[Instruction,
                 b.emit_load_fast(instruction.cnd)
             b.emit_load_const(0)
             b.emit_compare_ne()
-            b.emit_pop_jump_if_true(f'i_{instruction_number + instruction.jump_offset}')
+            b.emit_pop_jump_if_true(f"i_{instruction_number + instruction.jump_offset}")
         else:
-            raise ValueError(f'Unknown instruction {instruction}')
+            raise ValueError(f"Unknown instruction {instruction}")
         b.inc_line_number()
 
-    b.emit_label(f'i_{len(instructions)}')
-    b.emit_load_global('locals')
+    b.emit_label(f"i_{len(instructions)}")
+    b.emit_load_global("locals")
     b.emit_call_function(0)
     b.emit_return_value()
     b.inc_line_number()
 
-    return b.make('f')
+    return b.make("f")

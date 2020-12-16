@@ -1,5 +1,7 @@
-from .shared import extract_image_layers, ImageLayer
 from typing import Tuple
+
+from .shared import ImageLayer, extract_image_layers
+
 
 COLOR_BLACK = 0
 COLOR_WHITE = 1
@@ -18,11 +20,14 @@ def composite_image(layers: Tuple[ImageLayer]) -> ImageLayer:
                 elif layer[y][x] == COLOR_TRANSPARANT:
                     pass  # do nothing
                 else:
-                    raise RuntimeError(f'Invalid color {layer[y][x]} at ({x},{y}) in layer {layer_idx}')
+                    raise RuntimeError(f"Invalid color {layer[y][x]} at ({x},{y}) in layer {layer_idx}")
     return tuple(tuple(line) for line in final_image)
 
 
-assert composite_image(tuple(extract_image_layers((0, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 2, 0, 0, 0, 0), 2, 2))) == ((0, 1), (1, 0))
+assert composite_image(tuple(extract_image_layers((0, 2, 2, 2, 1, 1, 2, 2, 2, 2, 1, 2, 0, 0, 0, 0), 2, 2))) == (
+    (0, 1),
+    (1, 0),
+)
 
 
 def calculate(text: str) -> str:

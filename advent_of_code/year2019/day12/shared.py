@@ -1,9 +1,11 @@
 import re
+
 from itertools import combinations
-from typing import List, Iterable, NamedTuple, Tuple
+from typing import Iterable, List, NamedTuple, Tuple
+
 
 Vector = List[int]
-RE_POSITION = re.compile(r'^\<x=(-?\d+), y=(-?\d+), z=(-?\d+)\>$')
+RE_POSITION = re.compile(r"^\<x=(-?\d+), y=(-?\d+), z=(-?\d+)\>$")
 
 
 class Moon(NamedTuple):

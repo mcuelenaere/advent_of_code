@@ -1,4 +1,4 @@
-from .shared import parse_assignment, calculate_winning_score
+from .shared import calculate_winning_score, parse_assignment
 
 
 def calculate(text: str) -> int:

@@ -1,4 +1,4 @@
-from .shared import parse_text, find_maximum_happiness
+from .shared import find_maximum_happiness, parse_text
 
 
 def calculate(text: str) -> int:

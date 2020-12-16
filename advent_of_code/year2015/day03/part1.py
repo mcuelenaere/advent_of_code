@@ -4,13 +4,13 @@ def calculate(text: str) -> int:
     pos = [0, 0]
     houses_visited.add(tuple(pos))
     for x in text:
-        if x == '>':
+        if x == ">":
             pos[0] += 1
-        elif x == '<':
+        elif x == "<":
             pos[0] -= 1
-        elif x == '^':
+        elif x == "^":
             pos[1] -= 1
-        elif x == 'v':
+        elif x == "v":
             pos[1] += 1
         houses_visited.add(tuple(pos))
 

@@ -1,4 +1,4 @@
-from .shared import parse_instructions, Cpu
+from .shared import Cpu, parse_instructions
 
 
 def calculate(text: str) -> int:

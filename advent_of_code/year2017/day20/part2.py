@@ -1,5 +1,6 @@
-from .shared import parse_text
 from collections import Counter
+
+from .shared import parse_text
 
 
 def calculate(text: str) -> int:

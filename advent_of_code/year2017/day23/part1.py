@@ -1,4 +1,4 @@
-from .shared import parse_instructions, Coprocessor, IMul
+from .shared import Coprocessor, IMul, parse_instructions
 
 
 def calculate(text: str) -> int:
@@ -11,4 +11,3 @@ def calculate(text: str) -> int:
             number_of_muls += 1
         cpu.execute_step()
     return number_of_muls
-

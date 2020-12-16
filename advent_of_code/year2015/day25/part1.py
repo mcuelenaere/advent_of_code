@@ -1,4 +1,5 @@
 from typing import Iterable, Tuple
+
 from .shared import parse_puzzle
 
 
@@ -34,6 +35,13 @@ def calculate(puzzle: str) -> int:
             return code
 
 
-assert calculate("To continue, please consult the code grid in the manual.  Enter the code at row 2, column 4.") == 7726640
-assert calculate("To continue, please consult the code grid in the manual.  Enter the code at row 5, column 4.") == 6899651
-assert calculate("To continue, please consult the code grid in the manual.  Enter the code at row 6, column 6.") == 27995004
+assert (
+    calculate("To continue, please consult the code grid in the manual.  Enter the code at row 2, column 4.") == 7726640
+)
+assert (
+    calculate("To continue, please consult the code grid in the manual.  Enter the code at row 5, column 4.") == 6899651
+)
+assert (
+    calculate("To continue, please consult the code grid in the manual.  Enter the code at row 6, column 6.")
+    == 27995004
+)

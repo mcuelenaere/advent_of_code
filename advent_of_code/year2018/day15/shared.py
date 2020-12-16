@@ -1,13 +1,14 @@
 from collections import deque
 from enum import Enum
-from typing import Set, NamedTuple, Tuple, Iterable, Optional
+from typing import Iterable, NamedTuple, Optional, Set, Tuple
+
 
 Position = Tuple[int, int]
 
 
 class CharacterType(Enum):
-    Elf = 'Elf'
-    Goblin = 'Goblin'
+    Elf = "Elf"
+    Goblin = "Goblin"
 
     @property
     def opponent(self):
@@ -35,9 +36,9 @@ class Character(NamedTuple):
 
     def __str__(self):
         if self.type == CharacterType.Elf:
-            return 'E'
+            return "E"
         elif self.type == CharacterType.Goblin:
-            return 'G'
+            return "G"
 
 
 class State(NamedTuple):
@@ -46,7 +47,7 @@ class State(NamedTuple):
 
     def tiles(self):
         d = {}
-        d.update((pos, '#') for pos in self.walls)
+        d.update((pos, "#") for pos in self.walls)
         d.update((char.position, str(char)) for char in self.characters)
         return d
 
@@ -56,8 +57,8 @@ class State(NamedTuple):
         max_y = max(y for _, y in tiles.keys())
         lines = []
         for y in range(max_y + 1):
-            lines.append(''.join(tiles.get((x, y), '.') for x in range(max_x + 1)))
-        return '\n'.join(lines)
+            lines.append("".join(tiles.get((x, y), ".") for x in range(max_x + 1)))
+        return "\n".join(lines)
 
 
 def parse_state(text: str, elf_attack_power: int = 3, goblin_attack_power: int = 3) -> State:
@@ -65,18 +66,20 @@ def parse_state(text: str, elf_attack_power: int = 3, goblin_attack_power: int =
     characters = list()
     for y, line in enumerate(text.splitlines()):
         for x, c in enumerate(line):
-            if c == '#':
+            if c == "#":
                 walls.add((x, y))
-            elif c == '.':
+            elif c == ".":
                 # ignore
                 pass
-            elif c in ('G', 'E'):
-                characters.append(Character(
-                    type=CharacterType.Goblin if c == 'G' else CharacterType.Elf,
-                    attack_power=goblin_attack_power if c == 'G' else elf_attack_power,
-                    hit_points=200,
-                    position=(x, y)
-                ))
+            elif c in ("G", "E"):
+                characters.append(
+                    Character(
+                        type=CharacterType.Goblin if c == "G" else CharacterType.Elf,
+                        attack_power=goblin_attack_power if c == "G" else elf_attack_power,
+                        hit_points=200,
+                        position=(x, y),
+                    )
+                )
     return State(walls=walls, characters=tuple(characters))
 
 
@@ -117,7 +120,7 @@ def shortest_path(start: Position, end: Position, blockages: Set[Position]) -> T
         if min_node == end:
             break
         elif min_node is None:
-            raise RuntimeError('no path found')
+            raise RuntimeError("no path found")
 
         nodes.remove(min_node)
         current_weight = visited[min_node]
@@ -176,7 +179,7 @@ def perform_move(character: Character, opponents: Iterable[Character], tiles: Se
             possible_positions.append(position)
 
     if has_opponent_in_range:
-        # don't move, we are already ready for combat
+        # don"t move, we are already ready for combat
         return None
 
     # determine the best target
@@ -200,30 +203,40 @@ def perform_move(character: Character, opponents: Iterable[Character], tiles: Se
 
 
 # test 1 for perform_move()
-_ = parse_state("""
+_ = parse_state(
+    """
 #######
 #E..G.#
 #...#.#
 #.G.#G#
-#######""".strip())
-assert perform_move(
-    next(c for c in _.characters if c.type == CharacterType.Elf),
-    tuple(c for c in _.characters if c.type == CharacterType.Goblin),
-    set(_.tiles().keys())
-).position == (2, 1)
+#######""".strip()
+)
+assert (
+    perform_move(
+        next(c for c in _.characters if c.type == CharacterType.Elf),
+        tuple(c for c in _.characters if c.type == CharacterType.Goblin),
+        set(_.tiles().keys()),
+    ).position
+    == (2, 1)
+)
 
 # test 2 for perform_move()
-_ = parse_state("""
+_ = parse_state(
+    """
 #######
 #.E...#
 #.....#
 #...G.#
-#######""".strip())
-assert perform_move(
-    next(c for c in _.characters if c.type == CharacterType.Elf),
-    tuple(c for c in _.characters if c.type == CharacterType.Goblin),
-    set(_.tiles().keys())
-).position == (3, 1)
+#######""".strip()
+)
+assert (
+    perform_move(
+        next(c for c in _.characters if c.type == CharacterType.Elf),
+        tuple(c for c in _.characters if c.type == CharacterType.Goblin),
+        set(_.tiles().keys()),
+    ).position
+    == (3, 1)
+)
 
 
 def find_attack_target(character: Character, opponents: Iterable[Character]) -> Optional[Character]:
@@ -292,7 +305,8 @@ def advance_state(state: State) -> Tuple[State, bool]:
 
 
 # test movement
-_ = parse_state("""
+_ = parse_state(
+    """
 #########
 #G..G..G#
 #.......#
@@ -301,9 +315,12 @@ _ = parse_state("""
 #.......#
 #.......#
 #G..G..G#
-#########""".strip())
+#########""".strip()
+)
 _ = advance_state(_)[0]
-assert str(_) == """
+assert (
+    str(_)
+    == """
 #########
 #.G...G.#
 #...G...#
@@ -313,8 +330,11 @@ assert str(_) == """
 #G..G..G#
 #.......#
 #########""".strip()
+)
 _ = advance_state(_)[0]
-assert str(_) == """
+assert (
+    str(_)
+    == """
 #########
 #..G.G..#
 #...G...#
@@ -324,8 +344,11 @@ assert str(_) == """
 #.......#
 #.......#
 #########""".strip()
+)
 _ = advance_state(_)[0]
-assert str(_) == """
+assert (
+    str(_)
+    == """
 #########
 #.......#
 #..GGG..#
@@ -335,16 +358,19 @@ assert str(_) == """
 #.......#
 #.......#
 #########""".strip()
+)
 
 # test attack
-_ = parse_state("""
-#######   
+_ = parse_state(
+    """
+#######
 #.G...#
 #...EG#
 #.#.#G#
 #..G#E#
 #.....#
-#######""".strip())
+#######""".strip()
+)
 _hp = lambda state: [f"{str(c)}({c.hit_points})" for c in sort_characters(state.characters)]
 
 _ = advance_state(_)[0]
@@ -369,29 +395,35 @@ for __ in range(19):
 assert _hp(_) == ["G(200)", "G(131)", "G(59)", "G(200)"]
 
 # testcases from https://www.reddit.com/r/adventofcode/comments/a6rhzw/help_need_help_with_day_15_part_1/ebxk3v5/
-_ = parse_state("""
+_ = parse_state(
+    """
 #######
 #######
 #.E..G#
 #.#####
 #G#####
 #######
-#######""".strip())
+#######""".strip()
+)
 _ = advance_state(_)[0]
 assert next(c for c in _.characters if c.type == CharacterType.Elf).position == (3, 2)
 
-_ = parse_state("""
+_ = parse_state(
+    """
 ####
 #GG#
 #.E#
-####""".strip())
+####""".strip()
+)
 _ = advance_state(_)[0]
 assert _hp(_) == ["G(197)", "G(200)", "E(194)"]
 
-_ = parse_state("""
+_ = parse_state(
+    """
 ########
 #..E..G#
 #G######
-########""".strip())
+########""".strip()
+)
 _ = advance_state(_)[0]
 assert next(c for c in _.characters if c.type == CharacterType.Elf).position == (2, 1)

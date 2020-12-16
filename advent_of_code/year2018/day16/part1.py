@@ -1,4 +1,4 @@
-from .shared import parse_puzzle, Cpu
+from .shared import Cpu, parse_puzzle
 
 
 def calculate(puzzle: str) -> int:
@@ -9,7 +9,11 @@ def calculate(puzzle: str) -> int:
         opcode_match_count = 0
         for op, fn in cpu.operations.items():
             cpu.registers = list(testcase.registers_before)
-            fn(testcase.instruction.input_a, testcase.instruction.input_b, testcase.instruction.output)
+            fn(
+                testcase.instruction.input_a,
+                testcase.instruction.input_b,
+                testcase.instruction.output,
+            )
             if tuple(cpu.registers) == testcase.registers_after:
                 opcode_match_count += 1
         if opcode_match_count >= 3:

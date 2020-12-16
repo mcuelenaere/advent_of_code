@@ -1,9 +1,10 @@
 from typing import Set, Tuple
 
+
 Seat = Tuple[int, int]
 
 
-def parse_map(text: str, search_character: str = 'L') -> Tuple[Set[Seat], Seat]:
+def parse_map(text: str, search_character: str = "L") -> Tuple[Set[Seat], Seat]:
     seats = set()
     max_x = 0
     for y, line in enumerate(text.splitlines()):
@@ -34,7 +35,13 @@ DIRECTIONS = (
 )
 
 
-def count_adjacent_seats(seat: Seat, available_seats: Set[Seat], occupied_seats: Set[Seat], max_position: Seat, enable_line_of_sight: bool):
+def count_adjacent_seats(
+    seat: Seat,
+    available_seats: Set[Seat],
+    occupied_seats: Set[Seat],
+    max_position: Seat,
+    enable_line_of_sight: bool,
+):
     count = 0
     for d_x, d_y in DIRECTIONS:
         if enable_line_of_sight:
@@ -71,7 +78,9 @@ def _test_count_adjacent_seats(text: str):
     return count_adjacent_seats(start_seat, seats, occupied_seats, max_pos, True)
 
 
-assert _test_count_adjacent_seats(""".......#.
+assert (
+    _test_count_adjacent_seats(
+        """.......#.
 ...#.....
 .#.......
 .........
@@ -79,20 +88,38 @@ assert _test_count_adjacent_seats(""".......#.
 ....#....
 .........
 #........
-...#.....""") == 8
-assert _test_count_adjacent_seats(""".............
+...#....."""
+    )
+    == 8
+)
+assert (
+    _test_count_adjacent_seats(
+        """.............
 .L.L.#.#.#.#.
-.............""") == 0
-assert _test_count_adjacent_seats(""".##.##.
+............."""
+    )
+    == 0
+)
+assert (
+    _test_count_adjacent_seats(
+        """.##.##.
 #.#.#.#
 ##...##
 ...L...
 ##...##
 #.#.#.#
-.##.##.""") == 0
+.##.##."""
+    )
+    == 0
+)
 
 
-def find_stable_state(seats: Set[Seat], max_position: Seat, enable_line_of_sight: bool, required_seat_count: int) -> Tuple[Set[Seat], Set[Seat]]:
+def find_stable_state(
+    seats: Set[Seat],
+    max_position: Seat,
+    enable_line_of_sight: bool,
+    required_seat_count: int,
+) -> Tuple[Set[Seat], Set[Seat]]:
     available_seats = seats.copy()
     occupied_seats = set()
 
@@ -101,7 +128,13 @@ def find_stable_state(seats: Set[Seat], max_position: Seat, enable_line_of_sight
         old_available_seats = available_seats.copy()
         old_occupied_seats = occupied_seats.copy()
         for seat in seats:
-            count = count_adjacent_seats(seat, old_available_seats, old_occupied_seats, max_position, enable_line_of_sight)
+            count = count_adjacent_seats(
+                seat,
+                old_available_seats,
+                old_occupied_seats,
+                max_position,
+                enable_line_of_sight,
+            )
             if seat not in old_occupied_seats and count == 0:
                 # seat becomes occupied
                 occupied_seats.add(seat)

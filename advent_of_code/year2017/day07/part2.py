@@ -1,5 +1,6 @@
-from .shared import parse_lines, find_root
 from collections import defaultdict
+
+from .shared import find_root, parse_lines
 
 
 def build_weight_map(lines):
@@ -41,7 +42,7 @@ def calculate(text: str) -> int:
             return weight_map[cur][0] - cur_diff
         else:
             cur = outlier_child
-            cur_diff = (outlier - standard)
+            cur_diff = outlier - standard
 
 
 puzzle = """

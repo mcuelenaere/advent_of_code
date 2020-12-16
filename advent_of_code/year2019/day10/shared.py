@@ -1,5 +1,6 @@
-from math import sqrt, pow
+from math import pow, sqrt
 from typing import Set, Tuple
+
 
 Point = Tuple[float, float]
 
@@ -8,7 +9,7 @@ def parse_asteroid_locations(text: str) -> Set[Point]:
     asteroid_locations = set()
     for y, line in enumerate(text.splitlines()):
         for x, letter in enumerate(line):
-            if letter != '#':
+            if letter != "#":
                 continue
             asteroid_locations.add((x, y))
     return asteroid_locations
@@ -56,7 +57,10 @@ def find_best_monitoring_station(asteroid_locations: Set[Point]) -> Tuple[Point,
         start, end = sorted([start, end])
         if (start, end) not in los_cache:
             asteroids_to_test = asteroid_locations - {start, end}
-            los_cache[(start, end)] = not any(is_point_between_points(start_asteroid, end_asteroid, test_asteroid) for test_asteroid in asteroids_to_test)
+            los_cache[(start, end)] = not any(
+                is_point_between_points(start_asteroid, end_asteroid, test_asteroid)
+                for test_asteroid in asteroids_to_test
+            )
         return los_cache[(start, end)]
 
     asteroid_counts = {}

@@ -1,4 +1,5 @@
 from itertools import chain
+
 from .shared import extract_image_layers
 
 

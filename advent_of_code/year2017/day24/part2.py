@@ -1,4 +1,4 @@
-from .shared import parse_text, create_combinations, calculate_bridge_strength
+from .shared import calculate_bridge_strength, create_combinations, parse_text
 
 
 def calculate(text: str) -> int:

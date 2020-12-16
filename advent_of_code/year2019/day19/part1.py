@@ -1,5 +1,6 @@
-from .shared import create_drone_querier
 from itertools import product
+
+from .shared import create_drone_querier
 
 
 def calculate(text: str) -> int:

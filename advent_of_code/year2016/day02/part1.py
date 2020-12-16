@@ -1,4 +1,5 @@
-from .shared import parse_directions, Coordinate, follow_directions
+from .shared import Coordinate, follow_directions, parse_directions
+
 
 KEYPAD = {
     Coordinate(0, 0): 1,
@@ -14,7 +15,7 @@ KEYPAD = {
 
 
 def calculate(text: str) -> int:
-    combination = ''
+    combination = ""
     directions_per_number = parse_directions(text)
     position = Coordinate(1, 1)  # start is 5
     for directions in directions_per_number:

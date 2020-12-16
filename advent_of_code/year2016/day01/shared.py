@@ -1,28 +1,28 @@
 from enum import Enum
-from typing import NamedTuple, Tuple, Iterable
+from typing import Iterable, NamedTuple, Tuple
 
 
 class Rotation(Enum):
-    Left = 'L'
-    Right = 'R'
+    Left = "L"
+    Right = "R"
 
 
 class Cardinal(Enum):
-    North = 'N'
-    East = 'E'
-    South = 'S'
-    West = 'W'
+    North = "N"
+    East = "E"
+    South = "S"
+    West = "W"
 
 
-Direction = NamedTuple('Direction', rotation=Rotation, blocks=int)
+Direction = NamedTuple("Direction", rotation=Rotation, blocks=int)
 
 
 def parse_path(text: str):
     for part in text.split(", "):
         rotation, blocks = part[:1], part[1:]
         yield Direction(
-            rotation=Rotation.Left if rotation == 'L' else Rotation.Right,
-            blocks=int(blocks)
+            rotation=Rotation.Left if rotation == "L" else Rotation.Right,
+            blocks=int(blocks),
         )
 
 

@@ -1,21 +1,21 @@
-from typing import Sequence, Iterable, Tuple
+from typing import Iterable, Sequence, Tuple
 
 
 class Action(object):
-    North = 'N'
-    South = 'S'
-    East = 'E'
-    West = 'W'
-    Left = 'L'
-    Right = 'R'
-    Forward = 'F'
+    North = "N"
+    South = "S"
+    East = "E"
+    West = "W"
+    Left = "L"
+    Right = "R"
+    Forward = "F"
 
 
 DIRECTION_MAP = {
     Action.North: (0, 1),
     Action.East: (1, 0),
     Action.South: (0, -1),
-    Action.West: (-1, 0)
+    Action.West: (-1, 0),
 }
 
 

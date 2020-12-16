@@ -1,10 +1,11 @@
-from .shared import Moon, parse_vectors, simulate_universe
 from math import gcd
+
+from .shared import Moon, parse_vectors, simulate_universe
 
 
 def lcm(a, b):
     # https://stackoverflow.com/a/51716959
-    return abs(a*b) // gcd(a, b)
+    return abs(a * b) // gcd(a, b)
 
 
 def calculate(text: str) -> int:

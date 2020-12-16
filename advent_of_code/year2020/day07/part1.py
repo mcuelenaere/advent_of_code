@@ -1,5 +1,6 @@
-from .shared import parse_rules
 from collections import defaultdict, deque
+
+from .shared import parse_rules
 
 
 def calculate(text: str):

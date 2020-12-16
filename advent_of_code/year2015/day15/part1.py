@@ -1,5 +1,6 @@
-from .shared import parse_text, calculate_score
 from itertools import permutations
+
+from .shared import calculate_score, parse_text
 
 
 def calculate(text: str) -> int:
@@ -7,7 +8,7 @@ def calculate(text: str) -> int:
 
     # remove calories from recipy
     for x in recipy.values():
-        del x['calories']
+        del x["calories"]
 
     # bruteforce all weight combinations
     possible_weights = (w for w in permutations(range(101), len(recipy)) if sum(w) == 100)

@@ -1,5 +1,6 @@
-from .shared import build_tree, Tree, TreeNode
 from typing import Iterable
+
+from .shared import Tree, TreeNode, build_tree
 
 
 def walk_tree(tree: Tree) -> Iterable[TreeNode]:
@@ -21,7 +22,7 @@ def walk_tree(tree: Tree) -> Iterable[TreeNode]:
 
 def calculate(text: str) -> str:
     tree = build_tree(text)
-    return ''.join(node.name for node in walk_tree(tree))
+    return "".join(node.name for node in walk_tree(tree))
 
 
 puzzle = """

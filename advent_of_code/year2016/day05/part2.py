@@ -2,7 +2,7 @@ from hashlib import md5
 
 
 def calculate(text: str) -> str:
-    password = ['_'] * 8
+    password = ["_"] * 8
     found = 0
     index = 0
     while found < 8:
@@ -13,14 +13,14 @@ def calculate(text: str) -> str:
 
         position = int(digest[5], 16)
         char = digest[6]
-        if position > 7 or password[position] != '_':
+        if position > 7 or password[position] != "_":
             # invalid position, skip
             continue
 
         password[position] = char
         found += 1
 
-    return ''.join(password)
+    return "".join(password)
 
 
 assert calculate("abc") == "05ace8e3"

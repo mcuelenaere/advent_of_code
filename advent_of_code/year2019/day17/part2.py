@@ -1,6 +1,7 @@
-from .shared import walk_path, compress_path, ConfigurableVacuumRobot
 from collections import defaultdict
 from typing import Tuple
+
+from .shared import ConfigurableVacuumRobot, compress_path, walk_path
 
 
 def build_functions(path: Tuple[str]):
@@ -9,7 +10,7 @@ def build_functions(path: Tuple[str]):
     for n in range(2, min(len(path), 20) + 1):
         for offset in range(0, n + 1):
             for i in range(offset, len(path), n):
-                freq_table[path[i:i + n]].add(i)
+                freq_table[path[i : i + n]].add(i)
 
     # build inverse table
     inverse_table = defaultdict(set)
@@ -17,7 +18,7 @@ def build_functions(path: Tuple[str]):
         if len(indices) == 1:
             continue
         for index in indices:
-            if path[index:index + len(key)] != key:
+            if path[index : index + len(key)] != key:
                 continue
             inverse_table[index].add(key)
 
@@ -42,7 +43,7 @@ def build_functions(path: Tuple[str]):
     # pick first solution and convert it to a better format
     assert len(solutions) > 0
     parts = solutions[0]
-    functions = dict(zip('ABC', set(parts)))
+    functions = dict(zip("ABC", set(parts)))
     routine = tuple(next(name for name, fn in functions.items() if fn == fn_to_find) for fn_to_find in parts)
     return functions, routine
 

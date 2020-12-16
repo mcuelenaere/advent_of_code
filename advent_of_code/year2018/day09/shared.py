@@ -1,7 +1,9 @@
 import re
-from typing import Tuple, Any, Optional
 
-RE_ASSIGNMENT = re.compile(r'^(\d+) players; last marble is worth (\d+) points$')
+from typing import Any, Optional, Tuple
+
+
+RE_ASSIGNMENT = re.compile(r"^(\d+) players; last marble is worth (\d+) points$")
 
 
 def parse_assignment(text: str) -> Tuple[int, int]:
@@ -11,11 +13,11 @@ def parse_assignment(text: str) -> Tuple[int, int]:
 
 
 class Marble(object):
-    next: Optional['Marble']
-    prev: Optional['Marble']
+    next: Optional["Marble"]
+    prev: Optional["Marble"]
     val: Any
 
-    def __init__(self, prev: Optional['Marble'], next: Optional['Marble'], val: Any):
+    def __init__(self, prev: Optional["Marble"], next: Optional["Marble"], val: Any):
         self.prev = prev
         self.next = next
         self.val = val
@@ -23,7 +25,7 @@ class Marble(object):
     def __repr__(self):
         prev_val = self.prev.val if self.prev else None
         next_val = self.next.val if self.next else None
-        return f'Marble(prev={prev_val}, next={next_val}, val={self.val})'
+        return f"Marble(prev={prev_val}, next={next_val}, val={self.val})"
 
 
 def list_marbles(first: Marble):

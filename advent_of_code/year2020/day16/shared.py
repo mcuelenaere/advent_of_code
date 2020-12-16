@@ -1,7 +1,9 @@
 import re
-from typing import Tuple, List, NamedTuple
 
-RE_RULE = re.compile(r'^([\w\s]+): (\d+)-(\d+) or (\d+)-(\d+)$')
+from typing import List, NamedTuple, Tuple
+
+
+RE_RULE = re.compile(r"^([\w\s]+): (\d+)-(\d+) or (\d+)-(\d+)$")
 
 Ticket = Tuple[int, ...]
 
@@ -22,13 +24,13 @@ def parse_data(text: str) -> Tuple[List[Rule], Ticket, List[Ticket]]:
     nearby_tickets = []
     part = 1
     for line in text.splitlines():
-        if line == 'your ticket:':
+        if line == "your ticket:":
             part = 2
             continue
-        elif line == 'nearby tickets:':
+        elif line == "nearby tickets:":
             part = 3
             continue
-        elif line == '':
+        elif line == "":
             continue
 
         if part == 1:
@@ -40,11 +42,11 @@ def parse_data(text: str) -> Tuple[List[Rule], Ticket, List[Ticket]]:
                     bounds=(
                         Bounds(int(m.group(2)), int(m.group(3))),
                         Bounds(int(m.group(4)), int(m.group(5))),
-                    )
+                    ),
                 )
             )
         elif part == 2:
-            your_ticket = tuple(map(int, line.split(',')))
+            your_ticket = tuple(map(int, line.split(",")))
         elif part == 3:
-            nearby_tickets.append(tuple(map(int, line.split(','))))
+            nearby_tickets.append(tuple(map(int, line.split(","))))
     return rules, your_ticket, nearby_tickets

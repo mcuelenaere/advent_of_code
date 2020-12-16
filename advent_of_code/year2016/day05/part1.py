@@ -2,7 +2,7 @@ from hashlib import md5
 
 
 def calculate(text: str) -> str:
-    password = ''
+    password = ""
     index = 0
     while len(password) < 8:
         digest = ""

@@ -1,6 +1,8 @@
-from ..day05.shared import streaming_evaluate, parse_instructions
 from collections import deque
-from typing import Tuple, Set
+from typing import Set, Tuple
+
+from ..day05.shared import parse_instructions, streaming_evaluate
+
 
 STATUS_HIT_WALL = 0
 STATUS_MOVED_STEP = 1
@@ -76,7 +78,7 @@ def discover_map(text: str) -> Tuple[Set[Position], Position]:
                 visited_places.add((x, y))
                 visited_path.append((x, y))
             else:
-                raise RuntimeError(f'unknown statuscode {status}')
+                raise RuntimeError(f"unknown statuscode {status}")
         except StopIteration:
             break
 
@@ -115,7 +117,7 @@ def shortest_path(start: Position, end: Position, walls: Set[Position]) -> Tuple
         if min_node == end:
             break
         elif min_node is None:
-            raise RuntimeError('no path found')
+            raise RuntimeError("no path found")
 
         nodes.remove(min_node)
         current_weight = visited[min_node]
@@ -164,5 +166,19 @@ def flood_region(walls: Set[Position], start: Position):
     return iterations
 
 
-_ = {(1, 0), (2, 0), (0, 1), (3, 1), (4, 1), (0, 2), (2, 2), (5, 2), (0, 3), (4, 3), (1, 4), (2, 4), (3, 4)}
+_ = {
+    (1, 0),
+    (2, 0),
+    (0, 1),
+    (3, 1),
+    (4, 1),
+    (0, 2),
+    (2, 2),
+    (5, 2),
+    (0, 3),
+    (4, 3),
+    (1, 4),
+    (2, 4),
+    (3, 4),
+}
 assert flood_region(_, (2, 3)) == 4

@@ -1,5 +1,6 @@
-from .shared import create_drone_querier, DroneQuerier
 from itertools import product
+
+from .shared import DroneQuerier, create_drone_querier
 
 
 def iterate_tractor_beam_bounds(query_drone: DroneQuerier):

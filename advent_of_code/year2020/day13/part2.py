@@ -1,6 +1,7 @@
-from .shared import parse_schedule
 from functools import reduce
-from typing import Tuple, Iterable
+from typing import Iterable, Tuple
+
+from .shared import parse_schedule
 
 
 def mult(iterable: Iterable[int]) -> int:
@@ -19,7 +20,7 @@ def egcd(a: int, b: int) -> Tuple[int, int, int]:
 def modinv(a: int, m: int) -> int:
     g, x, y = egcd(a, m)
     if g != 1:
-        raise RuntimeError('modular inverse does not exist')
+        raise RuntimeError("modular inverse does not exist")
     else:
         return x % m
 

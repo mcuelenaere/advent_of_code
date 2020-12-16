@@ -1,5 +1,6 @@
-from .shared import parse_puzzle, simulate_step
 from itertools import chain
+
+from .shared import parse_puzzle, simulate_step
 
 
 def calculate(text: str, number_of_steps: int = 100) -> int:

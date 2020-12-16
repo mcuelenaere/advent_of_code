@@ -1,5 +1,6 @@
-from .shared import calculate_rows, walk_as_grid
 from typing import Dict, Optional, Tuple
+
+from .shared import calculate_rows, walk_as_grid
 
 
 def flood_grid(grid: Dict[Tuple[int, int], Optional[int]], x: int, y: int, colour: int):
@@ -35,4 +36,4 @@ def calculate(text: str) -> int:
     return len(set(grid.values()))
 
 
-assert calculate('flqrgnkx') == 1242
+assert calculate("flqrgnkx") == 1242

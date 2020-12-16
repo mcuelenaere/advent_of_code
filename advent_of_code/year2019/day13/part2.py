@@ -1,4 +1,5 @@
-from ..day05.shared import streaming_evaluate, parse_instructions
+from ..day05.shared import parse_instructions, streaming_evaluate
+
 
 JOYSTICK_LEFT = -1
 JOYSTICK_RIGHT = 1
@@ -11,11 +12,11 @@ TILE_HORIZONTAL_PADDLE = 3
 TILE_BALL = 4
 
 TILE_MAPPING = {
-    TILE_EMPTY: ' ',
-    TILE_WALL: '\u2588',
-    TILE_BLOCK: '\u2591',
-    TILE_HORIZONTAL_PADDLE: '\u2501',
-    TILE_BALL: '\u26AB',
+    TILE_EMPTY: " ",
+    TILE_WALL: "\u2588",
+    TILE_BLOCK: "\u2591",
+    TILE_HORIZONTAL_PADDLE: "\u2501",
+    TILE_BALL: "\u26AB",
 }
 
 
@@ -52,12 +53,12 @@ class Program(object):
         max_x = max(x for x, y in self.tiles.keys())
         max_y = max(y for x, y in self.tiles.keys())
         for y in range(max_y + 1):
-            print(''.join(TILE_MAPPING[self.tiles[(x, y)]] for x in range(max_x + 1)))
+            print("".join(TILE_MAPPING[self.tiles[(x, y)]] for x in range(max_x + 1)))
 
 
 def predict_ball_x_position(prev, cur, paddle):
     if prev is None:
-        prev = (cur[0]-1, cur[1]-1)
+        prev = (cur[0] - 1, cur[1] - 1)
 
     if prev[0] == cur[0]:
         # ball is moving down vertically
@@ -67,7 +68,7 @@ def predict_ball_x_position(prev, cur, paddle):
     elif prev[0] == cur[0] + 1:
         return cur[0] - (paddle[1] - cur[1])
     else:
-        raise RuntimeError('edgecase, I do not know how to handle this')
+        raise RuntimeError("edgecase, I do not know how to handle this")
 
 
 def calculate(text: str) -> int:

@@ -12,29 +12,29 @@ def calculate(lines: str) -> int:
     def parse_wire(wire: str, id: str):
         cur_x = 0
         cur_y = 0
-        for objective in wire.split(','):
+        for objective in wire.split(","):
             direction = objective[0]
             distance = int(objective[1:])
-            if direction == 'R':
+            if direction == "R":
                 for x in range(cur_x, cur_x + distance):
                     path[(x, cur_y)].add(id)
                 cur_x += distance
-            elif direction == 'L':
+            elif direction == "L":
                 for x in range(cur_x, cur_x - distance, -1):
                     path[(x, cur_y)].add(id)
                 cur_x -= distance
-            elif direction == 'U':
+            elif direction == "U":
                 for y in range(cur_y, cur_y - distance, -1):
                     path[(cur_x, y)].add(id)
                 cur_y -= distance
-            elif direction == 'D':
+            elif direction == "D":
                 for y in range(cur_y, cur_y + distance):
                     path[(cur_x, y)].add(id)
                 cur_y += distance
 
     first_wire, second_wire = lines.split()
-    parse_wire(first_wire, id='A')
-    parse_wire(second_wire, id='B')
+    parse_wire(first_wire, id="A")
+    parse_wire(second_wire, id="B")
 
     return min(manhattan_distance((0, 0), k) for k, v in path.items() if len(v) > 1 and k != (0, 0))
 

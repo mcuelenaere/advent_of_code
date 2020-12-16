@@ -1,12 +1,12 @@
 from collections import Counter
 from functools import reduce
-from typing import Iterator, Tuple, Dict, Iterable
+from typing import Dict, Iterable, Iterator, Tuple
 
 
 def parse_text(text: str) -> Iterator[Tuple[str, Dict[str, int]]]:
     for line in text.splitlines():
-        name, properties = line.split(': ')
-        properties = {p.split(' ')[0]: int(p.split(' ')[1]) for p in properties.split(', ')}
+        name, properties = line.split(": ")
+        properties = {p.split(" ")[0]: int(p.split(" ")[1]) for p in properties.split(", ")}
         yield name, properties
 
 

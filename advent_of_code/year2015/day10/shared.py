@@ -7,7 +7,7 @@ def look_and_say(text: str) -> str:
         while i + 1 < len(text) and text[i + 1] == char:
             counter += 1
             i += 1
-        out += f'{counter}{char}'
+        out += f"{counter}{char}"
         i += 1
     return out
 

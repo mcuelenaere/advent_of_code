@@ -1,7 +1,9 @@
 import re
+
 from typing import Iterable, NamedTuple, Tuple
 
-RE_LIGHT = re.compile(r'^(turn on|turn off|toggle) (\d+),(\d+) through (\d+),(\d+)$')
+
+RE_LIGHT = re.compile(r"^(turn on|turn off|toggle) (\d+),(\d+) through (\d+),(\d+)$")
 MAX_SIZE = 1000
 
 

@@ -1,6 +1,7 @@
-from .shared import parse_data
 from collections import defaultdict
 from functools import reduce
+
+from .shared import parse_data
 
 
 def calculate(text: str) -> int:
@@ -24,8 +25,10 @@ def calculate(text: str) -> int:
     for rule in rules:
         bounds = rule.bounds
         for i in range(len(rules)):
-            is_valid = all(bounds[0].min <= ticket[i] <= bounds[0].max or
-                           bounds[1].min <= ticket[i] <= bounds[1].max for ticket in valid_tickets)
+            is_valid = all(
+                bounds[0].min <= ticket[i] <= bounds[0].max or bounds[1].min <= ticket[i] <= bounds[1].max
+                for ticket in valid_tickets
+            )
             if is_valid:
                 applicable_rules[i].add(rule)
 
@@ -39,6 +42,8 @@ def calculate(text: str) -> int:
     ordered_rules = {idx: next(iter(rules)) for idx, rules in applicable_rules.items()}
 
     # multiply departure fields
-    departure_fields = tuple(your_ticket[idx] for idx, rule in ordered_rules.items() if rule.name.startswith('departure'))
+    departure_fields = tuple(
+        your_ticket[idx] for idx, rule in ordered_rules.items() if rule.name.startswith("departure")
+    )
     assert len(departure_fields) == 6
     return reduce(lambda x, y: x * y, departure_fields)

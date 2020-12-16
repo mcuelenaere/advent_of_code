@@ -7,9 +7,9 @@ def decode_seat_id(text: str) -> int:
     min_row = 0
     max_row = 127
     for char in text[:7]:
-        if char == 'F':
+        if char == "F":
             max_row = math.floor((min_row + max_row) / 2)
-        elif char == 'B':
+        elif char == "B":
             min_row = math.ceil((min_row + max_row) / 2)
         else:
             raise AssertionError("Expected F or B")
@@ -18,9 +18,9 @@ def decode_seat_id(text: str) -> int:
     min_column = 0
     max_column = 7
     for char in text[7:10]:
-        if char == 'L':
+        if char == "L":
             max_column = math.floor((min_column + max_column) / 2)
-        elif char == 'R':
+        elif char == "R":
             min_column = math.ceil((min_column + max_column) / 2)
         else:
             raise AssertionError("Expected R or L")

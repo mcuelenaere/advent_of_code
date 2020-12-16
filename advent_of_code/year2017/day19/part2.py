@@ -7,11 +7,13 @@ def calculate(text: str) -> int:
 
 
 puzzle = """
-     |          
-     |  +--+    
-     A  |  C    
- F---|----E|--+ 
-     |  |  |  D 
-     +B-+  +--+ 
-""".strip("\n")
+     |
+     |  +--+
+     A  |  C
+ F---|----E|--+
+     |  |  |  D
+     +B-+  +--+
+""".strip(
+    "\n"
+)
 assert calculate(puzzle) == 38

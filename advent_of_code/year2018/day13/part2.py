@@ -1,4 +1,4 @@
-from .shared import parse_track, advance_carts, find_crashes
+from .shared import advance_carts, find_crashes, parse_track
 
 
 def calculate(text: str) -> str:
@@ -12,12 +12,12 @@ def calculate(text: str) -> str:
         carts = tuple(c for c in track.carts if (c.x, c.y) not in crashes)
         track = track._replace(carts=carts)
 
-    return f'{track.carts[0].x},{track.carts[0].y}'
+    return f"{track.carts[0].x},{track.carts[0].y}"
 
 
 puzzle = r"""
-/>-<\  
-|   |  
+/>-<\
+|   |
 | /<+-\
 | | | v
 \>+</ |

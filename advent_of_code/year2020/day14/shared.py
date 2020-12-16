@@ -1,5 +1,7 @@
 import re
-from typing import NamedTuple, Tuple, Union, Iterable
+
+from typing import Iterable, NamedTuple, Tuple, Union
+
 
 RE_BITMASK = re.compile(r"^mask = ([X\d]+)$")
 RE_MEM = re.compile(r"^mem\[(\d+)\] = (\d+)$")

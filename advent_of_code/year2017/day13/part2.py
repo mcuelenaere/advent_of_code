@@ -1,4 +1,4 @@
-from .shared import parse, Firewall
+from .shared import Firewall, parse
 
 
 def try_combination(firewall: Firewall, delay: int) -> bool:

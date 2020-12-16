@@ -1,11 +1,13 @@
 import operator
 import re
+
 from typing import Iterable, NamedTuple, Union
 
-RE_ASSIGN_NUMBER = re.compile(r'^(\d+) -> ([a-z]+)$')
-RE_ASSIGN_WIRE = re.compile(r'^([a-z]+) -> ([a-z]+)$')
-RE_BINARY_OPERATOR = re.compile(r'^(\w+) (AND|OR|LSHIFT|RSHIFT) (\w+) -> ([a-z]+)$')
-RE_COMPLEMENT_OPERATOR = re.compile(r'^NOT ([a-z]+) -> ([a-z]+)$')
+
+RE_ASSIGN_NUMBER = re.compile(r"^(\d+) -> ([a-z]+)$")
+RE_ASSIGN_WIRE = re.compile(r"^([a-z]+) -> ([a-z]+)$")
+RE_BINARY_OPERATOR = re.compile(r"^(\w+) (AND|OR|LSHIFT|RSHIFT) (\w+) -> ([a-z]+)$")
+RE_COMPLEMENT_OPERATOR = re.compile(r"^NOT ([a-z]+) -> ([a-z]+)$")
 
 
 class AssignNumber(NamedTuple):
@@ -51,7 +53,7 @@ def parse_lines(lines: Iterable[str]) -> Iterable[Gate]:
                 left=int(m.group(1)) if m.group(1).isnumeric() else m.group(1),
                 operator=m.group(2),
                 right=int(m.group(3)) if m.group(3).isnumeric() else m.group(3),
-                sink=m.group(4)
+                sink=m.group(4),
             )
             continue
 
@@ -65,10 +67,10 @@ def parse_lines(lines: Iterable[str]) -> Iterable[Gate]:
 
 class Circuit(object):
     BINARY_OPERATORS = {
-        'AND': operator.and_,
-        'OR': operator.or_,
-        'LSHIFT': operator.lshift,
-        'RSHIFT': operator.rshift,
+        "AND": operator.and_,
+        "OR": operator.or_,
+        "LSHIFT": operator.lshift,
+        "RSHIFT": operator.rshift,
     }
 
     def __init__(self):
@@ -83,7 +85,7 @@ class Circuit(object):
         elif isinstance(gate, BinaryOperator):
             self.wires[gate.sink] = lambda: self.BINARY_OPERATORS[gate.operator](
                 self.get_wire_value(gate.left) if isinstance(gate.left, str) else gate.left,
-                self.get_wire_value(gate.right) if isinstance(gate.right, str) else gate.right
+                self.get_wire_value(gate.right) if isinstance(gate.right, str) else gate.right,
             )
         elif isinstance(gate, ComplementOperator):
             self.wires[gate.sink] = lambda: ~self.get_wire_value(gate.operand) % 0xFFFF + 1

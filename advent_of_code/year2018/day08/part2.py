@@ -1,4 +1,4 @@
-from .shared import parse_tree, Node
+from .shared import Node, parse_tree
 
 
 def calculate_node_value(node: Node) -> int:

@@ -1,4 +1,4 @@
-from .shared import parse_instructions, is_real_room
+from .shared import is_real_room, parse_instructions
 
 
 def calculate(text: str) -> int:

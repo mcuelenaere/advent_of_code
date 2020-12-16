@@ -1,7 +1,7 @@
 import re
 
 
-RE_DISC_LINE = re.compile(r'(\w+) \((\d+)\)(?: -> ([\w, ]+))?')
+RE_DISC_LINE = re.compile(r"(\w+) \((\d+)\)(?: -> ([\w, ]+))?")
 
 
 def parse_lines(lines):
@@ -10,7 +10,7 @@ def parse_lines(lines):
         if m is not None:
             parent = m.group(1)
             weight = int(m.group(2))
-            children = m.group(3).split(', ') if m.group(3) else []
+            children = m.group(3).split(", ") if m.group(3) else []
             yield parent, weight, children
 
 

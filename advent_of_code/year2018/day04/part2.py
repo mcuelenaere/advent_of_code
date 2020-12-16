@@ -1,4 +1,5 @@
 from collections import defaultdict
+
 from .shared import parse_logs
 
 
@@ -13,7 +14,9 @@ def calculate(text: str) -> int:
                 asleep_minutes[(shift.guard_id, time.minute)] += 1
 
     return next(
-        guard_id * minute for (guard_id, minute), count in asleep_minutes.items() if count == max(asleep_minutes.values())
+        guard_id * minute
+        for (guard_id, minute), count in asleep_minutes.items()
+        if count == max(asleep_minutes.values())
     )
 
 

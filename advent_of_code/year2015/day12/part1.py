@@ -11,7 +11,7 @@ def walk(item) -> int:
     elif isinstance(item, str):
         return 0
     else:
-        raise ValueError(f'Unknown type {type(item)}: {item}')
+        raise ValueError(f"Unknown type {type(item)}: {item}")
 
 
 def calculate(text: str) -> int:

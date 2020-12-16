@@ -1,9 +1,9 @@
-from .shared import minimum_ore, parse_reactions, Quantity
+from .shared import Quantity, minimum_ore, parse_reactions
 
 
 def calculate(text: str) -> int:
     reactions = tuple(parse_reactions(text))
-    return minimum_ore(reactions, Quantity('FUEL', 1))
+    return minimum_ore(reactions, Quantity("FUEL", 1))
 
 
 puzzle = """10 ORE => 10 A

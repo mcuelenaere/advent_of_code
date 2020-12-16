@@ -1,5 +1,7 @@
 import re
+
 from typing import Tuple
+
 
 RE_PASSWORD_LINE = re.compile(r"^(\d+)-(\d+) (\w): (\w+)$")
 

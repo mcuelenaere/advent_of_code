@@ -1,5 +1,6 @@
-from .shared import parse_answer_groups
 from itertools import chain
+
+from .shared import parse_answer_groups
 
 
 def calculate(text: str) -> int:

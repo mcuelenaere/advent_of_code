@@ -1,8 +1,9 @@
 import re
 
+
 RE_NICE = (
-    re.compile(r'^.*([a-z])([a-z])(?!\2).*\1\2.*$'),
-    re.compile(r'^.*([a-z])[a-z]\1.*$'),
+    re.compile(r"^.*([a-z])([a-z])(?!\2).*\1\2.*$"),
+    re.compile(r"^.*([a-z])[a-z]\1.*$"),
 )
 
 

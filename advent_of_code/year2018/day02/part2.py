@@ -13,9 +13,9 @@ def calculate(text: str) -> str:
 
             if hamming_distance(box1, box2) == 1:
                 # found the correct boxes, determine the common characters
-                return ''.join(a for a, b in zip(box1, box2) if a == b)
+                return "".join(a for a, b in zip(box1, box2) if a == b)
 
-    raise RuntimeError('Could not find boxes with hamming distance == 1')
+    raise RuntimeError("Could not find boxes with hamming distance == 1")
 
 
 puzzle = """
@@ -27,4 +27,4 @@ fguij
 axcye
 wvxyz
 """.strip()
-assert calculate(puzzle) == 'fgij'
+assert calculate(puzzle) == "fgij"

@@ -1,4 +1,10 @@
-from .shared import parse_lumber_area, advance_lumber_area, freq_count, ACRE_TREE, ACRE_LUMBERYARD
+from .shared import (
+    ACRE_LUMBERYARD,
+    ACRE_TREE,
+    advance_lumber_area,
+    freq_count,
+    parse_lumber_area,
+)
 
 
 def calculate(text: str) -> int:

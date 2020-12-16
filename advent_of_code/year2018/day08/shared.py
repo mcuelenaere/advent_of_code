@@ -1,17 +1,18 @@
-from typing import NamedTuple, List
+from typing import List, NamedTuple
 
-Node = NamedTuple('Node', children=List['Node'], metadata_entries=List[int])
+
+Node = NamedTuple("Node", children=List["Node"], metadata_entries=List[int])
 
 
 def parse_tree(text: str) -> Node:
-    items = tuple(int(x) for x in text.split(' '))
+    items = tuple(int(x) for x in text.split(" "))
 
     root = None
     parents = []
     i = 0
     while i < len(items):
         child_node_count = items[i]
-        metadata_count = items[i+1]
+        metadata_count = items[i + 1]
         assert child_node_count >= 0
         assert metadata_count >= 0
         i += 2
@@ -35,7 +36,7 @@ def parse_tree(text: str) -> Node:
         # check if we need to parse parent's metadata entries
         while len(parents) > 0 and parents[-1][1] == 0:
             parent_node, _, parent_metadata_count = parents.pop()
-            parent_node.metadata_entries.extend(items[i:i + parent_metadata_count])
+            parent_node.metadata_entries.extend(items[i : i + parent_metadata_count])
             i += parent_metadata_count
 
     return root

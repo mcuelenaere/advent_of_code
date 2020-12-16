@@ -1,4 +1,4 @@
-from typing import Dict, Optional, Iterable
+from typing import Dict, Iterable, Optional
 
 
 class Firewall(object):
@@ -37,6 +37,6 @@ class Firewall(object):
 
 
 def parse(text: str) -> Firewall:
-    lines = (line.split(':') for line in text.splitlines())
+    lines = (line.split(":") for line in text.splitlines())
     depths = {int(k): int(v) for k, v in lines}
     return Firewall(depths)

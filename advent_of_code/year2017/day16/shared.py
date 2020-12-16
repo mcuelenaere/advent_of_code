@@ -1,19 +1,21 @@
 import re
-from typing import NamedTuple, Union, Iterator, Iterable
 
-RE_SPIN = re.compile(r'^s(\d+)$')
-RE_EXCHANGE = re.compile(r'^x(\d+)/(\d+)$')
-RE_PARTNER = re.compile(r'^p([a-z])/([a-z])$')
+from typing import Iterable, Iterator, NamedTuple, Union
 
 
-Spin = NamedTuple('Spin', amount=int)
-Exchange = NamedTuple('Exchange', left_position=int, right_position=int)
-Partner = NamedTuple('Partner', left_name=str, right_name=str)
+RE_SPIN = re.compile(r"^s(\d+)$")
+RE_EXCHANGE = re.compile(r"^x(\d+)/(\d+)$")
+RE_PARTNER = re.compile(r"^p([a-z])/([a-z])$")
+
+
+Spin = NamedTuple("Spin", amount=int)
+Exchange = NamedTuple("Exchange", left_position=int, right_position=int)
+Partner = NamedTuple("Partner", left_name=str, right_name=str)
 Operation = Union[Spin, Exchange, Partner]
 
 
 def parse_text(text: str) -> Iterator[Operation]:
-    for line in text.split(','):
+    for line in text.split(","):
         m = RE_SPIN.match(line)
         if m:
             yield Spin(amount=int(m.group(1)))
@@ -41,19 +43,19 @@ class Program(object):
 
     def execute_operation(self, operation: Operation):
         if isinstance(operation, Spin):
-            self.programs = self.programs[-operation.amount:] + self.programs[:-operation.amount]
+            self.programs = self.programs[-operation.amount :] + self.programs[: -operation.amount]
         elif isinstance(operation, Exchange):
             self._swap(operation.left_position, operation.right_position)
         elif isinstance(operation, Partner):
             self._swap(
                 self.programs.index(operation.left_name),
-                self.programs.index(operation.right_name)
+                self.programs.index(operation.right_name),
             )
         else:
-            raise ValueError(f'Invalid operation {operation}')
+            raise ValueError(f"Invalid operation {operation}")
 
     def __repr__(self):
-        return f'Program(programs={self.programs})'
+        return f"Program(programs={self.programs})"
 
     def __str__(self):
-        return ''.join(self.programs)
+        return "".join(self.programs)

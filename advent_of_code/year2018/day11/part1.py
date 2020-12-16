@@ -1,4 +1,5 @@
 from itertools import product
+
 from .shared import generate_grid
 
 

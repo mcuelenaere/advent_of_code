@@ -7,4 +7,4 @@ def calculate(text: str) -> int:
     return buffer[(buffer.index(2017) + 1) % len(buffer)]
 
 
-assert calculate('3') == 638
+assert calculate("3") == 638

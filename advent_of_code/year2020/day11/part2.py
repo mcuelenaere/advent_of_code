@@ -1,14 +1,9 @@
-from .shared import parse_map, find_stable_state
+from .shared import find_stable_state, parse_map
 
 
 def calculate(text: str) -> int:
     seats, max_pos = parse_map(text)
-    _, occupied_seats = find_stable_state(
-        seats,
-        max_pos,
-        enable_line_of_sight=True,
-        required_seat_count=5
-    )
+    _, occupied_seats = find_stable_state(seats, max_pos, enable_line_of_sight=True, required_seat_count=5)
     return len(occupied_seats)
 
 

@@ -1,6 +1,7 @@
-from .shared import parse_recursive_grid, RecursiveGrid, IndexedPosition
 from itertools import product
 from typing import Tuple
+
+from .shared import IndexedPosition, RecursiveGrid, parse_recursive_grid
 
 
 def adjacent_positions(position: IndexedPosition) -> Tuple[IndexedPosition, ...]:

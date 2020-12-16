@@ -1,4 +1,4 @@
-from .shared import parse_map, count_trees_for_slope_pattern
+from .shared import count_trees_for_slope_pattern, parse_map
 
 
 def calculate(text: str) -> int:

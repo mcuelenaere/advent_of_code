@@ -1,4 +1,5 @@
-from typing import Tuple, Set
+from typing import Set, Tuple
+
 
 Trees = Set[Tuple[int, int]]
 
@@ -10,7 +11,7 @@ def parse_map(text: str) -> Tuple[int, int, Trees]:
     for line in text.splitlines():
         max_x = len(line)
         for x, char in enumerate(line, start=0):
-            if char == '#':
+            if char == "#":
                 trees.add((x, y))
         y += 1
     return max_x, y, trees

@@ -1,12 +1,12 @@
-from .shared import parse_lines, execute_light_configuration
+from .shared import execute_light_configuration, parse_lines
 
 
 def action_parser(action: str) -> callable:
-    if action == 'turn on':
+    if action == "turn on":
         return lambda val: True
-    elif action == 'turn off':
+    elif action == "turn off":
         return lambda val: False
-    elif action == 'toggle':
+    elif action == "toggle":
         return lambda val: not val
     else:
         raise ValueError(f"Invalid action {action}")

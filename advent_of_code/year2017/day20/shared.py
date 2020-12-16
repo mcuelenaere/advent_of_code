@@ -1,17 +1,18 @@
 import re
+
 from typing import Iterator
 
 
 class Vector(object):
-    __slots__ = ('x', 'y', 'z')
+    __slots__ = ("x", "y", "z")
 
     def __init__(self, x: int, y: int, z: int):
         self.x = x
         self.y = y
         self.z = z
 
-    def __iadd__(self, other: 'Vector'):
-        assert isinstance(other, Vector), f'other should be a Vector, but is {type(other)}'
+    def __iadd__(self, other: "Vector"):
+        assert isinstance(other, Vector), f"other should be a Vector, but is {type(other)}"
         self.x += other.x
         self.y += other.y
         self.z += other.z
@@ -29,11 +30,11 @@ class Vector(object):
         return iter([self.x, self.y, self.z])
 
     def __repr__(self):
-        return f'({self.x}, {self.y}, {self.z})'
+        return f"({self.x}, {self.y}, {self.z})"
 
 
 class Particle(object):
-    __slots__ = ('position', 'velocity', 'acceleration')
+    __slots__ = ("position", "velocity", "acceleration")
 
     def __init__(self, position: Vector, velocity: Vector, acceleration: Vector):
         self.position = position
@@ -45,17 +46,17 @@ class Particle(object):
         self.position += self.velocity
 
     def __repr__(self):
-        return f'Particle(p={self.position}, v={self.velocity}, a={self.acceleration})'
+        return f"Particle(p={self.position}, v={self.velocity}, a={self.acceleration})"
 
 
-RE_PARTICLE = re.compile(r'^p=<(-?\d+),(-?\d+),(-?\d+)>, v=<(-?\d+),(-?\d+),(-?\d+)>, a=<(-?\d+),(-?\d+),(-?\d+)>$')
+RE_PARTICLE = re.compile(r"^p=<(-?\d+),(-?\d+),(-?\d+)>, v=<(-?\d+),(-?\d+),(-?\d+)>, a=<(-?\d+),(-?\d+),(-?\d+)>$")
 
 
 def parse_text(text: str) -> Iterator[Particle]:
     for line in text.splitlines():
         m = RE_PARTICLE.match(line)
         if m is None:
-            raise ValueError(f'Could not parse line {line}')
+            raise ValueError(f"Could not parse line {line}")
         groups = tuple(map(int, m.groups()))
         yield Particle(
             position=Vector(groups[0], groups[1], groups[2]),

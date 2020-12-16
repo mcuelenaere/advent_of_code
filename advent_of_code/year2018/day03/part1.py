@@ -1,4 +1,4 @@
-from .shared import parse_claims, build_fabric
+from .shared import build_fabric, parse_claims
 
 
 def calculate(text: str) -> int:

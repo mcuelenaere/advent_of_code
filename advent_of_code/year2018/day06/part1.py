@@ -1,5 +1,11 @@
 from collections import defaultdict
-from .shared import parse_coordinates, find_surrounded_coordinates, fill_grid, manhattan_distance
+
+from .shared import (
+    fill_grid,
+    find_surrounded_coordinates,
+    manhattan_distance,
+    parse_coordinates,
+)
 
 
 def calculate(text: str) -> int:
@@ -19,7 +25,8 @@ def calculate(text: str) -> int:
                 # equal distances
                 min_labels.add(label)
 
-        return tuple(min_labels)[0] if len(min_labels) == 1 else '.'
+        return tuple(min_labels)[0] if len(min_labels) == 1 else "."
+
     grid = fill_grid(coordinates, cb)
 
     # do a simple frequency count

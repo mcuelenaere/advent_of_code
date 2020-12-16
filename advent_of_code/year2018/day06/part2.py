@@ -1,4 +1,4 @@
-from .shared import parse_coordinates, fill_grid, manhattan_distance
+from .shared import fill_grid, manhattan_distance, parse_coordinates
 
 
 def calculate(text: str, max_distance: int = 10000) -> int:
@@ -7,12 +7,13 @@ def calculate(text: str, max_distance: int = 10000) -> int:
     def cb(c):
         total_distance = sum(manhattan_distance(c, o) for o in coordinates)
         if total_distance < max_distance:
-            return '#'
+            return "#"
         else:
-            return '.'
+            return "."
+
     grid = fill_grid(coordinates, cb)
 
-    return sum(1 for v in grid.values() if v == '#')
+    return sum(1 for v in grid.values() if v == "#")
 
 
 puzzle = """

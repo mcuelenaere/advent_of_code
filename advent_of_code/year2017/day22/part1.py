@@ -1,4 +1,4 @@
-from .shared import parse_text, infect, State
+from .shared import State, infect, parse_text
 
 
 def calculate(text: str) -> int:

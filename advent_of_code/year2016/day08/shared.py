@@ -1,15 +1,17 @@
 import re
-from typing import NamedTuple, Iterable, Union, Dict, Tuple
 
-IRect = NamedTuple('Rect', width=int, height=int)
-IRotateRow = NamedTuple('RotateRow', row=int, amount=int)
-IRotateColumn = NamedTuple('RotateColumn', column=int, amount=int)
+from typing import Dict, Iterable, NamedTuple, Tuple, Union
+
+
+IRect = NamedTuple("Rect", width=int, height=int)
+IRotateRow = NamedTuple("RotateRow", row=int, amount=int)
+IRotateColumn = NamedTuple("RotateColumn", column=int, amount=int)
 Instruction = Union[IRect, IRotateRow, IRotateColumn]
 Matrix = Dict[Tuple[int, int], bool]
 
-RE_RECT = re.compile(r'^rect (\d+)x(\d+)$')
-RE_ROTATE_ROW = re.compile(r'^rotate row y=(\d+) by (\d+)$')
-RE_ROTATE_COLUMN = re.compile(r'^rotate column x=(\d+) by (\d+)$')
+RE_RECT = re.compile(r"^rect (\d+)x(\d+)$")
+RE_ROTATE_ROW = re.compile(r"^rotate row y=(\d+) by (\d+)$")
+RE_ROTATE_COLUMN = re.compile(r"^rotate column x=(\d+) by (\d+)$")
 MATRIX_WIDTH = 50
 MATRIX_HEIGHT = 6
 
@@ -43,7 +45,7 @@ def execute_instruction(matrix: Matrix, screen_width: int, screen_height: int, i
 
 
 def matrix_to_string(matrix: Matrix, screen_width: int, screen_height: int) -> str:
-    s = ''
+    s = ""
     for y in range(screen_height):
-        s += ''.join('#' if matrix[(x, y)] else '.' for x in range(screen_width)) + '\n'
+        s += "".join("#" if matrix[(x, y)] else "." for x in range(screen_width)) + "\n"
     return s

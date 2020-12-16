@@ -1,9 +1,9 @@
 def calculate(text: str) -> int:
     floor = 0
     for index, char in enumerate(text):
-        if char == '(':
+        if char == "(":
             floor += 1
-        elif char == ')':
+        elif char == ")":
             floor += -1
         else:
             raise ValueError()
@@ -13,8 +13,8 @@ def calculate(text: str) -> int:
 
 
 testcases = {
-    ')': 1,
-    '()())': 5,
+    ")": 1,
+    "()())": 5,
 }
 for input, expected in testcases.items():
     assert calculate(input) == expected

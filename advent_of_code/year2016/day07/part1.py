@@ -1,4 +1,4 @@
-from .shared import parse_ips, find_abbas
+from .shared import find_abbas, parse_ips
 
 
 def calculate(text: str) -> int:

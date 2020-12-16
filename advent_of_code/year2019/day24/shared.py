@@ -1,4 +1,5 @@
-from typing import Tuple, Set
+from typing import Set, Tuple
+
 
 Position = Tuple[int, int]
 Grid = Set[Position]
@@ -11,9 +12,9 @@ def parse_grid(text: str) -> Grid:
     grid = set()
     for y, line in enumerate(text.splitlines()):
         for x, char in enumerate(line):
-            if char == '#':
+            if char == "#":
                 grid.add((x, y))
-            elif char == '.':
+            elif char == ".":
                 pass
             else:
                 raise RuntimeError(f'unknown character "{char}"')

@@ -1,4 +1,5 @@
-from .shared import parse_instructions, Action, manhattan_distance, DIRECTION_MAP
+from .shared import DIRECTION_MAP, Action, manhattan_distance, parse_instructions
+
 
 DIRECTIONS = (Action.North, Action.East, Action.South, Action.West)
 

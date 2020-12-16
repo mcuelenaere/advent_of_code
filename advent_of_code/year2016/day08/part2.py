@@ -1,5 +1,12 @@
 from collections import defaultdict
-from .shared import parse_instructions, execute_instruction, matrix_to_string, MATRIX_HEIGHT, MATRIX_WIDTH
+
+from .shared import (
+    MATRIX_HEIGHT,
+    MATRIX_WIDTH,
+    execute_instruction,
+    matrix_to_string,
+    parse_instructions,
+)
 
 
 def calculate(text: str) -> str:

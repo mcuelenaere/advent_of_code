@@ -11,11 +11,11 @@ def calculate(x: str) -> int:
 
 
 testcases = (
-    ('1212', 6),
-    ('1221', 0),
-    ('123425', 4),
-    ('123123', 12),
-    ('12131415', 4),
+    ("1212", 6),
+    ("1221", 0),
+    ("123425", 4),
+    ("123123", 12),
+    ("12131415", 4),
 )
 for puzzle, expected_answer in testcases:
     assert calculate(puzzle) == expected_answer

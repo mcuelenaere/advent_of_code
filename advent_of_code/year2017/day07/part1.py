@@ -1,4 +1,4 @@
-from .shared import parse_lines, find_root
+from .shared import find_root, parse_lines
 
 
 def calculate(text: str) -> str:
@@ -22,4 +22,4 @@ gyxo (61)
 cntj (57)
 """.strip()
 
-assert calculate(puzzle) == 'tknk'
+assert calculate(puzzle) == "tknk"

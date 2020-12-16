@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import Dict, List
 
 
 def parse_passports(text: str) -> List[Dict[str, str]]:

@@ -1,19 +1,19 @@
 from collections import defaultdict
 from itertools import groupby
 from math import ceil
-from typing import NamedTuple, Tuple, Iterable
+from typing import Iterable, NamedTuple, Tuple
 
 
 class Quantity(NamedTuple):
     chemical: str
     units: int
 
-    def __sub__(self, other) -> 'Quantity':
+    def __sub__(self, other) -> "Quantity":
         if not isinstance(other, int):
             raise TypeError()
         return Quantity(self.chemical, self.units - other)
 
-    def __mul__(self, other) -> 'Quantity':
+    def __mul__(self, other) -> "Quantity":
         if not isinstance(other, int):
             raise TypeError()
         return Quantity(self.chemical, self.units * other)
@@ -23,25 +23,22 @@ class Reaction(NamedTuple):
     inputs: Tuple[Quantity]
     output: Quantity
 
-    def __mul__(self, other) -> 'Reaction':
+    def __mul__(self, other) -> "Reaction":
         if not isinstance(other, int):
             raise TypeError()
         return Reaction(tuple(input * other for input in self.inputs), self.output * other)
 
 
 def parse_quantity(text: str) -> Quantity:
-    units, chemical = text.split(' ', 2)
+    units, chemical = text.split(" ", 2)
     return Quantity(chemical=chemical, units=int(units))
 
 
 def parse_reactions(text: str) -> Iterable[Reaction]:
     for line in text.splitlines():
-        inputs, output = line.split(' => ')
-        inputs = inputs.split(', ')
-        yield Reaction(
-            inputs=tuple(map(parse_quantity, inputs)),
-            output=parse_quantity(output)
-        )
+        inputs, output = line.split(" => ")
+        inputs = inputs.split(", ")
+        yield Reaction(inputs=tuple(map(parse_quantity, inputs)), output=parse_quantity(output))
 
 
 def minimum_ore(reactions: Tuple[Reaction], quantity: Quantity):
@@ -49,7 +46,7 @@ def minimum_ore(reactions: Tuple[Reaction], quantity: Quantity):
     waste = defaultdict(int)
 
     def find(requested: Quantity) -> int:
-        if requested.chemical == 'ORE':
+        if requested.chemical == "ORE":
             return requested.units
 
         # check if there's waste available

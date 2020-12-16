@@ -1,15 +1,15 @@
-from .shared import parse_clay, drip
+from .shared import drip, parse_clay
 
 
 def calculate(text: str) -> int:
     clay = parse_clay(text)
-    matrix = {coordinate: '#' for coordinate in clay}
+    matrix = {coordinate: "#" for coordinate in clay}
     y_min = min(y for _, y in matrix.keys())
 
-    matrix[(500, y_min - 1)] = '+'
+    matrix[(500, y_min - 1)] = "+"
     drip(matrix, (500, y_min - 1))
 
-    return sum(1 for v in matrix.values() if v == '~')
+    return sum(1 for v in matrix.values() if v == "~")
 
 
 puzzle = """

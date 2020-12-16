@@ -1,8 +1,10 @@
 import re
-from itertools import combinations, permutations
+
+from itertools import permutations
 from typing import Dict, Tuple
 
-RE_LINE = re.compile(r'(\w+) to (\w+) = (\d+)')
+
+RE_LINE = re.compile(r"(\w+) to (\w+) = (\d+)")
 Distances = Dict[Tuple[str, str], int]
 
 

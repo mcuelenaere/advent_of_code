@@ -1,6 +1,12 @@
-from .shared import parse_asteroid_locations, find_best_monitoring_station, Point, distance
 from math import atan2, degrees
-from typing import Set, Iterable
+from typing import Iterable, Set
+
+from .shared import (
+    Point,
+    distance,
+    find_best_monitoring_station,
+    parse_asteroid_locations,
+)
 
 
 def shoot_asteroids(asteroid_locations: Set[Point], monitoring_station: Point) -> Iterable[Point]:

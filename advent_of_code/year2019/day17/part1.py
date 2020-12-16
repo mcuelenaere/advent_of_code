@@ -1,4 +1,4 @@
-from .shared import parse_map, calculate_alignment_parameters
+from .shared import calculate_alignment_parameters, parse_map
 
 
 def calculate(text: str) -> int:
@@ -6,4 +6,3 @@ def calculate(text: str) -> int:
     # fixup broken robot direction
     robot_direction = (1, 0)
     return calculate_alignment_parameters(scaffolds, robot_position, robot_direction)
-

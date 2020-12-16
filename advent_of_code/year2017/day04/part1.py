@@ -1,6 +1,6 @@
 def is_valid_passphrase(passphrase: str) -> bool:
     already_seen = set()
-    for word in passphrase.split(' '):
+    for word in passphrase.split(" "):
         if word in already_seen:
             return False
         already_seen.add(word)
@@ -12,9 +12,9 @@ def calculate(text: str) -> int:
 
 
 testcases = (
-    ('aa bb cc dd ee', True),
-    ('aa bb cc dd aa', False),
-    ('aa bb cc dd aaa', True),
+    ("aa bb cc dd ee", True),
+    ("aa bb cc dd aa", False),
+    ("aa bb cc dd aaa", True),
 )
 for puzzle, expected_answer in testcases:
     assert is_valid_passphrase(puzzle) == expected_answer

@@ -1,8 +1,9 @@
 import re
-from typing import Iterable, Tuple, NamedTuple, Set
+
+from typing import Iterable, NamedTuple, Set, Tuple
 
 
-RE_REQUIREMENT = re.compile(r'^Step (\w) must be finished before step (\w) can begin\.$')
+RE_REQUIREMENT = re.compile(r"^Step (\w) must be finished before step (\w) can begin\.$")
 
 
 def parse_requirements(text: str) -> Iterable[Tuple[str, str]]:

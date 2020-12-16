@@ -1,9 +1,9 @@
-from .shared import sorted_freq_count, parse_columns
+from .shared import parse_columns, sorted_freq_count
 
 
 def calculate(text: str) -> str:
     columns = parse_columns(text)
-    return ''.join(sorted_freq_count(col)[0] for col in columns)
+    return "".join(sorted_freq_count(col)[0] for col in columns)
 
 
 puzzle = """

@@ -1,5 +1,6 @@
-from .shared import parse_text
 from itertools import combinations
+
+from .shared import parse_text
 
 
 def calculate(text: str, total: int = 150) -> int:

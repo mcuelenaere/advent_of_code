@@ -1,5 +1,6 @@
-from .shared import parse_state, advance_state, CharacterType, State
 from typing import Optional
+
+from .shared import CharacterType, State, advance_state, parse_state
 
 
 def count_elves(state: State) -> int:
@@ -7,11 +8,7 @@ def count_elves(state: State) -> int:
 
 
 def try_battle(text: str, elf_attack_power: int) -> Optional[int]:
-    state = parse_state(
-        text,
-        elf_attack_power=elf_attack_power,
-        goblin_attack_power=3
-    )
+    state = parse_state(text, elf_attack_power=elf_attack_power, goblin_attack_power=3)
     number_of_elves = count_elves(state)
     rounds = 0
     was_full_round = True
@@ -113,4 +110,3 @@ puzzle = """
 #########
 """.strip()
 assert calculate(puzzle) == 1140
-

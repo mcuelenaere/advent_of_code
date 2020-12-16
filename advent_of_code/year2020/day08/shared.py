@@ -1,14 +1,16 @@
 import re
+
 from enum import Enum
-from typing import Sequence, Iterable, NamedTuple
+from typing import Iterable, NamedTuple, Sequence
+
 
 RE_INSTRUCTION = re.compile(r"^(acc|jmp|nop) ([+\-]\d+)$")
 
 
 class InstructionType(Enum):
-    ACC = 'acc'
-    JMP = 'jmp'
-    NOP = 'nop'
+    ACC = "acc"
+    JMP = "jmp"
+    NOP = "nop"
 
 
 class Instruction(NamedTuple):

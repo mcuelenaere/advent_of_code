@@ -1,15 +1,15 @@
-from typing import Tuple, Iterable
+from typing import Iterable, Tuple
 
 
 # axial coordinates
 # see https://www.redblobgames.com/grids/hexagons/#coordinates-axial
 DIRECTIONAL_OFFSETS = {
-    'n': [0, 1],
-    'ne': [1, 0],
-    'se': [1, -1],
-    's': [0, -1],
-    'sw': [-1, 0],
-    'nw': [-1, 1],
+    "n": [0, 1],
+    "ne": [1, 0],
+    "se": [1, -1],
+    "s": [0, -1],
+    "sw": [-1, 0],
+    "nw": [-1, 1],
 }
 
 

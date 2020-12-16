@@ -1,4 +1,4 @@
-from .shared import parse_tree, Node
+from .shared import Node, parse_tree
 
 
 def sum_metadata(node: Node) -> int:

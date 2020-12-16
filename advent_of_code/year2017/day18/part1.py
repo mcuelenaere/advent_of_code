@@ -1,4 +1,4 @@
-from .shared import parse_instructions, MusicProcessingUnit
+from .shared import MusicProcessingUnit, parse_instructions
 
 
 def calculate(text: str) -> int:

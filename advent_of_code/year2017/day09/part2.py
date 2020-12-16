@@ -1,4 +1,4 @@
-from .shared import parse, GroupOrGarbage, Garbage, Group
+from .shared import Garbage, Group, GroupOrGarbage, parse
 
 
 def calculate_total_garbage_length(item: GroupOrGarbage) -> int:
@@ -11,6 +11,7 @@ def calculate_total_garbage_length(item: GroupOrGarbage) -> int:
         elif isinstance(item, Group):
             for child in item.children:
                 _walk(child)
+
     _walk(item)
 
     return garbage_length
@@ -21,12 +22,12 @@ def calculate(text: str) -> int:
 
 
 GARBAGE_LENGTH = {
-    '<>': 0,
-    '<random characters>': 17,
-    '<<<<>': 3,
-    '<{!>}>': 2,
-    '<!!>': 0,
-    '<!!!>>': 0,
+    "<>": 0,
+    "<random characters>": 17,
+    "<<<<>": 3,
+    "<{!>}>": 2,
+    "<!!>": 0,
+    "<!!!>>": 0,
     '<{o"i!a,<{i<a>': 10,
 }
 for line, garbage_length in GARBAGE_LENGTH.items():

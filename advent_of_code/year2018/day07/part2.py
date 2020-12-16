@@ -1,5 +1,6 @@
-from .shared import build_tree, TreeNode
 from typing import Optional
+
+from .shared import TreeNode, build_tree
 
 
 class Worker(object):
@@ -18,7 +19,7 @@ class Worker(object):
 
     def __repr__(self):
         current_node_name = self.current_node.name if self.current_node else None
-        return f'Worker(blocked_until={self.blocked_until}, current_node={current_node_name})'
+        return f"Worker(blocked_until={self.blocked_until}, current_node={current_node_name})"
 
 
 class WorkerGroup(object):
@@ -33,7 +34,7 @@ class WorkerGroup(object):
         return {w.current_node for w in self.workers if w.current_node is not None}
 
     def __repr__(self):
-        return f'WorkerGroup(workers={self.workers})'
+        return f"WorkerGroup(workers={self.workers})"
 
 
 def calculate(text: str, worker_count: int = 5, step_overhead: int = 60) -> int:
@@ -60,14 +61,20 @@ def calculate(text: str, worker_count: int = 5, step_overhead: int = 60) -> int:
             break
 
         # pick next node
-        available_nodes = (n for n in tree.values() if n.name not in already_seen and already_seen.issuperset(n.parents) and n not in workers.nodes_being_processed)
+        available_nodes = (
+            n
+            for n in tree.values()
+            if n.name not in already_seen
+            and already_seen.issuperset(n.parents)
+            and n not in workers.nodes_being_processed
+        )
         available_nodes = sorted(available_nodes, key=lambda n: n.name)
         if len(available_nodes) == 0:
             # nothing to queue, advance time
             elapsed_ticks += 1
             continue
 
-        for node, worker in zip(available_nodes[:len(available_workers)], available_workers):
+        for node, worker in zip(available_nodes[: len(available_workers)], available_workers):
             # process it
             worker.work(node, elapsed_ticks)
 

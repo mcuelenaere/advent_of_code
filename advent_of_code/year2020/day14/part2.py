@@ -1,4 +1,4 @@
-from .shared import parse_operations, Bitmask, MemoryWrite
+from .shared import Bitmask, MemoryWrite, parse_operations
 
 
 def calculate(text: str) -> int:
@@ -7,8 +7,8 @@ def calculate(text: str) -> int:
     memory = dict()
     for operation in parse_operations(text):
         if isinstance(operation, Bitmask):
-            bitmask_set = sum(2 ** i for i, b in operation.bits if b == '1')
-            floating_bits = tuple(i for i, b in operation.bits if b == 'X')
+            bitmask_set = sum(2 ** i for i, b in operation.bits if b == "1")
+            floating_bits = tuple(i for i, b in operation.bits if b == "X")
         elif isinstance(operation, MemoryWrite):
             address = operation.address
             address |= bitmask_set
@@ -16,7 +16,7 @@ def calculate(text: str) -> int:
                 for j in range(len(floating_bits)):
                     address &= ~(1 << floating_bits[j])
                     if i & (1 << j) != 0:
-                        address |= (1 << floating_bits[j])
+                        address |= 1 << floating_bits[j]
                 memory[address] = operation.data
     return sum(memory.values())
 

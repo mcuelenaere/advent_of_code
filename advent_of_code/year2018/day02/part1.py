@@ -1,5 +1,5 @@
 from collections import defaultdict
-from typing import Tuple, Dict
+from typing import Dict, Tuple
 
 
 def freq_count(items: Tuple[str]) -> Dict[str, int]:

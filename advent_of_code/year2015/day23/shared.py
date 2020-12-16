@@ -1,22 +1,24 @@
 import re
-from typing import Tuple, NamedTuple, Union, Iterator, Dict
 
-IHlf = NamedTuple('IHlf', register=str)
-ITpl = NamedTuple('ITpl', register=str)
-IInc = NamedTuple('IInc', register=str)
-IJmp = NamedTuple('IJmp', jump_offset=int)
-IJie = NamedTuple('IJie', cnd_register=str, jump_offset=int)
-IJio = NamedTuple('IJio', cnd_register=str, jump_offset=int)
+from typing import Iterator, NamedTuple, Tuple, Union
+
+
+IHlf = NamedTuple("IHlf", register=str)
+ITpl = NamedTuple("ITpl", register=str)
+IInc = NamedTuple("IInc", register=str)
+IJmp = NamedTuple("IJmp", jump_offset=int)
+IJie = NamedTuple("IJie", cnd_register=str, jump_offset=int)
+IJio = NamedTuple("IJio", cnd_register=str, jump_offset=int)
 Instruction = Union[IHlf, ITpl, IInc, IJmp, IJie, IJio]
 
 
 REGEXES = (
-    (re.compile(r'^hlf (?P<register>[a-b])$'), IHlf),
-    (re.compile(r'^tpl (?P<register>[a-b])$'), ITpl),
-    (re.compile(r'^inc (?P<register>[a-b])$'), IInc),
-    (re.compile(r'^jmp (?P<jump_offset>[+-]?\d+)$'), IJmp),
-    (re.compile(r'^jie (?P<cnd_register>[a-b]), (?P<jump_offset>[+-]?\d+)$'), IJie),
-    (re.compile(r'^jio (?P<cnd_register>[a-b]), (?P<jump_offset>[+-]?\d+)$'), IJio),
+    (re.compile(r"^hlf (?P<register>[a-b])$"), IHlf),
+    (re.compile(r"^tpl (?P<register>[a-b])$"), ITpl),
+    (re.compile(r"^inc (?P<register>[a-b])$"), IInc),
+    (re.compile(r"^jmp (?P<jump_offset>[+-]?\d+)$"), IJmp),
+    (re.compile(r"^jie (?P<cnd_register>[a-b]), (?P<jump_offset>[+-]?\d+)$"), IJie),
+    (re.compile(r"^jio (?P<cnd_register>[a-b]), (?P<jump_offset>[+-]?\d+)$"), IJio),
 )
 
 
@@ -47,7 +49,7 @@ class Processor(object):
     def __init__(self, instructions: Tuple[Instruction, ...]):
         self.instructions = instructions
         self.instruction_offset = 0
-        self.registers = {'a': 0, 'b': 0}
+        self.registers = {"a": 0, "b": 0}
 
     def _execute_instruction(self, instruction: Instruction):
         if isinstance(instruction, IHlf):
@@ -74,7 +76,7 @@ class Processor(object):
             else:
                 self.instruction_offset += 1
         else:
-            raise ValueError(f'Unknown instruction {instruction}')
+            raise ValueError(f"Unknown instruction {instruction}")
 
     def execute_step(self):
         self._execute_instruction(self.instructions[self.instruction_offset])

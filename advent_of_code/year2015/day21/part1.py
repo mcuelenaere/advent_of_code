@@ -1,5 +1,12 @@
 from itertools import chain
-from .shared import parse_character, calculate_winner, CharacterType, all_shop_combinations, build_character_from_items
+
+from .shared import (
+    CharacterType,
+    all_shop_combinations,
+    build_character_from_items,
+    calculate_winner,
+    parse_character,
+)
 
 
 def calculate(text: str) -> int:

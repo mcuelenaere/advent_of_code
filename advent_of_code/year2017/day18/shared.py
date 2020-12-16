@@ -1,42 +1,58 @@
 import re
+
 from collections import defaultdict
 from queue import Queue
 from threading import Lock
-from typing import NamedTuple, Iterator, Union, Tuple
+from typing import Iterator, NamedTuple, Tuple, Union
 
 
-ISndV = NamedTuple('ISndV', value=int)
-ISetV = NamedTuple('ISetV', dst_register=str, src_value=int)
-IAddV = NamedTuple('IAddV', dst_register=str, src_value=int)
-IMulV = NamedTuple('IMulV', dst_register=str, src_value=int)
-IModV = NamedTuple('IModV', dst_register=str, src_value=int)
-ISndR = NamedTuple('ISndR', src_register=str)
-ISetR = NamedTuple('ISetR', dst_register=str, src_register=str)
-IAddR = NamedTuple('IAddR', dst_register=str, src_register=str)
-IMulR = NamedTuple('IMulR', dst_register=str, src_register=str)
-IModR = NamedTuple('IModR', dst_register=str, src_register=str)
-IJgzRR = NamedTuple('IJgzRR', cnd_register=str, jump_register=str)
-IJgzRV = NamedTuple('IJgzRV', cnd_register=str, jump_offset=int)
-IJgzVV = NamedTuple('IJgzVV', cnd_value=int, jump_offset=int)
-IRcv = NamedTuple('IRcv', dst_register=str)
-Instruction = Union[ISndV, ISndR, ISetV, ISetR, IAddV, IAddR, IMulV, IMulR, IModV, IModR, IRcv, IJgzRR, IJgzRV, IJgzVV]
+ISndV = NamedTuple("ISndV", value=int)
+ISetV = NamedTuple("ISetV", dst_register=str, src_value=int)
+IAddV = NamedTuple("IAddV", dst_register=str, src_value=int)
+IMulV = NamedTuple("IMulV", dst_register=str, src_value=int)
+IModV = NamedTuple("IModV", dst_register=str, src_value=int)
+ISndR = NamedTuple("ISndR", src_register=str)
+ISetR = NamedTuple("ISetR", dst_register=str, src_register=str)
+IAddR = NamedTuple("IAddR", dst_register=str, src_register=str)
+IMulR = NamedTuple("IMulR", dst_register=str, src_register=str)
+IModR = NamedTuple("IModR", dst_register=str, src_register=str)
+IJgzRR = NamedTuple("IJgzRR", cnd_register=str, jump_register=str)
+IJgzRV = NamedTuple("IJgzRV", cnd_register=str, jump_offset=int)
+IJgzVV = NamedTuple("IJgzVV", cnd_value=int, jump_offset=int)
+IRcv = NamedTuple("IRcv", dst_register=str)
+Instruction = Union[
+    ISndV,
+    ISndR,
+    ISetV,
+    ISetR,
+    IAddV,
+    IAddR,
+    IMulV,
+    IMulR,
+    IModV,
+    IModR,
+    IRcv,
+    IJgzRR,
+    IJgzRV,
+    IJgzVV,
+]
 
 
 REGEXES = (
-    (re.compile(r'^snd (?P<value>-?\d+)$'), ISndV),
-    (re.compile(r'^snd (?P<src_register>[a-z]+)$'), ISndR),
-    (re.compile(r'^set (?P<dst_register>[a-z]) (?P<src_value>-?\d+)$'), ISetV),
-    (re.compile(r'^add (?P<dst_register>[a-z]) (?P<src_value>-?\d+)$'), IAddV),
-    (re.compile(r'^mul (?P<dst_register>[a-z]) (?P<src_value>-?\d+)$'), IMulV),
-    (re.compile(r'^mod (?P<dst_register>[a-z]) (?P<src_value>-?\d+)$'), IModV),
-    (re.compile(r'^set (?P<dst_register>[a-z]) (?P<src_register>[a-z]+)$'), ISetR),
-    (re.compile(r'^add (?P<dst_register>[a-z]) (?P<src_register>[a-z]+)$'), IAddR),
-    (re.compile(r'^mul (?P<dst_register>[a-z]) (?P<src_register>[a-z]+)$'), IMulR),
-    (re.compile(r'^mod (?P<dst_register>[a-z]) (?P<src_register>[a-z]+)$'), IModR),
-    (re.compile(r'^rcv (?P<dst_register>[a-z])$'), IRcv),
-    (re.compile(r'^jgz (?P<cnd_register>[a-z]) (?P<jump_offset>-?\d+)$'), IJgzRV),
-    (re.compile(r'^jgz (?P<cnd_value>-?\d+) (?P<jump_offset>-?\d+)$'), IJgzVV),
-    (re.compile(r'^jgz (?P<cnd_register>[a-z]) (?P<jump_register>[a-z])$'), IJgzRR),
+    (re.compile(r"^snd (?P<value>-?\d+)$"), ISndV),
+    (re.compile(r"^snd (?P<src_register>[a-z]+)$"), ISndR),
+    (re.compile(r"^set (?P<dst_register>[a-z]) (?P<src_value>-?\d+)$"), ISetV),
+    (re.compile(r"^add (?P<dst_register>[a-z]) (?P<src_value>-?\d+)$"), IAddV),
+    (re.compile(r"^mul (?P<dst_register>[a-z]) (?P<src_value>-?\d+)$"), IMulV),
+    (re.compile(r"^mod (?P<dst_register>[a-z]) (?P<src_value>-?\d+)$"), IModV),
+    (re.compile(r"^set (?P<dst_register>[a-z]) (?P<src_register>[a-z]+)$"), ISetR),
+    (re.compile(r"^add (?P<dst_register>[a-z]) (?P<src_register>[a-z]+)$"), IAddR),
+    (re.compile(r"^mul (?P<dst_register>[a-z]) (?P<src_register>[a-z]+)$"), IMulR),
+    (re.compile(r"^mod (?P<dst_register>[a-z]) (?P<src_register>[a-z]+)$"), IModR),
+    (re.compile(r"^rcv (?P<dst_register>[a-z])$"), IRcv),
+    (re.compile(r"^jgz (?P<cnd_register>[a-z]) (?P<jump_offset>-?\d+)$"), IJgzRV),
+    (re.compile(r"^jgz (?P<cnd_value>-?\d+) (?P<jump_offset>-?\d+)$"), IJgzVV),
+    (re.compile(r"^jgz (?P<cnd_register>[a-z]) (?P<jump_register>[a-z])$"), IJgzRR),
 )
 
 
@@ -57,7 +73,7 @@ def parse_instructions(text: str) -> Iterator[Instruction]:
 
 
 class ProcessingMixin(object):
-    __slots__ = ('registers', 'instructions', 'instruction_offset')
+    __slots__ = ("registers", "instructions", "instruction_offset")
 
     def __init__(self, instructions: Tuple[Instruction, ...]):
         self.registers = defaultdict(int)
@@ -92,18 +108,20 @@ class ProcessingMixin(object):
         elif isinstance(instruction, IJgzRV):
             self.instruction_offset += instruction.jump_offset if self.registers[instruction.cnd_register] > 0 else 1
         elif isinstance(instruction, IJgzRR):
-            self.instruction_offset += self.registers[instruction.jump_register] if self.registers[instruction.cnd_register] > 0 else 1
+            self.instruction_offset += (
+                self.registers[instruction.jump_register] if self.registers[instruction.cnd_register] > 0 else 1
+            )
         elif isinstance(instruction, IJgzVV):
             self.instruction_offset += instruction.jump_offset if instruction.cnd_value > 0 else 1
         else:
-            raise ValueError(f'Unknown instruction {instruction}')
+            raise ValueError(f"Unknown instruction {instruction}")
 
     def execute_step(self):
         self._execute_instruction(self.instructions[self.instruction_offset])
 
 
 class MusicProcessingUnit(ProcessingMixin):
-    __slots__ = ('playing_frequency', 'recovered_frequency')
+    __slots__ = ("playing_frequency", "recovered_frequency")
 
     def __init__(self, instructions: Tuple[Instruction, ...]):
         super().__init__(instructions)
@@ -150,14 +168,20 @@ class QueueManager(object):
 
 
 class CommunicatingProcessingUnit(ProcessingMixin):
-    __slots__ = ('message_queue', 'program_id', 'other_program_id', 'queue_manager')
+    __slots__ = ("message_queue", "program_id", "other_program_id", "queue_manager")
 
-    def __init__(self, instructions: Tuple[Instruction, ...], program_id: int, other_program_id: int, queue_manager: QueueManager):
+    def __init__(
+        self,
+        instructions: Tuple[Instruction, ...],
+        program_id: int,
+        other_program_id: int,
+        queue_manager: QueueManager,
+    ):
         super().__init__(instructions)
         self.queue_manager = queue_manager
         self.program_id = program_id
         self.other_program_id = other_program_id
-        self.registers['p'] = program_id
+        self.registers["p"] = program_id
 
     def _execute_instruction(self, instruction: Instruction):
         if isinstance(instruction, ISndV):

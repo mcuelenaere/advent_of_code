@@ -1,4 +1,4 @@
-from ..day05.shared import streaming_evaluate, parse_instructions
+from ..day05.shared import parse_instructions, streaming_evaluate
 
 
 def calculate(text: str) -> int:

@@ -1,12 +1,19 @@
 import re
-from typing import NamedTuple, Tuple, Dict, Callable
+
+from typing import Callable, Dict, NamedTuple, Tuple
+
 
 Registers = Tuple[int, int, int, int]
-Instruction = NamedTuple('Instruction', opcode=int, input_a=int, input_b=int, output=int)
-Testcase = NamedTuple('Testcase', registers_before=Registers, instruction=Instruction, registers_after=Registers)
+Instruction = NamedTuple("Instruction", opcode=int, input_a=int, input_b=int, output=int)
+Testcase = NamedTuple(
+    "Testcase",
+    registers_before=Registers,
+    instruction=Instruction,
+    registers_after=Registers,
+)
 
 
-RE_TESTCASE = re.compile(r'^Before:\s+\[([\d, ]+)\]\n([\d ]+)\nAfter:\s+\[([\d, ]+)\]$', re.MULTILINE)
+RE_TESTCASE = re.compile(r"^Before:\s+\[([\d, ]+)\]\n([\d ]+)\nAfter:\s+\[([\d, ]+)\]$", re.MULTILINE)
 
 
 def parse_puzzle(text: str):
@@ -14,36 +21,40 @@ def parse_puzzle(text: str):
 
     testcases = []
     for m in RE_TESTCASE.finditer(testcases_text):
-        regs_before = tuple(map(int, m.group(1).split(', ')))  # type: Registers
-        instruction = tuple(map(int, m.group(2).split(' ')))
-        regs_after = tuple(map(int, m.group(3).split(', ')))  # type: Registers
+        regs_before = tuple(map(int, m.group(1).split(", ")))  # type: Registers
+        instruction = tuple(map(int, m.group(2).split(" ")))
+        regs_after = tuple(map(int, m.group(3).split(", ")))  # type: Registers
 
-        testcases.append(Testcase(
-            registers_before=regs_before,
-            instruction=Instruction(
-                opcode=instruction[0],
-                input_a=instruction[1],
-                input_b=instruction[2],
-                output=instruction[3]
-            ),
-            registers_after=regs_after,
-        ))
+        testcases.append(
+            Testcase(
+                registers_before=regs_before,
+                instruction=Instruction(
+                    opcode=instruction[0],
+                    input_a=instruction[1],
+                    input_b=instruction[2],
+                    output=instruction[3],
+                ),
+                registers_after=regs_after,
+            )
+        )
 
     test_program = []
     for line in test_program_text.splitlines():
-        instruction = tuple(map(int, line.split(' ')))
-        test_program.append(Instruction(
-            opcode=instruction[0],
-            input_a=instruction[1],
-            input_b=instruction[2],
-            output=instruction[3]
-        ))
+        instruction = tuple(map(int, line.split(" ")))
+        test_program.append(
+            Instruction(
+                opcode=instruction[0],
+                input_a=instruction[1],
+                input_b=instruction[2],
+                output=instruction[3],
+            )
+        )
 
     return testcases, test_program
 
 
 class Cpu(object):
-    __slots__ = ('registers', )
+    __slots__ = ("registers",)
 
     def __init__(self):
         self.registers = [0, 0, 0, 0]
@@ -98,4 +109,4 @@ class Cpu(object):
 
     @property
     def operations(self) -> Dict[str, Callable]:
-        return {k.replace('op_', ''): getattr(self, k) for k in dir(self) if k.startswith('op_')}
+        return {k.replace("op_", ""): getattr(self, k) for k in dir(self) if k.startswith("op_")}

@@ -1,4 +1,4 @@
-from .shared import parse_path, manhattan_distance, Cardinal, steps_to
+from .shared import Cardinal, manhattan_distance, parse_path, steps_to
 
 
 def calculate(text: str) -> int:

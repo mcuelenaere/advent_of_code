@@ -1,5 +1,6 @@
 from collections import defaultdict
-from .shared import parse_instructions, execute_instruction
+
+from .shared import execute_instruction, parse_instructions
 
 
 def calculate(text: str, width: int = 50, height: int = 6) -> int:
