@@ -1,21 +1,20 @@
-from collections import defaultdict, deque
 from typing import Sequence
 
 
-def play_memory_game(numbers: Sequence[int], max_turn: int) -> int:
-    numbers_history = defaultdict(lambda: deque(maxlen=2))
+try:
+    from .shared_native import play_memory_game
+except ImportError:
 
-    # seed spoken_numbers
-    for i in range(1, len(numbers) + 1):
-        numbers_history[numbers[i - 1]].append(i)
+    def play_memory_game(numbers: Sequence[int], max_turn: int) -> int:
+        numbers_history = [0] * max_turn
+        for i in range(1, len(numbers) + 1):
+            numbers_history[numbers[i - 1]] = i
 
-    last_number = numbers[-1]
-    for turn in range(len(numbers) + 1, max_turn + 1):
-        if len(numbers_history[last_number]) < 2:
-            last_number = 0
-        else:
-            a, b = numbers_history[last_number]
-            last_number = b - a
-        numbers_history[last_number].append(turn)
+        last_number = numbers[-1]
+        for turn in range(len(numbers), max_turn):
+            numbers_history[last_number], last_number = (
+                turn,
+                turn - numbers_history[last_number] if numbers_history[last_number] != 0 else 0,
+            )
 
-    return last_number
+        return last_number
