@@ -35,40 +35,44 @@ DIRECTIONS = (
 )
 
 
-def count_adjacent_seats(
-    seat: Seat,
-    available_seats: Set[Seat],
-    occupied_seats: Set[Seat],
-    max_position: Seat,
-    enable_line_of_sight: bool,
-):
-    count = 0
-    for d_x, d_y in DIRECTIONS:
-        if enable_line_of_sight:
-            i = 1
-            while True:
-                x = seat[0] + d_x * i
-                y = seat[1] + d_y * i
-                if x < 0 or y < 0:
-                    break
-                elif x > max_position[0] or y > max_position[1]:
-                    break
+try:
+    from .shared_native import count_adjacent_seats
+except ImportError:
 
-                if (x, y) in available_seats:
-                    # an available seat is blocking our view
-                    break
-                elif (x, y) in occupied_seats:
-                    # found an occupied seat
-                    count += 1
-                    break
+    def count_adjacent_seats(
+        seat: Seat,
+        available_seats: Set[Seat],
+        occupied_seats: Set[Seat],
+        max_position: Seat,
+        enable_line_of_sight: bool,
+    ):
+        count = 0
+        for d_x, d_y in DIRECTIONS:
+            if enable_line_of_sight:
+                i = 1
+                while True:
+                    x = seat[0] + d_x * i
+                    y = seat[1] + d_y * i
+                    if x < 0 or y < 0:
+                        break
+                    elif x > max_position[0] or y > max_position[1]:
+                        break
 
-                i += 1
-        else:
-            x = seat[0] + d_x
-            y = seat[1] + d_y
-            count += 1 if (x, y) in occupied_seats else 0
+                    if (x, y) in available_seats:
+                        # an available seat is blocking our view
+                        break
+                    elif (x, y) in occupied_seats:
+                        # found an occupied seat
+                        count += 1
+                        break
 
-    return count
+                    i += 1
+            else:
+                x = seat[0] + d_x
+                y = seat[1] + d_y
+                count += 1 if (x, y) in occupied_seats else 0
+
+        return count
 
 
 def _test_count_adjacent_seats(text: str):
