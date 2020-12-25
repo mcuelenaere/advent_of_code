@@ -72,7 +72,7 @@ def main(year: int, day: Optional[int], part: Optional[int]):
 
     if day is None:
         # run all the puzzles
-        for day in range(1, 25):
+        for day in range(1, 26):
             run_parts(year, day)
     else:
         # run the requested puzzle
