@@ -2,7 +2,7 @@ import math
 
 from typing import List, NamedTuple, Optional, Type
 
-from ..day21.shared import Character, CharacterType
+from ..day21.shared import Character, CharacterType, parse_character  # noqa: F401
 
 
 class BattleState(NamedTuple):
