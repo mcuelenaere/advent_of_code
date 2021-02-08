@@ -7,7 +7,7 @@ authors = ["Maurus Cuelenaere <mcuelenaere@gmail.com>"]
 build = "build.py"
 
 [tool.poetry.dependencies]
-click = "^6.7"
+click = "^7.1"
 python = "^3.7"
 
 [tool.poetry.dev-dependencies]
