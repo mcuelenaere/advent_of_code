@@ -11,7 +11,7 @@ click = "^7.1"
 python = "^3.7"
 
 [tool.poetry.dev-dependencies]
-Cython = "^0.29.21"
+Cython = "^0.29.22"
 pre-commit = "^2.10.1"
 
 [tool.poetry.scripts]
