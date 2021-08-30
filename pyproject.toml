@@ -12,7 +12,7 @@ python = "^3.7"
 
 [tool.poetry.dev-dependencies]
 Cython = "^0.29.23"
-pre-commit = "^2.12.1"
+pre-commit = "^2.14.1"
 
 [tool.poetry.scripts]
 run_puzzle = "advent_of_code.run_puzzle:main"
