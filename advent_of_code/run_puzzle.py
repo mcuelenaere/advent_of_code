@@ -61,7 +61,7 @@ def run_puzzle(year: int, day: int, part: int):
 @click.option("--day", type=int, default=None)
 @click.option("--part", type=int, default=None)
 def main(year: int, day: Optional[int], part: Optional[int]):
-    def run_parts(year: int, day: int):
+    def run_parts(day: int):
         if part is None:
             run_puzzle(year, day, part=1)
             run_puzzle(year, day, part=2)
@@ -71,10 +71,10 @@ def main(year: int, day: Optional[int], part: Optional[int]):
     if day is None:
         # run all the puzzles
         for day in range(1, 26):
-            run_parts(year, day)
+            run_parts(day)
     else:
         # run the requested puzzle
-        run_parts(year, day)
+        run_parts(day)
 
 
 if __name__ == "__main__":
