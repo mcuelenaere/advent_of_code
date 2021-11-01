@@ -1,8 +1,9 @@
-from advent_of_code.loader import load_puzzle_solver, load_puzzle_input
 from time import perf_counter
 from typing import Optional
 
 import click
+
+from advent_of_code.loader import load_puzzle_input, load_puzzle_solver
 
 
 def read_file(filename: str) -> str:

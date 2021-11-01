@@ -1,0 +1,12 @@
+[package]
+name = "advent_of_code"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "advent_of_code"
+crate-type = ["cdylib"]
+
+[dependencies]
+paste = "1.0.5"
+pyo3 = { version = "0.14.5", features = ["extension-module"] }

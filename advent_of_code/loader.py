@@ -33,11 +33,33 @@ def load_puzzle_answer(year: int, day: int, part: int) -> str:
     return _read_file(answer_filename)
 
 
+def _load_puzzle_solver_from_python(year: int, day: int, part: int) -> Callable[[str], Any]:
+    module = import_module(f"advent_of_code.year{year}.day{day:02d}.part{part}")  # type: Any
+    if not hasattr(module, "calculate"):
+        raise ImportError(f"Puzzle solution for year{year}-day{day}-part{part} has no calculate() method")
+
+    return module.calculate
+
+
+def _load_puzzle_solver_from_rust(year: int, day: int, part: int) -> Callable[[str], Any]:
+    module = import_module("aoc_rust")
+    if not hasattr(module, f"year{year}"):
+        raise ModuleNotFoundError(f"Module aoc_rust.year{year} not found")
+
+    module = getattr(module, f"year{year}")
+    if not hasattr(module, f"day{day:02d}"):
+        raise ModuleNotFoundError(f"Module aoc_rust.year{year}.day{day:02d} not found")
+
+    module = getattr(module, f"day{day:02d}")
+    if not hasattr(module, f"part{part}"):
+        raise ImportError(f"Puzzle solution for year{year}-day{day} has no part{part}() method")
+
+    return getattr(module, f"part{part}")
+
+
 def load_puzzle_solver(year: int, day: int, part: int) -> Callable[[str], Any]:
     try:
-        module = import_module(f"advent_of_code.year{year}.day{day:02d}.part{part}")  # type: Any
-        if not hasattr(module, "calculate"):
-            raise RuntimeError(f"Puzzle solution for year{year}-day{day}-part{part} has no calculate() method")
-        return module.calculate
+        return _load_puzzle_solver_from_python(year, day, part)
     except ImportError:
-        raise RuntimeError(f"Could not find puzzle solution for year{year}-day{day}-part{part}")
+        # try loading from Rust
+        return _load_puzzle_solver_from_rust(year, day, part)

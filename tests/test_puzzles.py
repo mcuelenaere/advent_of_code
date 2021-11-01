@@ -1,10 +1,15 @@
 import os
 import re
 
-from advent_of_code.loader import load_puzzle_solver, load_puzzle_input, load_puzzle_answer
 from glob import iglob
 
 import pytest
+
+from advent_of_code.loader import (
+    load_puzzle_answer,
+    load_puzzle_input,
+    load_puzzle_solver,
+)
 
 
 PUZZLE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "puzzles"))
