@@ -9,7 +9,7 @@ def play_game(player_1: Deque[int], player_2: Deque[int]) -> Tuple[int, Deque[in
     seen_decks_p1, seen_decks_p2 = set(), set()
     while len(player_1) > 0 and len(player_2) > 0:
         deck_p1, deck_p2 = tuple(player_1), tuple(player_2)
-        if deck_p1 in seen_decks_p1 or deck_p2 in seen_decks_p2:
+        if deck_p1 in seen_decks_p1 and deck_p2 in seen_decks_p2:
             # loop detected, player 1 wins
             return 1, player_1
         seen_decks_p1.add(deck_p1)
