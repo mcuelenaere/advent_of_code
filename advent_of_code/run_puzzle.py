@@ -26,10 +26,10 @@ def run_puzzle(year: int, day: int, part: int):
     # load puzzle
     puzzle_txt_filename = os.path.join(
         os.path.dirname(__name__),
-        "advent_of_code",
+        "puzzles",
         f"year{year}",
         f"day{day:02d}",
-        "puzzle.txt",
+        "input.txt",
     )
     try:
         puzzle = read_file(puzzle_txt_filename).strip("\n")
