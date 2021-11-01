@@ -22,11 +22,11 @@ poetry install
 There is a CLI runner, which allows you to invoke the code to run a certain puzzle:
 
 ```
-poetry run run_puzzle --year 2017 --day 1
+poetry run solve_puzzle --year 2017 --day 1
 ```
 
 Or just run them all like this:
 
 ```
-poetry run run_puzzle --year 2017
+poetry run solve_puzzle --year 2017
 ```

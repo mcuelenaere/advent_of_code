@@ -17,7 +17,7 @@ requests = "^2.26.0"
 html2markdown = "^0.1.7"
 
 [tool.poetry.scripts]
-run_puzzle = "advent_of_code.run_puzzle:main"
+solve_puzzle = "advent_of_code.solve_puzzle:main"
 download_puzzle = "advent_of_code.download_puzzle:main"
 
 [tool.isort]
