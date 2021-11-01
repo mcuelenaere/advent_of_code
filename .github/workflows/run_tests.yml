@@ -20,6 +20,10 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
+    - name: Setup rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
     - name: Set up Poetry cache for Python dependencies
       uses: actions/cache@v2.1.6
       with:
