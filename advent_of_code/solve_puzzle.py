@@ -25,7 +25,8 @@ def format_duration(secs: float) -> str:
 def run_puzzle(year: int, day: int, part: int):
     # load puzzle
     puzzle_txt_filename = os.path.join(
-        os.path.dirname(__name__),
+        os.path.dirname(__file__),
+        "..",
         "puzzles",
         f"year{year}",
         f"day{day:02d}",

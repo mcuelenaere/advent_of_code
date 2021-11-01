@@ -11,7 +11,7 @@ import requests
 
 START_YEAR = 2015
 END_YEAR = datetime.now().year if datetime.now().month >= 12 else datetime.now().year - 1
-PUZZLE_PATH = os.path.join(os.path.dirname(__name__), "puzzles")
+PUZZLE_PATH = os.path.join(os.path.dirname(__file__), "..", "puzzles")
 RE_PUZZLE_ANSWER = re.compile(r"Your puzzle answer was \<code\>([^<]+)\<\/code\>")
 RE_PUZZLE_DESC = re.compile(r"""\<article class="day-desc"\>(.+?)\<\/article\>""", re.MULTILINE | re.DOTALL)
 
