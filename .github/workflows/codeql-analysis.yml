@@ -28,19 +28,19 @@ jobs:
       with:
         python-version: 3.9
 
+    - name: Setup rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+
     - name: Set up Poetry cache for Python dependencies
       uses: actions/cache@v2.1.6
-      if: startsWith(runner.os, 'Linux')
       with:
         path: ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
-        restore-keys: ${{ runner.os }}-poetry-
+        key: ${{ runner.os }}-poetry-3.9-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install Poetry
-      run: |
-        curl -fsS -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
-        python get-poetry.py -y
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      uses: snok/install-poetry@v1.2.1
 
     - name: Install dependencies
       run: poetry install --no-interaction
