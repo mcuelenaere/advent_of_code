@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 import os
 
 from importlib import import_module
