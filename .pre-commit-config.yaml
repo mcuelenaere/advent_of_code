@@ -23,3 +23,13 @@ repos:
       - id: end-of-file-fixer
       - id: check-toml
       - id: check-yaml
+
+  - repo: https://github.com/doublify/pre-commit-rust
+    rev: v1.0
+    hooks:
+      - id: fmt
+        entry: bash -c 'cd rust && cargo fmt --'
+      - id: clippy
+        entry: bash -c 'cd rust && cargo clippy -- -D warnings'
+      - id: cargo-check
+        entry: bash -c 'cd rust && cargo check'

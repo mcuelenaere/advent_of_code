@@ -1,4 +1,6 @@
 .idea/
 advent_of_code/**/*.so
+aoc_rust.*.so
 build/
 __pycache__/
+rust/target/
