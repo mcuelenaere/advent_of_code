@@ -25,3 +25,7 @@ For example, consider the following instructions:
 In the end, output bin `` 0 `` contains a value-`` 5 `` microchip, output bin `` 1 `` contains a value-`` 2 `` microchip, and output bin `` 2 `` contains a value-`` 3 `` microchip. In this configuration, bot number _`` 2 ``_ is responsible for comparing value-`` 5 `` microchips with value-`` 2 `` microchips.
 
 Based on your instructions, _what is the number of the bot_ that is responsible for comparing value-`` 61 `` microchips with value-`` 17 `` microchips?
+
+## --- Part Two ---
+
+<span title="What do you get if you multiply six by nine?">What do you get</span> if you _multiply together the values_ of one chip in each of outputs `` 0 ``, `` 1 ``, and `` 2 ``?

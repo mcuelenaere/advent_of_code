@@ -1,6 +1,7 @@
 use paste::paste;
 use pyo3::prelude::*;
 
+mod year2016;
 mod year2021;
 
 macro_rules! register_year {
@@ -41,10 +42,12 @@ macro_rules! register_year {
     };
 }
 
+register_year!(year2016 => [day10]);
 register_year!(year2021 => [day01]);
 
 #[pymodule]
 fn aoc_rust(py: Python, m: &PyModule) -> PyResult<()> {
+    register_year2016(py, m)?;
     register_year2021(py, m)?;
     Ok(())
 }
