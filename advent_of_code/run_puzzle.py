@@ -59,7 +59,7 @@ def run_puzzle(year: int, day: int, part: int):
 
 
 @click.command()
-@click.option("--year", type=int, default=2017)
+@click.option("--year", type=int, required=True)
 @click.option("--day", type=int, default=None)
 @click.option("--part", type=int, default=None)
 def main(year: int, day: Optional[int], part: Optional[int]):
