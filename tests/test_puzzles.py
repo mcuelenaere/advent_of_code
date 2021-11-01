@@ -1,18 +1,13 @@
 import os
 import re
 
+from advent_of_code.loader import load_puzzle_solver, load_puzzle_input, load_puzzle_answer
 from glob import iglob
-from importlib import import_module
 
 import pytest
 
 
 PUZZLE_PATH = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "puzzles"))
-
-
-def read_file(filename: str) -> str:
-    with open(filename, mode="r") as f:
-        return f.read()
 
 
 def list_all_puzzle_answers():
@@ -30,11 +25,11 @@ def list_all_puzzle_answers():
 
 @pytest.mark.parametrize("year,day,part", list_all_puzzle_answers())
 def test_correctly_solve_puzzle(year: int, day: int, part: int):
-    puzzle_input = read_file(os.path.join(PUZZLE_PATH, f"year{year}", f"day{day:02d}", "input.txt")).strip("\n")
-    expected_answer = read_file(os.path.join(PUZZLE_PATH, f"year{year}", f"day{day:02d}", f"answer-part{part}.txt"))
+    puzzle_input = load_puzzle_input(year, day)
+    expected_answer = load_puzzle_answer(year, day, part)
+    solver = load_puzzle_solver(year, day, part)
 
-    module = import_module(f"advent_of_code.year{year}.day{day:02d}.part{part}")
-    actual_answer = module.calculate(puzzle_input)
+    actual_answer = solver(puzzle_input)
 
     # coerce expected answer to correct type, if needed
     if type(actual_answer) != str:

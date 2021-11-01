@@ -1,8 +1,6 @@
-import os
-
-from importlib import import_module
+from advent_of_code.loader import load_puzzle_solver, load_puzzle_input
 from time import perf_counter
-from typing import Any, Optional
+from typing import Optional
 
 import click
 
@@ -23,33 +21,11 @@ def format_duration(secs: float) -> str:
 
 
 def run_puzzle(year: int, day: int, part: int):
-    # load puzzle
-    puzzle_txt_filename = os.path.join(
-        os.path.dirname(__file__),
-        "..",
-        "puzzles",
-        f"year{year}",
-        f"day{day:02d}",
-        "input.txt",
-    )
-    try:
-        puzzle = read_file(puzzle_txt_filename).strip("\n")
-    except FileNotFoundError:
-        print(f"Could not find puzzle for year{year}-day{day}")
-        return
-
-    try:
-        module = import_module(f"advent_of_code.year{year}.day{day:02d}.part{part}")  # type: Any
-    except ImportError:
-        print(f"Could not find puzzle solution for year{year}-day{day}-part{part}")
-        return
-
-    if not hasattr(module, "calculate"):
-        print(f"Puzzle solution for year{year}-day{day}-part{part} has no calculate() method")
-        return
+    puzzle_input = load_puzzle_input(year, day)
+    fn = load_puzzle_solver(year, day, part)
 
     t0 = perf_counter()
-    result = module.calculate(puzzle)
+    result = fn(puzzle_input)
     t1 = perf_counter()
 
     print(f"Result for puzzle year{year}-day{day}-part{part} is: {result}")
