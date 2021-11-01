@@ -34,7 +34,5 @@ def calculate(text: str) -> str:
     digits = tuple(map(int, text))
     layers = tuple(extract_image_layers(digits, 25, 6))
     final_image = composite_image(layers)
-    for line in final_image:
-        print("".join("x" if digit == 1 else " " for digit in line))
-    # I'm not going to implement OCR here, so just return the string as-is
-    return "FPUAR"
+    answer = "\n".join("".join("x" if digit == 1 else " " for digit in line) for line in final_image) + "\n"
+    return answer
