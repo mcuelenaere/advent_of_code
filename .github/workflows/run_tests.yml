@@ -1,4 +1,4 @@
-name: Test puzzles
+name: Run tests
 
 on:
   push:
@@ -7,14 +7,13 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
-
+  solve_puzzles:
+    name: Solve puzzles
     runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: ['3.7', '3.8', '3.9']
         puzzle-year: ['2015', '2016', '2017', '2018', '2019', '2020']
-
     steps:
     - uses: actions/checkout@v2.3.5
     - name: Set up Python ${{ matrix.python-version }}
@@ -23,17 +22,13 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Set up Poetry cache for Python dependencies
       uses: actions/cache@v2.1.6
-      if: startsWith(runner.os, 'Linux')
       with:
         path: ~/.cache/pypoetry
         key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
         restore-keys: ${{ runner.os }}-poetry-
     - name: Install Poetry
-      run: |
-        curl -fsS -o get-poetry.py https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py
-        python get-poetry.py -y
-        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      uses: snok/install-poetry@v1.2.0
     - name: Install dependencies
       run: poetry install --no-interaction
-    - name: Run puzzles of ${{ matrix.puzzle-year }}
-      run: poetry run run_puzzle --year ${{ matrix.puzzle-year }}
+    - name: Solve puzzles of year ${{ matrix.puzzle-year }}
+      run: poetry run pytest -k "test_correctly_solve_puzzle[${{ matrix.puzzle-year }}-"

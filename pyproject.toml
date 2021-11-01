@@ -15,6 +15,7 @@ Cython = "^0.29.24"
 pre-commit = "^2.15.0"
 requests = "^2.26.0"
 html2markdown = "^0.1.7"
+pytest = "^6.2.5"
 
 [tool.poetry.scripts]
 solve_puzzle = "advent_of_code.solve_puzzle:main"
