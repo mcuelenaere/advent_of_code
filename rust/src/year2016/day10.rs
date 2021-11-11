@@ -12,15 +12,6 @@ enum Receiver {
     Output(OutputNumber),
 }
 
-fn parse_receiver(captures: &regex::Captures, offset: usize) -> Receiver {
-    let number: usize = captures.get(offset + 1).unwrap().as_str().parse().unwrap();
-    match captures.get(offset).unwrap().as_str() {
-        "bot" => Receiver::Bot(number),
-        "output" => Receiver::Output(number),
-        _ => panic!("invalid receiver"),
-    }
-}
-
 #[derive(PartialEq, Eq, Hash, Debug)]
 enum Instruction {
     ReceiveValue {
@@ -41,22 +32,30 @@ lazy_static! {
             .unwrap();
 }
 
+fn parse_receiver(captures: &regex::Captures, offset: usize) -> Receiver {
+    let number: usize = captures[offset + 1].parse().unwrap();
+    match &captures[offset] {
+        "bot" => Receiver::Bot(number),
+        "output" => Receiver::Output(number),
+        _ => panic!("invalid receiver"),
+    }
+}
+
 fn parse_instructions(instructions: &str) -> impl Iterator<Item = Instruction> + '_ {
     instructions.lines().filter_map(|line| {
-        match (
-            RE_RECEIVE_VALUE.captures(line),
-            RE_REDISTRIBUTE_VALUE.captures(line),
-        ) {
-            (None, Some(m)) => Some(Instruction::RedistributeValue {
-                giving_bot: m.get(1).unwrap().as_str().parse().unwrap(),
+        if let Some(m) = RE_RECEIVE_VALUE.captures(line) {
+            Some(Instruction::ReceiveValue {
+                receiving_bot: m[2].parse().unwrap(),
+                value: m[1].parse().unwrap(),
+            })
+        } else if let Some(m) = RE_REDISTRIBUTE_VALUE.captures(line) {
+            Some(Instruction::RedistributeValue {
+                giving_bot: m[1].parse().unwrap(),
                 low_receiver: parse_receiver(&m, 2),
                 high_receiver: parse_receiver(&m, 4),
-            }),
-            (Some(m), None) => Some(Instruction::ReceiveValue {
-                receiving_bot: m.get(2).unwrap().as_str().parse().unwrap(),
-                value: m.get(1).unwrap().as_str().parse().unwrap(),
-            }),
-            _ => None,
+            })
+        } else {
+            None
         }
     })
 }
