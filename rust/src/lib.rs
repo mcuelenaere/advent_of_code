@@ -1,13 +1,56 @@
-use paste::paste;
 use pyo3::prelude::*;
 
 mod year2016;
 mod year2021;
 
+macro_rules! create_solver_test {
+    ($year:ident, $day:ident, $part:ident, verify_answer = true) => {
+        paste::paste! {
+            #[test]
+            fn [<test_solve_ $part>]() {
+                let input = include_str!(concat!(
+                    "../../../puzzles/",
+                    stringify!($year),
+                    "/",
+                    stringify!($day),
+                    "/input.txt"
+                )).strip_suffix("\n").unwrap();
+                let expected = include_str!(concat!(
+                    "../../../puzzles/",
+                    stringify!($year),
+                    "/",
+                    stringify!($day),
+                    "/answer-",
+                    stringify!($part),
+                    ".txt"
+                ));
+                let actual = crate::$year::$day::[<solve_ $part>](input).to_string();
+                assert_eq!(actual, expected);
+            }
+        }
+    };
+    ($year:ident, $day:ident, $part:ident) => {
+        paste::paste! {
+            #[test]
+            fn [<test_solve_ $part>]() {
+                let input = include_str!(concat!(
+                    "../../../puzzles/",
+                    stringify!($year),
+                    "/",
+                    stringify!($day),
+                    "/input.txt"
+                )).strip_suffix("\n").unwrap();
+                println!("answer: {}", crate::$year::$day::[<solve_ $part>](input));
+            }
+        }
+    };
+}
+pub(crate) use create_solver_test;
+
 macro_rules! register_year {
     ($year:ident => [$($day:ident),+]) => {
         $(
-            paste! {
+            paste::paste! {
                 fn [<register_ $year _ $day>](py: Python, parent: &PyModule) -> PyResult<()> {
                     let child = PyModule::new(py, stringify!($day))?;
 
@@ -29,7 +72,7 @@ macro_rules! register_year {
             }
         )*
 
-        paste! {
+        paste::paste! {
             fn [<register_ $year>](py: Python, parent: &PyModule) -> PyResult<()> {
                 let child = PyModule::new(py, stringify!($year))?;
                 $(
