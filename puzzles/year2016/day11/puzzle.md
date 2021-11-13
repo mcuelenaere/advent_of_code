@@ -169,3 +169,18 @@ Then, to get everything up to the assembling machine on the fourth floor, the fo
 In this arrangement, it takes `` 11 `` steps to collect all of the objects at the fourth floor for assembly. (Each elevator stop counts as one step, even if nothing is added to or removed from it.)
 
 In your situation, what is the _minimum number of steps_ required to bring all of the objects to the fourth floor?
+
+## --- Part Two ---
+
+You step into the cleanroom separating the lobby from the isolated area and put on the hazmat suit.
+
+Upon entering the isolated containment area, however, you notice some extra parts on the first floor that weren't listed on the record outside:
+
+*   An elerium generator.
+*   An elerium-compatible microchip.
+*   A dilithium generator.
+*   A dilithium-compatible microchip.
+
+These work just like the other generators and microchips. You'll have to get them up to assembly as well.
+
+What is the _minimum number of steps_ required to bring all of the objects, including these four new ones, to the fourth floor?

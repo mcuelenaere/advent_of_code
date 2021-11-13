@@ -1,5 +1,6 @@
 use pyo3::prelude::*;
 
+pub(crate) mod utils;
 mod year2016;
 mod year2021;
 
@@ -85,7 +86,7 @@ macro_rules! register_year {
     };
 }
 
-register_year!(year2016 => [day10]);
+register_year!(year2016 => [day10, day11]);
 register_year!(year2021 => [day01]);
 
 #[pymodule]
