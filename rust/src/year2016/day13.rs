@@ -45,7 +45,7 @@ fn _solve_part1(magic_number: usize, target: Coordinate) -> usize {
 
     let path = shortest_path(
         start,
-        target,
+        |c: &Coordinate| *c == target,
         |c: &Coordinate| {
             c.neighbours()
                 .filter(|neighbour| !is_wall(neighbour, magic_number))

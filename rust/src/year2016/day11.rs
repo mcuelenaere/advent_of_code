@@ -323,7 +323,7 @@ fn _solve(arrangement: Arrangement) -> usize {
 
     let min_path = shortest_path(
         ArrangementWrapper::new(arrangement),
-        ArrangementWrapper::new(target),
+        |arrangement: &ArrangementWrapper| arrangement.inner == target,
         |arrangement: &ArrangementWrapper| {
             generate_combinations(&arrangement.inner)
                 .map(ArrangementWrapper::new)

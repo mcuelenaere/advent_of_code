@@ -194,7 +194,7 @@ pub fn depth_first_search<N, S>(
 
 pub fn shortest_path<N>(
     start_node: N,
-    end_node: N,
+    is_goal: impl Fn(&N) -> bool,
     graph: impl GetNeighbours<N>,
     heuristic: impl Fn(&N) -> usize,
 ) -> Option<Vec<N>>
@@ -234,9 +234,9 @@ where
             cost: _,
         } = state;
 
-        if min_node == end_node {
+        if is_goal(&min_node) {
             let mut stack = Vec::new();
-            let mut current = Some(end_node);
+            let mut current = Some(min_node);
             while let Some(node) = current {
                 stack.push(node.clone());
                 current = path.remove(&node);
