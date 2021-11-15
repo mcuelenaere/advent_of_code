@@ -86,7 +86,7 @@ macro_rules! register_year {
     };
 }
 
-register_year!(year2016 => [day10, day11, day12, day13, day14, day15, day16, day17]);
+register_year!(year2016 => [day10, day11, day12, day13, day14, day15, day16, day17, day18]);
 register_year!(year2021 => [day01]);
 
 #[pymodule]
