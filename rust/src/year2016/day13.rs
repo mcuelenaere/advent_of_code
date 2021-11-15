@@ -3,51 +3,24 @@ use crate::utils::graph::{
 };
 use num::Integer;
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
-struct Coordinate {
-    x: usize,
-    y: usize,
-}
-
-impl Coordinate {
-    pub fn new(x: usize, y: usize) -> Self {
-        Coordinate { x, y }
-    }
-
-    pub fn neighbours(&self) -> impl Iterator<Item = Self> + '_ {
-        [(0, -1), (1, 0), (0, 1), (-1, 0)]
-            .iter()
-            .filter_map(move |(x_off, y_off)| {
-                let x = self.x as isize + x_off;
-                let y = self.y as isize + y_off;
-                if x < 0 || y < 0 {
-                    None
-                } else {
-                    Some(Coordinate {
-                        x: x as usize,
-                        y: y as usize,
-                    })
-                }
-            })
-    }
-}
+type Coordinate = crate::utils::grid::Coordinate<0, 0, { isize::MAX }, { isize::MAX }>;
 
 fn is_wall(c: &Coordinate, magic_number: usize) -> bool {
-    let (x, y) = (c.x, c.y);
+    let (x, y) = (c.x as usize, c.y as usize);
     let mut sum = x * x + 3 * x + 2 * x * y + y + y * y;
     sum += magic_number;
     sum.count_ones().is_odd()
 }
 
 fn _solve_part1(magic_number: usize, target: Coordinate) -> usize {
-    let start = Coordinate::new(1, 1);
+    let start = Coordinate::new(1, 1).unwrap();
     assert!(!is_wall(&start, magic_number));
 
     let path = shortest_path(
         start,
         |c: &Coordinate| *c == target,
         |c: &Coordinate| {
-            c.neighbours()
+            c.neighbours_cross()
                 .filter(|neighbour| !is_wall(neighbour, magic_number))
                 .collect::<Vec<_>>() // FIXME: don't collect
         },
@@ -58,15 +31,15 @@ fn _solve_part1(magic_number: usize, target: Coordinate) -> usize {
 
 pub fn solve_part1(input: &str) -> usize {
     let magic_number = input.parse().expect("a number");
-    _solve_part1(magic_number, Coordinate::new(31, 39))
+    _solve_part1(magic_number, Coordinate::new(31, 39).unwrap())
 }
 
 fn _solve_part2(magic_number: usize, max_steps: usize) -> usize {
     let mut total_locations = 0;
     breadth_first_search(
-        Coordinate::new(1, 1),
+        Coordinate::new(1, 1).unwrap(),
         |c: &Coordinate| {
-            c.neighbours()
+            c.neighbours_cross()
                 .filter(|neighbour| !is_wall(neighbour, magic_number))
                 .collect::<Vec<_>>() // FIXME: don't collect
         },
@@ -94,7 +67,7 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(_solve_part1(10, Coordinate::new(7, 4)), 11);
+        assert_eq!(_solve_part1(10, Coordinate::new(7, 4).unwrap()), 11);
     }
 
     #[test]
