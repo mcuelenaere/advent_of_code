@@ -13,3 +13,7 @@ For example, suppose only the values `` 0 `` through `` 9 `` were valid, and tha
 The blacklist specifies ranges of IPs (inclusive of both the start and end value) that are _not_ allowed. Then, the only IPs that this firewall allows are `` 3 `` and `` 9 ``, since those are the only numbers not in any range.
 
 Given the list of blocked IPs you retrieved from the firewall (your puzzle input), _what is the lowest-valued IP_ that is not blocked?
+
+## --- Part Two ---
+
+_How many IPs_ are allowed by the blacklist?
