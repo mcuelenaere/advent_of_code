@@ -17,5 +17,5 @@ def build(setup_kwargs):
     setup_kwargs["ext_modules"] = cythonize(native_extensions, build_dir="build")
 
     setup_kwargs["rust_extensions"] = [
-        RustExtension(target="aoc_rust", path="rust/Cargo.toml", binding=Binding.PyO3, native=True)
+        RustExtension(target="aoc_rust", path="rust/Cargo.toml", binding=Binding.PyO3, native=True, debug=False)
     ]
