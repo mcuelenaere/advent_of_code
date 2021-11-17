@@ -1,7 +1,7 @@
 use crate::year2016::day12::{parse_register_or_value, Register, RegisterOrValue, Registers};
 
 #[derive(Debug, Clone)]
-enum Instruction {
+pub(crate) enum Instruction {
     Increment(RegisterOrValue),
     Decrement(RegisterOrValue),
     Copy {
@@ -15,36 +15,38 @@ enum Instruction {
     Toggle(RegisterOrValue),
 }
 
-fn parse_instructions(input: &str) -> impl Iterator<Item = Instruction> + '_ {
-    input.lines().map(|line| {
-        if let Some(stripped) = line.strip_prefix("tgl ") {
-            Instruction::Toggle(parse_register_or_value(stripped))
-        } else if let Some(stripped) = line.strip_prefix("cpy ") {
-            let mut m = stripped.splitn(2, ' ');
-            Instruction::Copy {
-                src: parse_register_or_value(m.next().expect("have first value")),
-                dest: parse_register_or_value(m.next().expect("have second value")),
-            }
-        } else if let Some(stripped) = line.strip_prefix("inc ") {
-            Instruction::Increment(parse_register_or_value(stripped))
-        } else if let Some(stripped) = line.strip_prefix("dec ") {
-            Instruction::Decrement(parse_register_or_value(stripped))
-        } else if let Some(stripped) = line.strip_prefix("jnz ") {
-            let mut m = stripped.splitn(2, ' ');
-            Instruction::Jump {
-                condition: parse_register_or_value(m.next().expect("have first value")),
-                offset: parse_register_or_value(m.next().expect("have second value")),
-            }
-        } else {
-            panic!("unknown line");
+pub(crate) fn parse_instruction(line: &str) -> Instruction {
+    if let Some(stripped) = line.strip_prefix("tgl ") {
+        Instruction::Toggle(parse_register_or_value(stripped))
+    } else if let Some(stripped) = line.strip_prefix("cpy ") {
+        let mut m = stripped.splitn(2, ' ');
+        Instruction::Copy {
+            src: parse_register_or_value(m.next().expect("have first value")),
+            dest: parse_register_or_value(m.next().expect("have second value")),
         }
-    })
+    } else if let Some(stripped) = line.strip_prefix("inc ") {
+        Instruction::Increment(parse_register_or_value(stripped))
+    } else if let Some(stripped) = line.strip_prefix("dec ") {
+        Instruction::Decrement(parse_register_or_value(stripped))
+    } else if let Some(stripped) = line.strip_prefix("jnz ") {
+        let mut m = stripped.splitn(2, ' ');
+        Instruction::Jump {
+            condition: parse_register_or_value(m.next().expect("have first value")),
+            offset: parse_register_or_value(m.next().expect("have second value")),
+        }
+    } else {
+        panic!("unknown line");
+    }
+}
+
+fn parse_instructions(input: &str) -> impl Iterator<Item = Instruction> + '_ {
+    input.lines().map(parse_instruction)
 }
 
 #[derive(Debug)]
-struct Cpu {
-    registers: Registers,
-    program_counter: usize,
+pub(crate) struct Cpu {
+    pub(crate) registers: Registers,
+    pub(crate) program_counter: usize,
     instructions: Vec<Instruction>,
 }
 
