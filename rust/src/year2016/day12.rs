@@ -2,7 +2,7 @@ use itertools::Either;
 use std::ops::{Index, IndexMut};
 
 #[derive(Debug, Copy, Clone)]
-enum Register {
+pub(crate) enum Register {
     A,
     B,
     C,
@@ -23,7 +23,7 @@ impl TryFrom<&str> for Register {
     }
 }
 
-type RegisterOrValue = Either<isize, Register>;
+pub(crate) type RegisterOrValue = Either<isize, Register>;
 
 #[derive(Debug)]
 enum Instruction {
@@ -39,7 +39,7 @@ enum Instruction {
     },
 }
 
-fn parse_register_or_value(input: &str) -> RegisterOrValue {
+pub(crate) fn parse_register_or_value(input: &str) -> RegisterOrValue {
     if let Ok(number) = input.parse::<isize>() {
         Either::Left(number)
     } else {
@@ -77,7 +77,7 @@ fn parse_instructions(input: &str) -> impl Iterator<Item = Instruction> + '_ {
 }
 
 #[derive(Debug, Default)]
-struct Registers(isize, isize, isize, isize);
+pub(crate) struct Registers(isize, isize, isize, isize);
 
 impl Index<Register> for Registers {
     type Output = isize;
