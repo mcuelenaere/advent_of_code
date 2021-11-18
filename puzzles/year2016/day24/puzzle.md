@@ -26,3 +26,9 @@ To reach all of the points of interest as quickly as possible, you would have th
 Since the robot isn't very fast, you need to find it the _shortest route_. This path is the fewest steps (in the above example, a total of `` 14 ``) required to start at `` 0 `` and then visit every other location at least once.
 
 Given your actual map, and starting from location `` 0 ``, what is the _fewest number of steps_ required to visit every non-`` 0 `` number marked on the map at least once?
+
+## --- Part Two ---
+
+Of course, if you leave the cleaning robot somewhere weird, someone is bound to notice.
+
+What is the fewest number of steps required to start at `` 0 ``, visit every non-`` 0 `` number marked on the map at least once, and then _return to `` 0 ``_?
