@@ -1,6 +1,4 @@
-use crate::utils::graph::{
-    breadth_first_search, depth_first_search, shortest_path, VisitorAction, VisitorFactory,
-};
+use crate::utils::graph::{breadth_first_search, shortest_path, VisitorAction, VisitorFactory};
 use num::Integer;
 
 type Coordinate = crate::utils::grid::Coordinate<0, 0, { isize::MAX }, { isize::MAX }>;

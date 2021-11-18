@@ -4,6 +4,7 @@ pub(crate) mod utils;
 mod year2016;
 mod year2021;
 
+#[cfg(test)]
 macro_rules! create_solver_test {
     ($year:ident, $day:ident, $part:ident, verify_answer = true) => {
         paste::paste! {
@@ -46,6 +47,7 @@ macro_rules! create_solver_test {
         }
     };
 }
+#[cfg(test)]
 pub(crate) use create_solver_test;
 
 macro_rules! register_year {

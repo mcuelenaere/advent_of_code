@@ -1,4 +1,4 @@
-use itertools::{chain, izip, Itertools};
+use itertools::{chain, izip};
 use std::fmt::{Display, Write};
 
 #[derive(Debug, Copy, Clone)]
@@ -69,6 +69,7 @@ pub fn solve_part2(input: &str) -> usize {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use itertools::Itertools;
 
     #[test]
     fn test_generate_tiles() {
