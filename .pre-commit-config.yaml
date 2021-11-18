@@ -30,6 +30,6 @@ repos:
       - id: fmt
         entry: bash -c 'cd rust && cargo fmt --'
       - id: clippy
-        entry: bash -c 'cd rust && cargo clippy -- -D warnings'
+        entry: bash -c 'cd rust && cargo clippy'
       - id: cargo-check
         entry: bash -c 'cd rust && cargo check'
