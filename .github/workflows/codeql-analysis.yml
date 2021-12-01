@@ -34,7 +34,7 @@ jobs:
         toolchain: stable
 
     - name: Set up Poetry cache for Python dependencies
-      uses: actions/cache@v2.1.6
+      uses: actions/cache@v2.1.7
       with:
         path: ~/.cache/pypoetry
         key: ${{ runner.os }}-poetry-3.9-${{ hashFiles('**/poetry.lock') }}
