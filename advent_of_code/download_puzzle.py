@@ -3,6 +3,7 @@ import re
 
 from datetime import datetime
 from time import sleep
+from typing import Optional
 
 import click
 import html2markdown
@@ -51,9 +52,19 @@ def write_file(contents: str, filepath: str):
 
 @click.command()
 @click.option("--session-cookie", type=str, required=True)
-def main(session_cookie: str):
-    for year in range(START_YEAR, END_YEAR + 1):
+@click.option("--year", type=int, required=False)
+def main(session_cookie: str, year: Optional[int]):
+    if year is not None:
+        years = [year]
+    else:
+        years = range(START_YEAR, END_YEAR + 1)
+
+    now = datetime.now()
+    for year in years:
         for day in range(1, 26):
+            if now.year == year and day > now.day:
+                continue
+
             path = os.path.join(PUZZLE_PATH, f"year{year}", f"day{day:02d}")
 
             # check if puzzle input needs to be downloaded
