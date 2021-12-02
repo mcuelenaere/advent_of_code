@@ -92,7 +92,7 @@ register_year!(year2016 => [
     day10, day11, day12, day13, day14, day15, day16, day17, day18, day19,
     day20, day21, day22, day23, day24, day25
 ]);
-register_year!(year2021 => [day01]);
+register_year!(year2021 => [day01, day02]);
 
 #[pymodule]
 fn aoc_rust(py: Python, m: &PyModule) -> PyResult<()> {
