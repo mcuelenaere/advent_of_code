@@ -1,5 +1,6 @@
 from libc.stdint cimport uint64_t
 
+
 def determine_loop_size(uint64_t expected_outcome):
     cdef uint64_t value = 1
     cdef uint64_t loop_size = 0

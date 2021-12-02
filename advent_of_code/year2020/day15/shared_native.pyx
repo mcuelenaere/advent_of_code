@@ -1,5 +1,6 @@
 from libc.stdlib cimport calloc, free
 
+
 def play_memory_game(numbers, Py_ssize_t max_turn):
     cdef Py_ssize_t numbers_length = len(numbers)
     cdef unsigned long *numbers_history = <unsigned long*> calloc(max_turn + 1, sizeof(unsigned long))

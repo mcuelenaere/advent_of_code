@@ -2,6 +2,7 @@
 
 from libcpp.vector cimport vector
 
+
 cdef struct Node:
     int value
     Node* next

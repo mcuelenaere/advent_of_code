@@ -6,6 +6,7 @@ from libcpp.unordered_map cimport unordered_map
 from libcpp.unordered_set cimport unordered_set
 from libcpp.vector cimport vector
 
+
 cdef extern from "coordinate.h" nogil:
     cdef cppclass Coordinate:
         int x, y
