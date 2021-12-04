@@ -3,6 +3,7 @@ use std::cmp::Ordering;
 use std::collections::{BinaryHeap, HashMap, HashSet, VecDeque};
 use std::hash::Hash;
 use std::marker::PhantomData;
+use std::ops::Add;
 
 pub enum VisitorAction<S> {
     Continue(S),
@@ -201,31 +202,53 @@ pub fn shortest_path<N>(
 where
     N: Hash + Eq + Clone,
 {
+    shortest_path_with_cost(
+        start_node,
+        0,
+        is_goal,
+        |node| graph.get_neighbours(node).into_iter().map(|node| (node, 1)),
+        heuristic,
+    )
+    .map(|path| path.into_iter().map(|(node, _)| node).collect_vec())
+}
+
+pub fn shortest_path_with_cost<N, C, I>(
+    start_node: N,
+    start_cost: C,
+    is_goal: impl Fn(&N) -> bool,
+    mut get_neighbours: impl FnMut(&N) -> I,
+    heuristic: impl Fn(&N) -> C,
+) -> Option<Vec<(N, C)>>
+where
+    N: Hash + Eq + Clone,
+    C: Ord + Add<Output = C> + Clone,
+    I: IntoIterator<Item = (N, C)>,
+{
     #[derive(Eq, PartialEq)]
-    struct State<N: Eq> {
+    struct State<N: Eq, C: Ord + Clone> {
         node: N,
-        cost: usize,
+        cost: C,
     }
 
-    impl<N: Eq> PartialOrd for State<N> {
+    impl<N: Eq, C: Ord + Clone> PartialOrd for State<N, C> {
         fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
             Some(self.cmp(other))
         }
     }
 
-    impl<N: Eq> Ord for State<N> {
+    impl<N: Eq, C: Ord + Clone> Ord for State<N, C> {
         fn cmp(&self, other: &Self) -> Ordering {
             other.cost.cmp(&self.cost)
         }
     }
 
     let mut open_set = BinaryHeap::new();
-    let mut dist: HashMap<N, usize> = HashMap::new();
+    let mut dist: HashMap<N, C> = HashMap::new();
     open_set.push(State {
         node: start_node.clone(),
-        cost: 0,
+        cost: start_cost.clone(),
     });
-    dist.insert(start_node, 0);
+    dist.insert(start_node, start_cost);
 
     let mut path: HashMap<N, N> = HashMap::new();
     while let Some(state) = open_set.pop() {
@@ -238,7 +261,7 @@ where
             let mut stack = Vec::new();
             let mut current = Some(min_node);
             while let Some(node) = current {
-                stack.push(node.clone());
+                stack.push((node.clone(), dist[&node].clone()));
                 current = path.remove(&node);
             }
             stack.reverse();
@@ -246,15 +269,15 @@ where
             return Some(stack);
         }
 
-        let current_cost = dist[&min_node];
-        for neighbour in graph.get_neighbours(&min_node) {
-            let cost = current_cost + 1;
+        let current_cost = dist[&min_node].clone();
+        for (neighbour, cost) in get_neighbours(&min_node) {
+            let cost = current_cost.clone() + cost;
 
             if !dist.contains_key(&neighbour) || cost < dist[&neighbour] {
                 if !open_set.iter().map(|s| &s.node).contains(&neighbour) {
                     open_set.push(State {
                         node: neighbour.clone(),
-                        cost: cost + heuristic(&neighbour),
+                        cost: cost.clone() + heuristic(&neighbour),
                     });
                 }
                 dist.insert(neighbour.clone(), cost);
