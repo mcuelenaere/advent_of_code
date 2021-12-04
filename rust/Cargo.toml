@@ -8,6 +8,7 @@ name = "advent_of_code"
 crate-type = ["cdylib"]
 
 [dependencies]
+genawaiter = "0.99.1"
 lazy_static = "1.4.0"
 paste = "1.0.6"
 itertools = "0.10.1"
