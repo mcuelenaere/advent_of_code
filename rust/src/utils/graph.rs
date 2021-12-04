@@ -212,56 +212,79 @@ where
     .map(|path| path.into_iter().map(|(node, _)| node).collect_vec())
 }
 
+struct SmallestCostHolder<N, C> {
+    node: N,
+    cost: C,
+    estimated_cost: C,
+}
+
+impl<N, C: PartialEq> PartialEq for SmallestCostHolder<N, C> {
+    fn eq(&self, other: &Self) -> bool {
+        other.cost.eq(&self.cost) && other.estimated_cost.eq(&self.estimated_cost)
+    }
+}
+
+impl<N, C: PartialEq> Eq for SmallestCostHolder<N, C> {}
+
+impl<N, C: Ord> PartialOrd for SmallestCostHolder<N, C> {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+impl<N, C: Ord> Ord for SmallestCostHolder<N, C> {
+    fn cmp(&self, other: &Self) -> Ordering {
+        match other.estimated_cost.cmp(&self.estimated_cost) {
+            Ordering::Equal => self.cost.cmp(&other.cost),
+            o => o,
+        }
+    }
+}
+
 pub fn shortest_path_with_cost<N, C, I>(
     start_node: N,
     start_cost: C,
     is_goal: impl Fn(&N) -> bool,
-    mut get_neighbours: impl FnMut(&N) -> I,
+    get_neighbours: impl Fn(&N) -> I,
     heuristic: impl Fn(&N) -> C,
 ) -> Option<Vec<(N, C)>>
 where
     N: Hash + Eq + Clone,
-    C: Ord + Add<Output = C> + Clone,
+    C: Ord + Add<Output = C> + Copy,
     I: IntoIterator<Item = (N, C)>,
 {
-    #[derive(Eq, PartialEq)]
-    struct State<N: Eq, C: Ord + Clone> {
-        node: N,
-        cost: C,
-    }
-
-    impl<N: Eq, C: Ord + Clone> PartialOrd for State<N, C> {
-        fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
-            Some(self.cmp(other))
-        }
-    }
-
-    impl<N: Eq, C: Ord + Clone> Ord for State<N, C> {
-        fn cmp(&self, other: &Self) -> Ordering {
-            other.cost.cmp(&self.cost)
-        }
-    }
-
     let mut open_set = BinaryHeap::new();
-    let mut dist: HashMap<N, C> = HashMap::new();
-    open_set.push(State {
+    let mut costs: HashMap<N, C> = HashMap::new();
+    let mut estimated_costs: HashMap<N, C> = HashMap::new();
+
+    costs.insert(start_node.clone(), start_cost);
+    estimated_costs.insert(start_node.clone(), start_cost + heuristic(&start_node));
+    open_set.push(SmallestCostHolder {
         node: start_node.clone(),
-        cost: start_cost.clone(),
+        cost: start_cost,
+        estimated_cost: start_cost + heuristic(&start_node),
     });
-    dist.insert(start_node, start_cost);
 
     let mut path: HashMap<N, N> = HashMap::new();
     while let Some(state) = open_set.pop() {
-        let State {
+        let SmallestCostHolder {
             node: min_node,
-            cost: _,
+            cost: min_node_cost,
+            ..
         } = state;
+
+        if min_node_cost > estimated_costs[&min_node] {
+            // We may have inserted a node several time into the binary heap if we found
+            // a better way to access it. Ensure that we are currently dealing with the
+            // best path and discard the others.
+            continue;
+        }
 
         if is_goal(&min_node) {
             let mut stack = Vec::new();
             let mut current = Some(min_node);
             while let Some(node) = current {
-                stack.push((node.clone(), dist[&node].clone()));
+                stack.push((node.clone(), costs[&node]));
                 current = path.remove(&node);
             }
             stack.reverse();
@@ -269,19 +292,21 @@ where
             return Some(stack);
         }
 
-        let current_cost = dist[&min_node].clone();
+        let current_cost = costs[&min_node];
         for (neighbour, cost) in get_neighbours(&min_node) {
-            let cost = current_cost.clone() + cost;
+            let neighbour_cost = current_cost + cost;
 
-            if !dist.contains_key(&neighbour) || cost < dist[&neighbour] {
-                if !open_set.iter().map(|s| &s.node).contains(&neighbour) {
-                    open_set.push(State {
-                        node: neighbour.clone(),
-                        cost: cost.clone() + heuristic(&neighbour),
-                    });
-                }
-                dist.insert(neighbour.clone(), cost);
-                path.insert(neighbour, min_node.clone());
+            if !costs.contains_key(&neighbour) || neighbour_cost < costs[&neighbour] {
+                let neighbour_estimated_cost = neighbour_cost + heuristic(&neighbour);
+
+                costs.insert(neighbour.clone(), neighbour_cost);
+                estimated_costs.insert(neighbour.clone(), neighbour_estimated_cost);
+                path.insert(neighbour.clone(), min_node.clone());
+                open_set.push(SmallestCostHolder {
+                    node: neighbour.clone(),
+                    cost: neighbour_cost,
+                    estimated_cost: neighbour_estimated_cost,
+                });
             }
         }
     }
