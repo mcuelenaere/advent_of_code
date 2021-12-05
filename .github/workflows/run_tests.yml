@@ -13,7 +13,7 @@ jobs:
     strategy:
       matrix:
         python-version: ['3.7', '3.8', '3.9']
-        puzzle-year: ['2015', '2016', '2017', '2018', '2019', '2020']
+        puzzle-year: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
     steps:
     - uses: actions/checkout@v2.4.0
     - name: Set up Python ${{ matrix.python-version }}
