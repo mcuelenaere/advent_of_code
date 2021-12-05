@@ -1,5 +1,6 @@
 use crate::utils::graph::shortest_path;
 use itertools::Itertools;
+use std::cell::RefCell;
 use std::collections::HashMap;
 
 type Coordinate = crate::utils::grid::Coordinate<0, 0, { isize::MAX }, { isize::MAX }>;
@@ -27,14 +28,14 @@ fn parse_tiles(input: &str) -> impl Iterator<Item = (Coordinate, Tile)> + '_ {
 #[derive(Debug)]
 struct Map {
     tiles: HashMap<Coordinate, Tile>,
-    cached_paths: HashMap<(Coordinate, Coordinate), Vec<Coordinate>>,
+    cached_paths: RefCell<HashMap<(Coordinate, Coordinate), Vec<Coordinate>>>,
 }
 
 impl Map {
     pub fn from_text(input: &str) -> Self {
         Self {
             tiles: parse_tiles(input).collect(),
-            cached_paths: HashMap::new(),
+            cached_paths: RefCell::new(HashMap::new()),
         }
     }
 
@@ -55,31 +56,35 @@ impl Map {
             .collect()
     }
 
-    pub fn path_between(&mut self, from: Coordinate, to: Coordinate) -> &Vec<Coordinate> {
-        self.cached_paths.entry((from, to)).or_insert_with(|| {
-            shortest_path(
-                from,
-                |c: &Coordinate| c == &to,
-                |c: &Coordinate| {
-                    c.neighbours_cross()
-                        .filter(|neighbour| {
-                            if let Some(neighbour) = self.tiles.get(neighbour) {
-                                !matches!(neighbour, Tile::Wall)
-                            } else {
-                                true
-                            }
-                        })
-                        .collect::<Vec<_>>() // FIXME: don't collect
-                },
-                |c: &Coordinate| c.manhattan_distance(&to),
-            )
-            .unwrap()
-        })
+    pub fn path_length_between(&self, from: Coordinate, to: Coordinate) -> usize {
+        self.cached_paths
+            .borrow_mut()
+            .entry((from, to))
+            .or_insert_with(|| {
+                shortest_path(
+                    from,
+                    |c: &Coordinate| c == &to,
+                    |c: &Coordinate| {
+                        c.neighbours_cross()
+                            .filter(|neighbour| {
+                                if let Some(neighbour) = self.tiles.get(neighbour) {
+                                    !matches!(neighbour, Tile::Wall)
+                                } else {
+                                    true
+                                }
+                            })
+                            .collect::<Vec<_>>() // FIXME: don't collect
+                    },
+                    |c: &Coordinate| c.manhattan_distance(&to),
+                )
+                .unwrap()
+            })
+            .len()
     }
 }
 
 pub fn solve_part1(input: &str) -> usize {
-    let mut map = Map::from_text(input);
+    let map = Map::from_text(input);
 
     let start = map.start_tile();
     let locations: Vec<_> = map.locations();
@@ -92,10 +97,10 @@ pub fn solve_part1(input: &str) -> usize {
             let mut total_steps = 0;
             let mut current = start;
             for (coordinate, _) in locations {
-                let path = map.path_between(current, coordinate);
+                let path_length = map.path_length_between(current, coordinate);
 
                 current = coordinate;
-                total_steps += path.len() - 1;
+                total_steps += path_length - 1;
             }
 
             total_steps
@@ -105,7 +110,7 @@ pub fn solve_part1(input: &str) -> usize {
 }
 
 pub fn solve_part2(input: &str) -> usize {
-    let mut map = Map::from_text(input);
+    let map = Map::from_text(input);
 
     let start = map.start_tile();
     let locations: Vec<_> = map.locations();
@@ -118,15 +123,15 @@ pub fn solve_part2(input: &str) -> usize {
             let mut total_steps = 0;
             let mut current = start;
             for (coordinate, _) in locations {
-                let path = map.path_between(current, coordinate);
+                let path_length = map.path_length_between(current, coordinate);
 
                 current = coordinate;
-                total_steps += path.len() - 1;
+                total_steps += path_length - 1;
             }
 
             // return to 0
-            let path = map.path_between(current, start);
-            total_steps += path.len() - 1;
+            let path_length = map.path_length_between(current, start);
+            total_steps += path_length - 1;
 
             total_steps
         })
