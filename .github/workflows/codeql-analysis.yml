@@ -23,7 +23,7 @@ jobs:
         languages: python
         setup-python-dependencies: false
 
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
@@ -37,7 +37,7 @@ jobs:
       uses: actions/cache@v2.1.7
       with:
         path: ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry-3.9-${{ hashFiles('**/poetry.lock') }}
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
 
     - name: Install Poetry
       uses: snok/install-poetry@v1.3

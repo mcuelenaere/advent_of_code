@@ -12,14 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.7', '3.8', '3.9']
         puzzle-year: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
     steps:
     - uses: actions/checkout@v2.4.0
-    - name: Set up Python ${{ matrix.python-version }}
+    - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.9
     - name: Set up rust
       uses: actions-rs/toolchain@v1
       with:
@@ -28,7 +27,7 @@ jobs:
       uses: actions/cache@v2.1.7
       with:
         path: ~/.cache/pypoetry
-        key: ${{ runner.os }}-poetry-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
     - name: Install Poetry
       uses: snok/install-poetry@v1.3
     - name: Install dependencies
