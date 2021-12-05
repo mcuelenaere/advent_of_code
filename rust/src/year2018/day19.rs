@@ -1,7 +1,7 @@
 type Register = usize;
 
 #[derive(Debug, Eq, PartialEq)]
-enum Instruction {
+pub enum Instruction {
     AddRegister(Register, Register, Register),
     AddImmediate(Register, usize, Register),
     MultiplyRegister(Register, Register, Register),
@@ -32,17 +32,17 @@ fn parse_numbers(input: &str) -> (usize, usize, usize) {
     )
 }
 
-fn parse_instructions(input: &str) -> (Register, Vec<Instruction>) {
+pub fn parse_instructions(input: &str) -> (Register, Vec<Instruction>) {
     let mut instruction_pointer_register: Option<Register> = None;
 
     let instructions = input
         .lines()
-        .filter_map(|line| {
+        .filter(|line| {
             if let Some(line) = line.strip_prefix("#ip ") {
                 instruction_pointer_register = Some(line.parse().expect("a number"));
-                None
+                false
             } else {
-                Some(line)
+                true
             }
         })
         .map(|line| {
@@ -107,9 +107,9 @@ fn parse_instructions(input: &str) -> (Register, Vec<Instruction>) {
 }
 
 #[derive(Debug)]
-struct Cpu {
-    registers: [usize; 6],
-    instruction_pointer_register: Register,
+pub struct Cpu {
+    pub registers: [usize; 6],
+    pub instruction_pointer_register: Register,
 }
 
 impl Cpu {
@@ -120,79 +120,11 @@ impl Cpu {
         }
     }
 
-    fn instruction_pointer(&self) -> usize {
+    pub fn instruction_pointer(&self) -> usize {
         self.registers[self.instruction_pointer_register]
     }
 
-    pub fn execute_program(&mut self, instructions: &Vec<Instruction>) {
-        while self.instruction_pointer() < instructions.len() {
-            self.check_for_optimization(&instructions[self.instruction_pointer()..]);
-            self.execute_instruction(&instructions[self.instruction_pointer()]);
-        }
-    }
-
-    fn check_for_optimization(&mut self, instructions: &[Instruction]) {
-        if instructions.len() < 9 {
-            return;
-        }
-
-        /*
-            mulr 3 5 2
-            eqrr 2 4 2
-            addr 2 IP IP
-            addi IP 1 IP
-            addr 3 0 0
-            addi 5 1 5
-            gtrr 5 4 2
-            addr IP 2 IP
-            seti 2 6 IP
-        =>
-            for (; r[5] <= r[4]; r[5] += 1) {
-                r[2] = r[3] * r[5];
-                if (r[2] == r[4]) {
-                    r[0] += r[3];
-                }
-            }
-
-        =>
-            if (r[4] % r[3] == 0) {
-                r[0] += r[3];
-            }
-            r[2] = 1;
-            r[5] = r[4] + 1;
-         */
-        if Instruction::MultiplyRegister(3, 5, 2) == instructions[0]
-            && Instruction::EqualRegisterRegister(2, 4, 2) == instructions[1]
-            && Instruction::AddRegister(
-                2,
-                self.instruction_pointer_register,
-                self.instruction_pointer_register,
-            ) == instructions[2]
-            && Instruction::AddImmediate(
-                self.instruction_pointer_register,
-                1,
-                self.instruction_pointer_register,
-            ) == instructions[3]
-            && Instruction::AddRegister(3, 0, 0) == instructions[4]
-            && Instruction::AddImmediate(5, 1, 5) == instructions[5]
-            && Instruction::GreaterThanRegisterRegister(5, 4, 2) == instructions[6]
-            && Instruction::AddRegister(
-                self.instruction_pointer_register,
-                2,
-                self.instruction_pointer_register,
-            ) == instructions[7]
-            && Instruction::SetImmediate(2, self.instruction_pointer_register) == instructions[8]
-        {
-            if self.registers[4] % self.registers[3] == 0 {
-                self.registers[0] += self.registers[3];
-            }
-            self.registers[2] = 1;
-            self.registers[5] = self.registers[4] + 1;
-            self.registers[self.instruction_pointer_register] += 9;
-        }
-    }
-
-    fn execute_instruction(&mut self, instruction: &Instruction) {
+    pub fn execute_instruction(&mut self, instruction: &Instruction) {
         match instruction {
             Instruction::AddRegister(a, b, c) => {
                 self.registers[*c] = self.registers[*a] + self.registers[*b];
@@ -256,10 +188,86 @@ impl Cpu {
     }
 }
 
+fn check_for_optimization(cpu: &mut Cpu, instructions: &[Instruction]) -> bool {
+    if instructions.len() < 9 {
+        return false;
+    }
+
+    /*
+        mulr 3 5 2
+        eqrr 2 4 2
+        addr 2 IP IP
+        addi IP 1 IP
+        addr 3 0 0
+        addi 5 1 5
+        gtrr 5 4 2
+        addr IP 2 IP
+        seti 2 6 IP
+    =>
+        for (; r[5] <= r[4]; r[5] += 1) {
+            r[2] = r[3] * r[5];
+            if (r[2] == r[4]) {
+                r[0] += r[3];
+            }
+        }
+
+    =>
+        if (r[4] % r[3] == 0) {
+            r[0] += r[3];
+        }
+        r[2] = 1;
+        r[5] = r[4] + 1;
+     */
+    if Instruction::MultiplyRegister(3, 5, 2) == instructions[0]
+        && Instruction::EqualRegisterRegister(2, 4, 2) == instructions[1]
+        && Instruction::AddRegister(
+            2,
+            cpu.instruction_pointer_register,
+            cpu.instruction_pointer_register,
+        ) == instructions[2]
+        && Instruction::AddImmediate(
+            cpu.instruction_pointer_register,
+            1,
+            cpu.instruction_pointer_register,
+        ) == instructions[3]
+        && Instruction::AddRegister(3, 0, 0) == instructions[4]
+        && Instruction::AddImmediate(5, 1, 5) == instructions[5]
+        && Instruction::GreaterThanRegisterRegister(5, 4, 2) == instructions[6]
+        && Instruction::AddRegister(
+            cpu.instruction_pointer_register,
+            2,
+            cpu.instruction_pointer_register,
+        ) == instructions[7]
+        && Instruction::SetImmediate(2, cpu.instruction_pointer_register) == instructions[8]
+    {
+        if cpu.registers[4] % cpu.registers[3] == 0 {
+            cpu.registers[0] += cpu.registers[3];
+        }
+        cpu.registers[2] = 1;
+        cpu.registers[5] = cpu.registers[4] + 1;
+        cpu.registers[cpu.instruction_pointer_register] += 9;
+
+        return true;
+    }
+
+    false
+}
+
+fn execute_program(mut cpu: &mut Cpu, instructions: &[Instruction]) {
+    while cpu.instruction_pointer() < instructions.len() {
+        let ip = cpu.instruction_pointer();
+        if check_for_optimization(&mut cpu, &instructions[ip..]) {
+            continue;
+        }
+
+        cpu.execute_instruction(&instructions[ip]);
+    }
+}
+
 pub fn solve_part1(input: &str) -> usize {
     let (instruction_pointer_register, instructions) = parse_instructions(input);
     let mut cpu = Cpu::new(instruction_pointer_register);
-    cpu.execute_program(&instructions);
+    execute_program(&mut cpu, &instructions);
 
     cpu.registers[0]
 }
@@ -268,7 +276,7 @@ pub fn solve_part2(input: &str) -> usize {
     let (instruction_pointer_register, instructions) = parse_instructions(input);
     let mut cpu = Cpu::new(instruction_pointer_register);
     cpu.registers[0] = 1;
-    cpu.execute_program(&instructions);
+    execute_program(&mut cpu, &instructions);
 
     cpu.registers[0]
 }
