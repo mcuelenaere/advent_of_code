@@ -56,7 +56,7 @@ fn plot_line_low<const MIN_X: isize, const MAX_X: isize, const MIN_Y: isize, con
     start: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
     stop: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
 ) -> impl Iterator<Item = Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>> {
-    let generator = gen!({
+    gen!({
         // Bresenham's line algorithm
         // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#All_cases
         let dx = stop.x - start.x;
@@ -77,8 +77,8 @@ fn plot_line_low<const MIN_X: isize, const MAX_X: isize, const MIN_Y: isize, con
             }
             D += 2 * dy;
         }
-    });
-    generator.into_iter()
+    })
+    .into_iter()
 }
 
 fn plot_line_high<
@@ -90,7 +90,7 @@ fn plot_line_high<
     start: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
     stop: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
 ) -> impl Iterator<Item = Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>> {
-    let generator = gen!({
+    gen!({
         // Bresenham's line algorithm
         // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#All_cases
         let mut dx = stop.x - start.x;
@@ -111,8 +111,8 @@ fn plot_line_high<
             }
             D += 2 * dx;
         }
-    });
-    generator.into_iter()
+    })
+    .into_iter()
 }
 
 pub fn plot_line<const MIN_X: isize, const MAX_X: isize, const MIN_Y: isize, const MAX_Y: isize>(
