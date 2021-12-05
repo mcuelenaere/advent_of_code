@@ -1,3 +1,6 @@
+use genawaiter::rc::gen;
+use genawaiter::yield_;
+
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct Coordinate<
     const MIN_X: isize,
@@ -46,5 +49,89 @@ impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: is
 
     pub fn manhattan_distance(&self, other: &Self) -> usize {
         ((self.x - other.x).abs() + (self.y - other.y).abs()) as usize
+    }
+}
+
+fn plot_line_low<const MIN_X: isize, const MAX_X: isize, const MIN_Y: isize, const MAX_Y: isize>(
+    start: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
+    stop: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
+) -> impl Iterator<Item = Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>> {
+    let generator = gen!({
+        // Bresenham's line algorithm
+        // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#All_cases
+        let dx = stop.x - start.x;
+        let mut dy = stop.y - start.y;
+        let mut yi = 1;
+        if dy < 0 {
+            yi = -1;
+            dy = -dy;
+        }
+
+        let mut D = (2 * dy) - dx;
+        let mut y = start.y;
+        for x in start.x..=stop.x {
+            yield_!(Coordinate::new(x, y).unwrap());
+            if D > 0 {
+                y += yi;
+                D += 2 * (dy - dx);
+            }
+            D += 2 * dy;
+        }
+    });
+    generator.into_iter()
+}
+
+fn plot_line_high<
+    const MIN_X: isize,
+    const MAX_X: isize,
+    const MIN_Y: isize,
+    const MAX_Y: isize,
+>(
+    start: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
+    stop: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
+) -> impl Iterator<Item = Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>> {
+    let generator = gen!({
+        // Bresenham's line algorithm
+        // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#All_cases
+        let mut dx = stop.x - start.x;
+        let dy = stop.y - start.y;
+        let mut xi = 1;
+        if dx < 0 {
+            xi = -1;
+            dx = -dx;
+        }
+
+        let mut D = (2 * dx) - dy;
+        let mut x = start.x;
+        for y in start.y..=stop.y {
+            yield_!(Coordinate::new(x, y).unwrap());
+            if D > 0 {
+                x += xi;
+                D += 2 * (dx - dy);
+            }
+            D += 2 * dx;
+        }
+    });
+    generator.into_iter()
+}
+
+pub fn plot_line<const MIN_X: isize, const MAX_X: isize, const MIN_Y: isize, const MAX_Y: isize>(
+    start: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
+    stop: Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>,
+) -> Box<dyn Iterator<Item = Coordinate<MIN_X, MAX_X, MIN_Y, MAX_Y>>> {
+    // Bresenham's line algorithm
+    // https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm#All_cases
+    if (stop.y - start.y).abs() < (stop.x - start.x).abs() {
+        if start.x > stop.x {
+            Box::new(plot_line_low(stop, start))
+        } else {
+            Box::new(plot_line_low(start, stop))
+        }
+    } else {
+        if start.y > stop.y {
+            Box::new(plot_line_high(stop, start))
+        } else {
+            Box::new(plot_line_high(start, stop))
+        }
     }
 }
