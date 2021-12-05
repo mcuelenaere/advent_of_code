@@ -11,7 +11,7 @@ fn parse_diagnostic_report(input: &str) -> (usize, Vec<u16>) {
     (bit_length, diagnostic_report)
 }
 
-fn determine_bit_count(input: &Vec<u16>, bit: usize) -> (usize, usize) {
+fn determine_bit_count(input: &[u16], bit: usize) -> (usize, usize) {
     let mut zero_count = 0;
     let mut one_count = 0;
     for number in input {
@@ -34,9 +34,9 @@ pub fn solve_part1(input: &str) -> usize {
         let (zero_count, one_count) = determine_bit_count(&diagnostic_report, bit);
 
         if one_count > zero_count {
-            gamma_rate |= (1 << bit);
+            gamma_rate |= 1 << bit;
         } else {
-            epsilon_rate |= (1 << bit);
+            epsilon_rate |= 1 << bit;
         }
     }
 

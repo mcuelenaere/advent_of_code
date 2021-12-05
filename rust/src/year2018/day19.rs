@@ -22,7 +22,7 @@ enum Instruction {
 
 fn parse_numbers(input: &str) -> (usize, usize, usize) {
     let mut it = input
-        .splitn(3, " ")
+        .splitn(3, ' ')
         .map(|part| part.parse::<usize>().expect("a number"));
 
     (

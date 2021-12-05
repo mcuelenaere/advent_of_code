@@ -56,6 +56,7 @@ pub fn solve_part1(input: &str) -> usize {
     part1(number_of_elves)
 }
 
+#[allow(dead_code)]
 fn part2_naive(number_of_elves: usize) -> usize {
     let mut elves: Vec<Elf> = Vec::with_capacity(number_of_elves);
     for number in 1..=number_of_elves {

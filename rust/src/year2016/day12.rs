@@ -110,7 +110,7 @@ struct Cpu {
 }
 
 impl Cpu {
-    pub fn execute_program(&mut self, instructions: &Vec<Instruction>) {
+    pub fn execute_program(&mut self, instructions: &[Instruction]) {
         while self.program_counter < instructions.len() {
             let instruction = &instructions[self.program_counter];
             self.execute_instruction(instruction);

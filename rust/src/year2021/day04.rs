@@ -72,7 +72,7 @@ fn parse_boards(input: &str) -> (RandomNumbers, Vec<Board>) {
     for (index, line) in input.lines().enumerate() {
         if index == 0 {
             random_numbers.extend(
-                line.split(",")
+                line.split(',')
                     .map(|text| text.parse::<usize>().expect("a valid number")),
             );
         } else if line == "" {
