@@ -1,5 +1,4 @@
 use itertools::Itertools;
-use num::traits::real::Real;
 use std::cmp::{max, min};
 
 fn parse_positions(input: &str) -> Vec<usize> {
