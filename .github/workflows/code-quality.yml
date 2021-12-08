@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ master ]
 
+concurrency:
+  group: code_quality-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   pre-commit:
     name: Linting
