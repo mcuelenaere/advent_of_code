@@ -138,31 +138,14 @@ impl VisitorFactory {
     }
 }
 
-pub trait GetNeighbours<N> {
-    type Iterator: IntoIterator<Item = N>;
-
-    fn get_neighbours(&self, node: &N) -> Self::Iterator;
-}
-
-impl<F, I, N> GetNeighbours<N> for F
-where
-    F: Fn(&N) -> I,
-    I: IntoIterator<Item = N>,
-{
-    type Iterator = I;
-
-    fn get_neighbours(&self, node: &N) -> Self::Iterator {
-        self(node)
-    }
-}
-
-pub fn breadth_first_search<N, S>(
+pub fn breadth_first_search<N, S, I>(
     start_node: N,
-    graph: impl GetNeighbours<N>,
+    get_neighbours: impl Fn(&N) -> I,
     mut node_visitor: impl NodeVisitor<Node = N, State = S>,
 ) where
     N: Hash + Eq + Clone,
     S: Default,
+    I: IntoIterator<Item = N>,
 {
     let mut stack = VecDeque::new();
 
@@ -172,7 +155,7 @@ pub fn breadth_first_search<N, S>(
     };
 
     while let Some((node, state)) = stack.pop_front() {
-        for neighbour in graph.get_neighbours(&node) {
+        for neighbour in get_neighbours(&node) {
             if !node_visitor.should_visit(&neighbour, &state) {
                 continue;
             }
@@ -187,19 +170,20 @@ pub fn breadth_first_search<N, S>(
     }
 }
 
-pub fn depth_first_search<N, S>(
+pub fn depth_first_search<N, S, I>(
     start_node: N,
-    graph: impl GetNeighbours<N>,
+    get_neighbours: impl Fn(&N) -> I,
     mut node_visitor: impl NodeVisitor<Node = N, State = S>,
 ) where
     N: Hash + Eq + Clone,
     S: Default,
+    I: IntoIterator<Item = N>,
 {
     let mut stack = VecDeque::new();
 
     match node_visitor.visit(&start_node, &S::default()) {
         VisitorAction::Continue(new_state) => {
-            stack.push_back((graph.get_neighbours(&start_node).into_iter(), new_state))
+            stack.push_back((get_neighbours(&start_node).into_iter(), new_state))
         }
         VisitorAction::Stop => return,
     };
@@ -209,7 +193,7 @@ pub fn depth_first_search<N, S>(
             if node_visitor.should_visit(&node, state) {
                 match node_visitor.visit(&node, state) {
                     VisitorAction::Continue(new_state) => {
-                        stack.push_back((graph.get_neighbours(&node).into_iter(), new_state));
+                        stack.push_back((get_neighbours(&node).into_iter(), new_state));
                     }
                     VisitorAction::Stop => {}
                 };
@@ -220,20 +204,21 @@ pub fn depth_first_search<N, S>(
     }
 }
 
-pub fn shortest_path<N>(
+pub fn shortest_path<N, I>(
     start_node: N,
     is_goal: impl Fn(&N) -> bool,
-    graph: impl GetNeighbours<N>,
+    get_neighbours: impl Fn(&N) -> I,
     heuristic: impl Fn(&N) -> usize,
 ) -> Option<Vec<N>>
 where
     N: Hash + Eq + Clone,
+    I: IntoIterator<Item = N>,
 {
     shortest_path_with_cost(
         start_node,
         0,
         is_goal,
-        |node| graph.get_neighbours(node).into_iter().map(|node| (node, 1)),
+        |node| get_neighbours(node).into_iter().map(|node| (node, 1)),
         heuristic,
     )
     .map(|path| path.into_iter().map(|(node, _)| node).collect_vec())
