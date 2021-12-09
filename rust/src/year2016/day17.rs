@@ -96,7 +96,7 @@ pub fn solve_part2(input: &str) -> usize {
     breadth_first_search(
         (Coordinate::new(0, 0).unwrap(), input.to_string()),
         get_neighbours,
-        VisitorFactory::custom(
+        VisitorFactory::custom_visitor(
             |_: &(Coordinate, String), _: &usize| true,
             |(coordinate, _): &(Coordinate, String), path_len: &usize| {
                 if *coordinate == target {

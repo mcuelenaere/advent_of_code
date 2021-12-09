@@ -80,7 +80,7 @@ where
 pub struct VisitorFactory;
 
 impl VisitorFactory {
-    pub fn with_visit<N, S, F>(visit: F) -> impl NodeVisitor<Node = N, State = S>
+    pub fn stateful_visitor<N, S, F>(visit: F) -> impl NodeVisitor<Node = N, State = S>
     where
         N: Hash + Eq + Clone,
         F: FnMut(&N, &S) -> VisitorAction<S>,
@@ -93,7 +93,34 @@ impl VisitorFactory {
         }
     }
 
-    pub fn custom<N, S, F1, F2>(
+    pub fn stateless_visitor<N, F>(mut visit: F) -> impl NodeVisitor<Node = N, State = ()>
+    where
+        N: Hash + Eq + Clone,
+        F: FnMut(&N) -> VisitorAction<()>,
+    {
+        ClosureVisitorWithVisitedNodesTracking {
+            visited_nodes: HashSet::new(),
+            visit_fn: move |node, _| visit(node),
+            _phantom: PhantomData,
+        }
+    }
+
+    pub fn actionless_visitor<N, F>(mut visit: F) -> impl NodeVisitor<Node = N, State = ()>
+    where
+        N: Hash + Eq + Clone,
+        F: FnMut(&N),
+    {
+        ClosureVisitorWithVisitedNodesTracking {
+            visited_nodes: HashSet::new(),
+            visit_fn: move |node, _| {
+                visit(node);
+                VisitorAction::Continue(())
+            },
+            _phantom: PhantomData,
+        }
+    }
+
+    pub fn custom_visitor<N, S, F1, F2>(
         should_visit: F2,
         visit: F1,
     ) -> impl NodeVisitor<Node = N, State = S>

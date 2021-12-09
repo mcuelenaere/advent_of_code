@@ -56,10 +56,7 @@ pub fn solve_part2(input: &str) -> usize {
                         })
                         .collect_vec() // FIXME: should not collect
                 },
-                VisitorFactory::with_visit(|location: &Location, state: &()| {
-                    basin_size += 1;
-                    VisitorAction::Continue(())
-                }),
+                VisitorFactory::actionless_visitor(|location: &Location| basin_size += 1),
             );
 
             basin_size

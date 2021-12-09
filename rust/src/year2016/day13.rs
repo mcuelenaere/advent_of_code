@@ -41,7 +41,7 @@ fn _solve_part2(magic_number: usize, max_steps: usize) -> usize {
                 .filter(|neighbour| !is_wall(neighbour, magic_number))
                 .collect::<Vec<_>>() // FIXME: don't collect
         },
-        VisitorFactory::with_visit(|_: &Coordinate, path_length: &usize| {
+        VisitorFactory::stateful_visitor(|_: &Coordinate, path_length: &usize| {
             total_locations += 1;
             if *path_length >= max_steps {
                 VisitorAction::Stop
