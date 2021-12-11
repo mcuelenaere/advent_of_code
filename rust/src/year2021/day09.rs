@@ -1,4 +1,4 @@
-use crate::utils::graph::{breadth_first_search, VisitorAction, VisitorFactory};
+use crate::utils::graph::{breadth_first_search, VisitorFactory};
 use itertools::Itertools;
 use std::collections::HashMap;
 
@@ -56,7 +56,7 @@ pub fn solve_part2(input: &str) -> usize {
                         })
                         .collect_vec() // FIXME: should not collect
                 },
-                VisitorFactory::actionless_visitor(|location: &Location| basin_size += 1),
+                VisitorFactory::actionless_visitor(|_: &Location| basin_size += 1),
             );
 
             basin_size
