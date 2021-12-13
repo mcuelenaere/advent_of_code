@@ -1,4 +1,6 @@
-[![Test puzzles](https://github.com/mcuelenaere/advent_of_code/workflows/Test%20puzzles/badge.svg?branch=master)](https://github.com/mcuelenaere/advent_of_code/actions?query=workflow%3A%22Test+puzzles%22)
+[![Test puzzles](https://github.com/mcuelenaere/advent_of_code/actions/workflows/run_tests.yml/badge.svg?branch=master)](https://github.com/mcuelenaere/advent_of_code/actions/workflows/run_tests.yml)
+[![Code quality](https://github.com/mcuelenaere/advent_of_code/actions/workflows/code-quality.yml/badge.svg?branch=master)](https://github.com/mcuelenaere/advent_of_code/actions/workflows/code-quality.yml)
+
 # Advent of Code
 
 This is my implementation of the puzzles found at [adventofcode.com](https://adventofcode.com/).
