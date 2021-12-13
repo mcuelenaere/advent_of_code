@@ -1,4 +1,4 @@
-[![Test puzzles](https://github.com/mcuelenaere/advent_of_code/actions/workflows/run_tests.yml/badge.svg?branch=master)](https://github.com/mcuelenaere/advent_of_code/actions/workflows/run_tests.yml)
+[![Test puzzles](https://github.com/mcuelenaere/advent_of_code/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/mcuelenaere/advent_of_code/actions/workflows/tests.yml)
 [![Code quality](https://github.com/mcuelenaere/advent_of_code/actions/workflows/code-quality.yml/badge.svg?branch=master)](https://github.com/mcuelenaere/advent_of_code/actions/workflows/code-quality.yml)
 
 # Advent of Code

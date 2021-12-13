@@ -1,4 +1,4 @@
-name: Run tests
+name: Tests
 
 on:
   push:
@@ -11,8 +11,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  solve_puzzles:
-    name: Solve puzzles
+  python_tests:
+    name: Python tests
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -32,9 +32,37 @@ jobs:
       with:
         path: ~/.cache/pypoetry
         key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+    - name: Set up Cargo cache for Rust dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          rust/target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: Install Poetry
       uses: snok/install-poetry@v1.3
     - name: Install dependencies
       run: poetry install --no-interaction
     - name: Solve puzzles of year ${{ matrix.puzzle-year }}
       run: poetry run pytest -k "test_correctly_solve_puzzle[${{ matrix.puzzle-year }}-"
+
+  rust_tests:
+    name: Rust tests
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2.4.0
+    - name: Set up rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+    - name: Set up Cargo cache for Rust dependencies
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+          rust/target
+        key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+    - name: Run tests
+      run: cd rust && cargo test
