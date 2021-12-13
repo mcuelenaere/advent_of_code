@@ -1,6 +1,6 @@
 use crate::utils::graph::{breadth_first_search, NodeVisitor, VisitorAction, VisitorFactory};
 use itertools::Itertools;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashMap;
 
 #[derive(Debug, Copy, Clone, Eq, PartialEq, Hash)]
 enum Cave<'a> {
