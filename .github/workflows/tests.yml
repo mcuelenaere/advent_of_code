@@ -65,4 +65,4 @@ jobs:
           rust/target
         key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
     - name: Run tests
-      run: cd rust && cargo test
+      run: cd rust && cargo test --release -- --skip=test_solve_part
