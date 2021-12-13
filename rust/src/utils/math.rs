@@ -56,6 +56,6 @@ mod tests {
             chinese_remainder_theorem(vec![(2, 6), (5, 9), (7, 15)]),
             None
         );
-        assert_eq!(chinese_remainder_theorem(vec![(-1, 25), (1, 4)]), Some(-51));
+        assert_eq!(chinese_remainder_theorem(vec![(-1, 25), (1, 4)]), Some(49));
     }
 }
