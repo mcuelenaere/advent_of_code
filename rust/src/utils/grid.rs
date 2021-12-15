@@ -15,7 +15,7 @@ pub struct Coordinate<
 impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: isize>
     Coordinate<MIN_X, MIN_Y, MAX_X, MAX_Y>
 {
-    pub fn new(x: isize, y: isize) -> Option<Self> {
+    pub const fn new(x: isize, y: isize) -> Option<Self> {
         if x < MIN_X || x > MAX_X || y < MIN_Y || y > MAX_Y {
             None
         } else {
@@ -47,7 +47,7 @@ impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: is
             .chain(self._neighbours(Self::DIAGONALS))
     }
 
-    pub fn manhattan_distance(&self, other: &Self) -> usize {
+    pub const fn manhattan_distance(&self, other: &Self) -> usize {
         ((self.x - other.x).abs() + (self.y - other.y).abs()) as usize
     }
 }
