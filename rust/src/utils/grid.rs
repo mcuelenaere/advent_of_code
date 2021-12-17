@@ -1,7 +1,8 @@
 use genawaiter::rc::gen;
 use genawaiter::yield_;
+use std::fmt::Formatter;
 
-#[derive(Debug, Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
+#[derive(Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash)]
 pub struct Coordinate<
     const MIN_X: isize,
     const MIN_Y: isize,
@@ -49,6 +50,18 @@ impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: is
 
     pub const fn manhattan_distance(&self, other: &Self) -> usize {
         ((self.x - other.x).abs() + (self.y - other.y).abs()) as usize
+    }
+
+    pub const fn to_tuple(&self) -> (isize, isize) {
+        (self.x, self.y)
+    }
+}
+
+impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: isize> std::fmt::Debug
+    for Coordinate<MIN_X, MIN_Y, MAX_X, MAX_Y>
+{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        f.write_fmt(format_args!("({}, {})", self.x, self.y))
     }
 }
 
