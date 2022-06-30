@@ -24,7 +24,7 @@ jobs:
         toolchain: stable
         components: rustfmt, clippy
     - name: Set up pre-commit cache
-      uses: actions/cache@v2.1.7
+      uses: actions/cache@v3.0.4
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-precommit-${{ hashFiles('**/.pre-commit-config.yaml') }}
