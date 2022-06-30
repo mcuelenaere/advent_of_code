@@ -211,14 +211,11 @@ _ = parse_state(
 #.G.#G#
 #######""".strip()
 )
-assert (
-    perform_move(
-        next(c for c in _.characters if c.type == CharacterType.Elf),
-        tuple(c for c in _.characters if c.type == CharacterType.Goblin),
-        set(_.tiles().keys()),
-    ).position
-    == (2, 1)
-)
+assert perform_move(
+    next(c for c in _.characters if c.type == CharacterType.Elf),
+    tuple(c for c in _.characters if c.type == CharacterType.Goblin),
+    set(_.tiles().keys()),
+).position == (2, 1)
 
 # test 2 for perform_move()
 _ = parse_state(
@@ -229,14 +226,11 @@ _ = parse_state(
 #...G.#
 #######""".strip()
 )
-assert (
-    perform_move(
-        next(c for c in _.characters if c.type == CharacterType.Elf),
-        tuple(c for c in _.characters if c.type == CharacterType.Goblin),
-        set(_.tiles().keys()),
-    ).position
-    == (3, 1)
-)
+assert perform_move(
+    next(c for c in _.characters if c.type == CharacterType.Elf),
+    tuple(c for c in _.characters if c.type == CharacterType.Goblin),
+    set(_.tiles().keys()),
+).position == (3, 1)
 
 
 def find_attack_target(character: Character, opponents: Iterable[Character]) -> Optional[Character]:

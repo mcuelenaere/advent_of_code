@@ -7,8 +7,8 @@ def calculate(text: str) -> int:
     memory = dict()
     for operation in parse_operations(text):
         if isinstance(operation, Bitmask):
-            bitmask_set = sum(2 ** i for i, b in operation.bits if b == "1")
-            bitmask_clear = sum(2 ** i for i, b in operation.bits if b == "0")
+            bitmask_set = sum(2**i for i, b in operation.bits if b == "1")
+            bitmask_clear = sum(2**i for i, b in operation.bits if b == "0")
         elif isinstance(operation, MemoryWrite):
             memory[operation.address] = (operation.data & ~bitmask_clear) | bitmask_set
     return sum(memory.values())

@@ -7,7 +7,7 @@ def calculate(text: str) -> int:
     memory = dict()
     for operation in parse_operations(text):
         if isinstance(operation, Bitmask):
-            bitmask_set = sum(2 ** i for i, b in operation.bits if b == "1")
+            bitmask_set = sum(2**i for i, b in operation.bits if b == "1")
             floating_bits = tuple(i for i, b in operation.bits if b == "X")
         elif isinstance(operation, MemoryWrite):
             address = operation.address
