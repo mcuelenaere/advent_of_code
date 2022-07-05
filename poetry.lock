@@ -293,7 +293,7 @@ python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
 
 [[package]]
 name = "setuptools-rust"
-version = "1.3.0"
+version = "1.4.1"
 description = "Setuptools Rust extension plugin"
 category = "dev"
 optional = false
@@ -390,7 +390,7 @@ testing = ["pytest (>=3.5,!=3.7.3)", "pytest-checkdocs (>=1.2.3)", "pytest-flake
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "72cbb3070d5e0e569cd1e9ae0829547555c05e022320e1e7575ee43ce8c23009"
+content-hash = "b85d5d80cd507f1967971ba6778974f80df67351c546afd4b2c00ffb5c0e2473"
 
 [metadata.files]
 appdirs = [
@@ -558,8 +558,8 @@ semantic-version = [
     {file = "semantic_version-2.8.5.tar.gz", hash = "sha256:d2cb2de0558762934679b9a104e82eca7af448c9f4974d1f3eeccff651df8a54"},
 ]
 setuptools-rust = [
-    {file = "setuptools-rust-1.3.0.tar.gz", hash = "sha256:958c5bf4ab6483d59dab888538121871cc5006354a42fb0fbd50acf03caad1de"},
-    {file = "setuptools_rust-1.3.0-py3-none-any.whl", hash = "sha256:7ead7398d6b6fe70a7743408dc2f7257dbcb8ca9b2d7a9f8b281c09bd86f36a5"},
+    {file = "setuptools-rust-1.4.1.tar.gz", hash = "sha256:18ff850831f58ee21d5783825c99fad632da21e47645e9427fd7dec048029e76"},
+    {file = "setuptools_rust-1.4.1-py3-none-any.whl", hash = "sha256:12b5350d75008f2d4b64a991aba0358bb7ef45502bad086990b019a760afec67"},
 ]
 six = [
     {file = "six-1.15.0-py2.py3-none-any.whl", hash = "sha256:8b74bedcbbbaca38ff6d7491d76f2b06b3592611af620f8426e82dddb04a5ced"},
