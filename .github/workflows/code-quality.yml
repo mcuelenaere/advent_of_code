@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3.0.2
     - name: Setup python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4.1.0
     - name: Setup rust
       uses: actions-rs/toolchain@v1
       with:
