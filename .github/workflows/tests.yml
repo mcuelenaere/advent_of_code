@@ -28,12 +28,12 @@ jobs:
       with:
         toolchain: stable
     - name: Set up Poetry cache for Python dependencies
-      uses: actions/cache@v3.0.4
+      uses: actions/cache@v3.0.6
       with:
         path: ~/.cache/pypoetry
         key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
     - name: Set up Cargo cache for Rust dependencies
-      uses: actions/cache@v3.0.4
+      uses: actions/cache@v3.0.6
       with:
         path: |
           ~/.cargo/registry
@@ -57,7 +57,7 @@ jobs:
       with:
         toolchain: stable
     - name: Set up Cargo cache for Rust dependencies
-      uses: actions/cache@v3.0.4
+      uses: actions/cache@v3.0.6
       with:
         path: |
           ~/.cargo/registry
