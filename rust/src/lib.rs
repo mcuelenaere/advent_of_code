@@ -4,6 +4,7 @@ pub(crate) mod utils;
 mod year2016;
 mod year2018;
 mod year2021;
+mod year2022;
 
 #[cfg(test)]
 macro_rules! create_solver_test {
@@ -98,6 +99,9 @@ register_year!(year2021 => [
     day01, day02, day03, day04, day05, day06, day07, day08, day09, day10,
     day11, day12, day13, day14, day15, day16, day17, day18, day20,
     day25
+]);
+register_year!(year2022 => [
+    day01
 ]);
 
 #[pymodule]
