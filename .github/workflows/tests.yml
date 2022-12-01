@@ -18,7 +18,7 @@ jobs:
       matrix:
         puzzle-year: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
     steps:
-    - uses: actions/checkout@v3.0.2
+    - uses: actions/checkout@v3.1.0
     - name: Set up Python
       uses: actions/setup-python@v4.3.0
       with:
@@ -51,7 +51,7 @@ jobs:
     name: Rust tests
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.0.2
+    - uses: actions/checkout@v3.1.0
     - name: Set up rust
       uses: actions-rs/toolchain@v1
       with:
