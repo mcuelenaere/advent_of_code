@@ -109,5 +109,6 @@ fn aoc_rust(py: Python, m: &PyModule) -> PyResult<()> {
     register_year2016(py, m)?;
     register_year2018(py, m)?;
     register_year2021(py, m)?;
+    register_year2022(py, m)?;
     Ok(())
 }
