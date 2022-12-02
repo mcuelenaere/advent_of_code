@@ -98,20 +98,18 @@ pub fn solve_part2(input: &str) -> usize {
 mod tests {
     use super::*;
 
+    static TEST_INPUT: &str = r#"A Y
+B X
+C Z"#;
+
     #[test]
     fn test_part1() {
-        let input = "A Y
-B X
-C Z";
-        assert_eq!(solve_part1(input), 15);
+        assert_eq!(solve_part1(TEST_INPUT), 15);
     }
 
     #[test]
     fn test_part2() {
-        let input = "A Y
-B X
-C Z";
-        assert_eq!(solve_part2(input), 12);
+        assert_eq!(solve_part2(TEST_INPUT), 12);
     }
 
     crate::create_solver_test!(year2022, day02, part1, verify_answer = true);

@@ -39,9 +39,7 @@ pub fn solve_part2(input: &str) -> usize {
 mod tests {
     use super::*;
 
-    #[test]
-    fn test_part1() {
-        let input = "1000
+    static TEST_INPUT: &str = r#"1000
 2000
 3000
 
@@ -54,27 +52,16 @@ mod tests {
 8000
 9000
 
-10000";
-        assert_eq!(solve_part1(input), 24000);
+10000"#;
+
+    #[test]
+    fn test_part1() {
+        assert_eq!(solve_part1(TEST_INPUT), 24000);
     }
 
     #[test]
     fn test_part2() {
-        let input = "1000
-2000
-3000
-
-4000
-
-5000
-6000
-
-7000
-8000
-9000
-
-10000";
-        assert_eq!(solve_part2(input), 45000);
+        assert_eq!(solve_part2(TEST_INPUT), 45000);
     }
 
     crate::create_solver_test!(year2022, day01, part1, verify_answer = true);
