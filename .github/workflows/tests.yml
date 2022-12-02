@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        puzzle-year: ['2015', '2016', '2017', '2018', '2019', '2020', '2021']
+        puzzle-year: ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022']
     steps:
     - uses: actions/checkout@v3.1.0
     - name: Set up Python
