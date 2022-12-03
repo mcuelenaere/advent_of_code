@@ -216,6 +216,6 @@ mod tests {
         assert_eq!(solve_part2(EXAMPLE_INPUT), 3351);
     }
 
-    crate::create_solver_test!(year2021, day20, part1);
-    crate::create_solver_test!(year2021, day20, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

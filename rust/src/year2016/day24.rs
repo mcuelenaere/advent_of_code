@@ -153,6 +153,6 @@ mod tests {
         assert_eq!(solve_part1(map), 14);
     }
 
-    crate::create_solver_test!(year2016, day24, part1);
-    crate::create_solver_test!(year2016, day24, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

@@ -78,6 +78,6 @@ mod tests {
         assert_eq!(index, 22551);
     }
 
-    crate::create_solver_test!(year2016, day14, part1);
-    crate::create_solver_test!(year2016, day14, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

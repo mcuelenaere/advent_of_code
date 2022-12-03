@@ -10,18 +10,26 @@ mod year2022;
 
 #[cfg(test)]
 macro_rules! create_solver_test {
-    ($year:ident, $day:ident, $part:ident) => {
+    ($part:ident) => {
         paste::paste! {
             #[test]
             fn [<test_solve_ $part>]() {
+                use itertools::Itertools;
                 use std::fs::read_to_string;
                 use std::path::Path;
+
+                let (year, day) = file!()
+                    .strip_prefix("src/").unwrap()
+                    .strip_suffix(".rs").unwrap()
+                    .splitn(2, "/")
+                    .collect_tuple().unwrap()
+                ;
 
                 let puzzle_path = Path::new(file!())
                     .parent().unwrap()
                     .join("../../../puzzles/")
-                    .join(stringify!($year))
-                    .join(stringify!($day))
+                    .join(year)
+                    .join(day)
                 ;
                 assert!(puzzle_path.is_dir());
 
@@ -31,8 +39,8 @@ macro_rules! create_solver_test {
                 let input = read_to_string(input_path).unwrap();
                 let input = input.strip_suffix("\n").unwrap();
 
-                let actual = crate::$year::$day::[<solve_ $part>](input).to_string();
-                println!("answer: {}", crate::$year::$day::[<solve_ $part>](input));
+                let actual = super::[<solve_ $part>](input).to_string();
+                println!("answer: {}", super::[<solve_ $part>](input));
 
                 let expected_path = puzzle_path.join(format!("answer-{}.txt", stringify!($part)));
                 if expected_path.is_file() {

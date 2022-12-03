@@ -69,6 +69,6 @@ mod tests {
         assert_eq!(solve("10000", 20), "01100");
     }
 
-    crate::create_solver_test!(year2016, day16, part1);
-    crate::create_solver_test!(year2016, day16, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

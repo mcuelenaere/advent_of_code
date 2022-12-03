@@ -87,6 +87,6 @@ forward 2"#;
         assert_eq!(solve_part2(input), 900);
     }
 
-    crate::create_solver_test!(year2021, day02, part1);
-    crate::create_solver_test!(year2021, day02, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

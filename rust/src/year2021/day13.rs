@@ -141,6 +141,6 @@ fold along x=5"#;
         assert_eq!(solve_part1(input), 17);
     }
 
-    crate::create_solver_test!(year2021, day13, part1);
-    crate::create_solver_test!(year2021, day13, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

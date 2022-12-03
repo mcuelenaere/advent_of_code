@@ -427,6 +427,6 @@ The fourth floor contains nothing relevant."#;
         assert_eq!(solve_part1(input), 11);
     }
 
-    crate::create_solver_test!(year2016, day11, part1);
-    crate::create_solver_test!(year2016, day11, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

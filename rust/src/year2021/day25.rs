@@ -110,5 +110,5 @@ v.v..>>v.v
         assert_eq!(solve_part1(input), 58);
     }
 
-    crate::create_solver_test!(year2021, day25, part1);
+    crate::create_solver_test!(part1);
 }

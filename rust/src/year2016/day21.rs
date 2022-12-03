@@ -300,6 +300,6 @@ mod tests {
         );
     }
 
-    crate::create_solver_test!(year2016, day21, part1);
-    crate::create_solver_test!(year2016, day21, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

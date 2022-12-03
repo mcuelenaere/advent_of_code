@@ -102,6 +102,6 @@ mod tests {
         assert_eq!(_solve(".^^.^.^^^^", 10), 38);
     }
 
-    crate::create_solver_test!(year2016, day18, part1);
-    crate::create_solver_test!(year2016, day18, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

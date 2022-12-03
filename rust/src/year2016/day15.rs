@@ -89,6 +89,6 @@ Disc #2 has 2 positions; at time=0, it is at position 1."#;
         assert_eq!(result, 5);
     }
 
-    crate::create_solver_test!(year2016, day15, part1);
-    crate::create_solver_test!(year2016, day15, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }

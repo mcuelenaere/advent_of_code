@@ -233,6 +233,6 @@ dec a"#;
         assert_eq!(cpu.registers[Register::A], 3);
     }
 
-    crate::create_solver_test!(year2016, day23, part1);
-    crate::create_solver_test!(year2016, day23, part2);
+    crate::create_solver_test!(part1);
+    crate::create_solver_test!(part2);
 }
