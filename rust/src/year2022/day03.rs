@@ -74,6 +74,6 @@ CrZsJsPPZsGzwwsLwLmpwMDw"#;
         assert_eq!(solve_part2(TEST_INPUT), 70);
     }
 
-    crate::create_solver_test!(year2022, day03, part1, verify_answer = true);
-    crate::create_solver_test!(year2022, day03, part2, verify_answer = true);
+    crate::create_solver_test!(year2022, day03, part1);
+    crate::create_solver_test!(year2022, day03, part2);
 }

@@ -93,5 +93,5 @@ pub fn solve_part2(_: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    crate::create_solver_test!(year2016, day25, part1, verify_answer = true);
+    crate::create_solver_test!(year2016, day25, part1);
 }

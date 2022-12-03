@@ -147,6 +147,6 @@ mod tests {
         assert_eq!(solve_part2("ulqzkmiv"), 830);
     }
 
-    crate::create_solver_test!(year2016, day17, part1, verify_answer = true);
-    crate::create_solver_test!(year2016, day17, part2, verify_answer = true);
+    crate::create_solver_test!(year2016, day17, part1);
+    crate::create_solver_test!(year2016, day17, part2);
 }

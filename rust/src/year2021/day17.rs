@@ -148,6 +148,6 @@ mod tests {
         assert_eq!(solve_part2("target area: x=20..30, y=-10..-5"), 112);
     }
 
-    crate::create_solver_test!(year2021, day17, part1, verify_answer = true);
-    crate::create_solver_test!(year2021, day17, part2, verify_answer = true);
+    crate::create_solver_test!(year2021, day17, part1);
+    crate::create_solver_test!(year2021, day17, part2);
 }

@@ -124,6 +124,6 @@ mod tests {
         assert_eq!(solve_part2(input), 230);
     }
 
-    crate::create_solver_test!(year2021, day03, part1, verify_answer = true);
-    crate::create_solver_test!(year2021, day03, part2, verify_answer = true);
+    crate::create_solver_test!(year2021, day03, part1);
+    crate::create_solver_test!(year2021, day03, part2);
 }

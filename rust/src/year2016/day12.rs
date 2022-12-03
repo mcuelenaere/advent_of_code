@@ -179,6 +179,6 @@ dec a"#;
         assert_eq!(solve_part1(input), 42);
     }
 
-    crate::create_solver_test!(year2016, day12, part1, verify_answer = true);
-    crate::create_solver_test!(year2016, day12, part2, verify_answer = true);
+    crate::create_solver_test!(year2016, day12, part1);
+    crate::create_solver_test!(year2016, day12, part2);
 }

@@ -146,6 +146,6 @@ CN -> C"#;
         assert_eq!(solve_part2(input), 2188189693529);
     }
 
-    crate::create_solver_test!(year2021, day14, part1, verify_answer = true);
-    crate::create_solver_test!(year2021, day14, part2, verify_answer = true);
+    crate::create_solver_test!(year2021, day14, part1);
+    crate::create_solver_test!(year2021, day14, part2);
 }

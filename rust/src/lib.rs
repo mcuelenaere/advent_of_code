@@ -10,47 +10,42 @@ mod year2022;
 
 #[cfg(test)]
 macro_rules! create_solver_test {
-    ($year:ident, $day:ident, $part:ident, verify_answer = true) => {
-        paste::paste! {
-            #[test]
-            fn [<test_solve_ $part>]() {
-                let input = include_str!(concat!(
-                    "../../../puzzles/",
-                    stringify!($year),
-                    "/",
-                    stringify!($day),
-                    "/input.txt"
-                )).strip_suffix("\n").unwrap();
-                let expected = include_str!(concat!(
-                    "../../../puzzles/",
-                    stringify!($year),
-                    "/",
-                    stringify!($day),
-                    "/answer-",
-                    stringify!($part),
-                    ".txt"
-                ));
-                let actual = crate::$year::$day::[<solve_ $part>](input).to_string();
-                assert_eq!(actual, expected);
-            }
-        }
-    };
     ($year:ident, $day:ident, $part:ident) => {
         paste::paste! {
             #[test]
             fn [<test_solve_ $part>]() {
-                let input = include_str!(concat!(
-                    "../../../puzzles/",
-                    stringify!($year),
-                    "/",
-                    stringify!($day),
-                    "/input.txt"
-                )).strip_suffix("\n").unwrap();
+                use std::fs::read_to_string;
+                use std::path::Path;
+
+                let puzzle_path = Path::new(file!())
+                    .parent().unwrap()
+                    .join("../../../puzzles/")
+                    .join(stringify!($year))
+                    .join(stringify!($day))
+                ;
+                assert!(puzzle_path.is_dir());
+
+                let input_path = puzzle_path.join("input.txt");
+                assert!(input_path.is_file());
+
+                let input = read_to_string(input_path).unwrap();
+                let input = input.strip_suffix("\n").unwrap();
+
+                let actual = crate::$year::$day::[<solve_ $part>](input).to_string();
                 println!("answer: {}", crate::$year::$day::[<solve_ $part>](input));
+
+                let expected_path = puzzle_path.join(format!("answer-{}.txt", stringify!($part)));
+                if expected_path.is_file() {
+                    let expected = read_to_string(expected_path).unwrap();
+                    assert_eq!(actual, expected);
+                } else {
+                    println!("expected file not found, could not verify answer");
+                }
             }
         }
     };
 }
+
 #[cfg(test)]
 pub(crate) use create_solver_test;
 

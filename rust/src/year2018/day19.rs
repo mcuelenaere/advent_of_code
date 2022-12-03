@@ -298,6 +298,6 @@ seti 9 0 5"#;
         assert_eq!(solve_part1(input), 7);
     }
 
-    crate::create_solver_test!(year2018, day19, part1, verify_answer = true);
-    crate::create_solver_test!(year2018, day19, part2, verify_answer = true);
+    crate::create_solver_test!(year2018, day19, part1);
+    crate::create_solver_test!(year2018, day19, part2);
 }

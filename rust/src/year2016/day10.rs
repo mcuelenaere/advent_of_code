@@ -149,6 +149,6 @@ value 2 goes to bot 2"#;
         assert_eq!(result.1, 30);
     }
 
-    crate::create_solver_test!(year2016, day10, part1, verify_answer = true);
-    crate::create_solver_test!(year2016, day10, part2, verify_answer = true);
+    crate::create_solver_test!(year2016, day10, part1);
+    crate::create_solver_test!(year2016, day10, part2);
 }

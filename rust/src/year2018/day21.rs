@@ -115,6 +115,6 @@ pub fn solve_part2(input: &str) -> usize {
 
 #[cfg(test)]
 mod tests {
-    crate::create_solver_test!(year2018, day21, part1, verify_answer = true);
-    crate::create_solver_test!(year2018, day21, part2, verify_answer = true);
+    crate::create_solver_test!(year2018, day21, part1);
+    crate::create_solver_test!(year2018, day21, part2);
 }

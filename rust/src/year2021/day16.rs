@@ -261,6 +261,6 @@ mod tests {
         assert_eq!(solve_part2("9C0141080250320F1802104A08"), 1);
     }
 
-    crate::create_solver_test!(year2021, day16, part1, verify_answer = true);
-    crate::create_solver_test!(year2021, day16, part2, verify_answer = true);
+    crate::create_solver_test!(year2021, day16, part1);
+    crate::create_solver_test!(year2021, day16, part2);
 }

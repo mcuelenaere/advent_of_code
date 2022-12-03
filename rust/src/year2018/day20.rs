@@ -144,6 +144,6 @@ mod tests {
         );
     }
 
-    crate::create_solver_test!(year2018, day20, part1, verify_answer = true);
-    crate::create_solver_test!(year2018, day20, part2, verify_answer = true);
+    crate::create_solver_test!(year2018, day20, part1);
+    crate::create_solver_test!(year2018, day20, part2);
 }

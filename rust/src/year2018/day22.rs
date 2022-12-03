@@ -188,6 +188,6 @@ target: 10,10"#;
         assert_eq!(solve_part2(input), 45);
     }
 
-    crate::create_solver_test!(year2018, day22, part1, verify_answer = true);
-    crate::create_solver_test!(year2018, day22, part2, verify_answer = true);
+    crate::create_solver_test!(year2018, day22, part1);
+    crate::create_solver_test!(year2018, day22, part2);
 }

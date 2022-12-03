@@ -112,6 +112,6 @@ C Z"#;
         assert_eq!(solve_part2(TEST_INPUT), 12);
     }
 
-    crate::create_solver_test!(year2022, day02, part1, verify_answer = true);
-    crate::create_solver_test!(year2022, day02, part2, verify_answer = true);
+    crate::create_solver_test!(year2022, day02, part1);
+    crate::create_solver_test!(year2022, day02, part2);
 }

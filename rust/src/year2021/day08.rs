@@ -232,6 +232,6 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
         assert_eq!(solve_part2(input), 61229);
     }
 
-    crate::create_solver_test!(year2021, day08, part1, verify_answer = true);
-    crate::create_solver_test!(year2021, day08, part2, verify_answer = true);
+    crate::create_solver_test!(year2021, day08, part1);
+    crate::create_solver_test!(year2021, day08, part2);
 }

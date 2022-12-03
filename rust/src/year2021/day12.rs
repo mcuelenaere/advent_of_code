@@ -196,6 +196,6 @@ start-RW"#;
         assert_eq!(solve_part2(EXAMPLE3), 3509);
     }
 
-    crate::create_solver_test!(year2021, day12, part1, verify_answer = true);
-    crate::create_solver_test!(year2021, day12, part2, verify_answer = true);
+    crate::create_solver_test!(year2021, day12, part1);
+    crate::create_solver_test!(year2021, day12, part2);
 }
