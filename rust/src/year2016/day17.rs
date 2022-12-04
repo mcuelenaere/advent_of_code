@@ -52,7 +52,7 @@ fn calculate_open_doors(passcode: &str) -> Vec<Direction> {
             Direction::Right,
         ])
         .for_each(|(char, direction)| {
-            if !char.is_digit(10) && char != 'a' {
+            if !char.is_ascii_digit() && char != 'a' {
                 // open door
                 open_doors.push(direction);
             }

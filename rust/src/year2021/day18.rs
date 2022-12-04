@@ -57,7 +57,7 @@ impl SnailFish {
                 ',' => {
                     // do nothing
                 }
-                c if c.is_digit(10) => {
+                c if c.is_ascii_digit() => {
                     // we currently assume there is only 1 digit per number
                     let number = c.to_digit(10).unwrap() as usize;
                     stack.push(SnailFish::Element(number));

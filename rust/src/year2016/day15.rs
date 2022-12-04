@@ -25,17 +25,11 @@ fn parse_discs(input: &str) -> Vec<Disc> {
     input
         .lines()
         .filter_map(|line| {
-            if let Some(c) = RE_DISC_POSITIONS.captures(line) {
-                Some(Disc {
-                    number: c[1].parse().expect("a valid disc number"),
-                    number_of_positions: c[2]
-                        .parse()
-                        .expect("valid number for number of positions"),
-                    start_position: c[3].parse().expect("valid number for start position"),
-                })
-            } else {
-                None
-            }
+            RE_DISC_POSITIONS.captures(line).map(|c| Disc {
+                number: c[1].parse().expect("a valid disc number"),
+                number_of_positions: c[2].parse().expect("valid number for number of positions"),
+                start_position: c[3].parse().expect("valid number for start position"),
+            })
         })
         .collect()
 }

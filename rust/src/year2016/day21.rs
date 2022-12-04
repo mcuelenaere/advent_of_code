@@ -41,7 +41,7 @@ impl Operation {
             Self::RotateSteps(direction, steps) => {
                 let steps = {
                     match direction {
-                        Direction::Left => (*steps % password.len()),
+                        Direction::Left => *steps % password.len(),
                         Direction::Right => password.len() - (*steps % password.len()),
                     }
                 };

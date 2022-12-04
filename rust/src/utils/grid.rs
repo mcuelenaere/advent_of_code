@@ -52,7 +52,7 @@ impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: is
         ((self.x - other.x).abs() + (self.y - other.y).abs()) as usize
     }
 
-    pub const fn to_tuple(&self) -> (isize, isize) {
+    pub const fn to_tuple(self) -> (isize, isize) {
         (self.x, self.y)
     }
 }
