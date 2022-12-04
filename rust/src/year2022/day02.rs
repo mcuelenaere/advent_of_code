@@ -1,5 +1,3 @@
-use itertools::Itertools;
-
 #[derive(Eq, PartialEq, Copy, Clone)]
 enum Shape {
     Rock,
@@ -36,7 +34,7 @@ impl Outcome {
 
 fn parse_strategy_guide(text: &str) -> impl Iterator<Item = (Shape, &str)> + '_ {
     text.lines().map(|line| {
-        let (opponent, you) = line.splitn(2, " ").collect_tuple().unwrap();
+        let (opponent, you) = line.split_once(' ').unwrap();
         let opponent = match opponent {
             "A" => Shape::Rock,
             "B" => Shape::Paper,
