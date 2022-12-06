@@ -40,7 +40,7 @@ macro_rules! create_solver_test {
                 let input = input.strip_suffix("\n").unwrap();
 
                 let actual = super::[<solve_ $part>](input).to_string();
-                println!("answer: {}", super::[<solve_ $part>](input));
+                println!("answer: {}", actual);
 
                 let expected_path = puzzle_path.join(format!("answer-{}.txt", stringify!($part)));
                 if expected_path.is_file() {
