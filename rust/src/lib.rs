@@ -106,7 +106,7 @@ register_year!(year2021 => [
     day25
 ]);
 register_year!(year2022 => [
-    day01, day02, day03, day04
+    day01, day02, day03, day04, day05
 ]);
 
 #[pymodule]
