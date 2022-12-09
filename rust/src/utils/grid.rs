@@ -24,8 +24,8 @@ impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: is
         }
     }
 
-    const CROSS: [(isize, isize); 4] = [(0, -1), (1, 0), (0, 1), (-1, 0)];
-    const DIAGONALS: [(isize, isize); 4] = [(-1, -1), (1, -1), (1, 1), (-1, 1)];
+    pub const CROSS: [(isize, isize); 4] = [(0, -1), (1, 0), (0, 1), (-1, 0)];
+    pub const DIAGONALS: [(isize, isize); 4] = [(-1, -1), (1, -1), (1, 1), (-1, 1)];
 
     fn _neighbours(&self, input: [(isize, isize); 4]) -> impl Iterator<Item = Self> + '_ {
         input.into_iter().filter_map(move |(x_off, y_off)| {
@@ -62,6 +62,18 @@ impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: is
 {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         f.write_fmt(format_args!("({}, {})", self.x, self.y))
+    }
+}
+
+impl<const MIN_X: isize, const MIN_Y: isize, const MAX_X: isize, const MAX_Y: isize>
+    std::ops::Add<(isize, isize)> for Coordinate<MIN_X, MIN_Y, MAX_X, MAX_Y>
+{
+    type Output = Option<Coordinate<MIN_X, MIN_Y, MAX_X, MAX_Y>>;
+
+    fn add(self, rhs: (isize, isize)) -> Self::Output {
+        let x = self.x + rhs.0;
+        let y = self.y + rhs.1;
+        Coordinate::new(x, y)
     }
 }
 
